@@ -1,8 +1,10 @@
+#-*-coding:utf8-*-
 """This module contains the "Viz" objects
 
 These objects represent the backend of all the visualizations that
 Superset can render.
 """
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -305,7 +307,7 @@ class TableViz(BaseViz):
     """A basic html table that is sortable and searchable"""
 
     viz_type = "table"
-    verbose_name = _("交叉表")
+    verbose_name = _("数据表")
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = False
 
