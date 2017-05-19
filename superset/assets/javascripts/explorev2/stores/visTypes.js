@@ -1,6 +1,6 @@
 export const sections = {
   druidTimeSeries: {
-    label: 'Time',
+    label: '时间',
     description: 'Time related form attributes',
     controlSetRows: [
       ['granularity', 'druid_time_origin'],
@@ -8,7 +8,7 @@ export const sections = {
     ],
   },
   datasourceAndVizType: {
-    label: 'Datasource & Chart Type',
+    label: '数据表 & 报表类型',
     controlSetRows: [
       ['datasource'],
       ['viz_type'],
@@ -16,8 +16,8 @@ export const sections = {
     ],
   },
   sqlaTimeSeries: {
-    label: 'Time',
-    description: 'Time related form attributes',
+    label: '时间',
+    description: '时间类型范围',
     controlSetRows: [
       ['granularity_sqla', 'time_grain_sqla'],
       ['since', 'until'],
@@ -29,7 +29,7 @@ export const sections = {
       ['where'],
       ['having'],
     ],
-    description: 'This section exposes ways to include snippets of SQL in your query',
+    description: '可以使用直接添加sql条件',
   },
   NVD3TimeSeries: [
     {
@@ -56,17 +56,13 @@ export const sections = {
   ],
   filters: [
     {
-      label: 'Filters',
-      description: 'Filters are defined using comma delimited strings as in <US,FR,Other>' +
-        'Leave the value control empty to filter empty strings or nulls' +
-        'For filters with comma in values, wrap them in single quotes' +
-        "as in <NY, 'Tahoe, CA', DC>",
+      label: '过滤器',
+      description: '过滤指定字段',
       controlSetRows: [['filters']],
     },
     {
-      label: 'Result Filters',
-      description: 'The filters to apply after post-aggregation.' +
-        'Leave the value control empty to filter empty strings or nulls',
+      label: '结果过滤器',
+      description: '针对结果进行过滤（having）',
       controlSetRows: [['having_filters']],
     },
   ],
@@ -234,10 +230,10 @@ const visTypes = {
   },
 
   table: {
-    label: 'Table View',
+    label: '数据交叉表',
     controlPanelSections: [
       {
-        label: 'GROUP BY',
+        label: '分组查询',
         description: 'Use this section if you want a query that aggregates',
         controlSetRows: [
           ['groupby', 'metrics'],
@@ -245,7 +241,7 @@ const visTypes = {
         ],
       },
       {
-        label: 'NOT GROUPED BY',
+        label: '明细查询模式',
         description: 'Use this section if you want to query atomic rows',
         controlSetRows: [
           ['all_columns'],
@@ -253,7 +249,7 @@ const visTypes = {
         ],
       },
       {
-        label: 'Options',
+        label: '选项',
         controlSetRows: [
           ['table_timestamp_format'],
           ['row_limit', 'page_length'],
@@ -285,7 +281,7 @@ const visTypes = {
   },
 
   pivot_table: {
-    label: 'Pivot Table',
+    label: '透视图',
     controlPanelSections: [
       {
         label: null,

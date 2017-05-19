@@ -63,14 +63,14 @@ export const controls = {
   metrics: {
     type: 'SelectControl',
     multi: true,
-    label: 'Metrics',
+    label: '计算指标',
     validators: [v.nonEmpty],
     default: control =>
       control.choices && control.choices.length > 0 ? [control.choices[0][0]] : null,
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.metrics_combo : [],
     }),
-    description: 'One or many metrics to display',
+    description: '选择一个或多个计算指标',
   },
 
   order_by_cols: {

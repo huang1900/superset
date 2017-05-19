@@ -307,7 +307,7 @@ class TableViz(BaseViz):
     """A basic html table that is sortable and searchable"""
 
     viz_type = "table"
-    verbose_name = _("数据表")
+    verbose_name = _("Table View")
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = False
 
