@@ -691,6 +691,11 @@ msgstr ""
 msgid "Slices"
 msgstr "切片"
 
+msgid "Tables"
+msgstr "数据表"
+
+
+
 #: superset/views/core.py:439 superset/views/core.py:501
 msgid "Modified"
 msgstr "已修改"
