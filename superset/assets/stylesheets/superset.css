@@ -205,3 +205,6 @@ div.widget .slice_container {
 .table-condensed {
     font-size: 12px;
 }
+.table-responsive th{
+    min-width: 100px;
+}
