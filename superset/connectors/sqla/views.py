@@ -136,7 +136,7 @@ appbuilder.add_view_no_menu(SqlMetricInlineView)
 class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.SqlaTable)
     list_columns = [
-        'link', 'database',
+        'link', 'database','escridption',
         'changed_by_', 'modified']
     order_columns = [
         'link', 'database', 'changed_on_']

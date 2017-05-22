@@ -847,7 +847,7 @@ export const controls = {
     label: '查询框',
     renderTrigger: true,
     default: false,
-    description: '是否有查询狂',
+    description: '是否有查询框',
   },
 
   table_filter: {
