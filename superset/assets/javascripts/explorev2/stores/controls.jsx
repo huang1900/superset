@@ -471,7 +471,7 @@ export const controls = {
     type: 'SelectControl',
     freeForm: true,
     label: '开始时间',
-    default: '1 days ago',
+    default: '1 day ago',
     choices: formatSelectOptions([
       '1 day ago',
       '7 days ago'
