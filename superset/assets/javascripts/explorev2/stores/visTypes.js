@@ -19,7 +19,7 @@ export const sections = {
     label: '时间',
     description: '时间类型范围',
     controlSetRows: [
-      ['granularity_sqla', 'time_grain_sqla'],
+      ['granularity_sqla'],
       ['since', 'until'],
     ],
   },
