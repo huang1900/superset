@@ -188,7 +188,6 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     base_filters = [['id', DatasourceFilter, lambda: []]]
     label_columns = {
         'slices': _("Associated Slices"),
-        'link': _("Table"),
         'changed_by_': _("Changed By"),
         'database': _("Database"),
         'description':_("Description"),
