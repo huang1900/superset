@@ -236,16 +236,14 @@ const visTypes = {
         label: '分组查询',
         description: '选择分组维度，以及计算指标',
         controlSetRows: [
-          ['groupby', 'metrics'],
-          ['include_time','granularity'],
+          ['groupby', 'metrics']
         ],
       },
       {
         label: '明细查询模式',
         description: '选择需要的明细数据列表',
         controlSetRows: [
-          ['all_columns'],
-          ['order_by_cols'],
+          ['all_columns']
         ],
       },
       {
