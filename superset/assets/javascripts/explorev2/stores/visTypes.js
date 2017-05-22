@@ -23,14 +23,7 @@ export const sections = {
       ['since', 'until'],
     ],
   },
-  sqlClause: {
-    label: 'SQL',
-    controlSetRows: [
-      ['where'],
-      ['having'],
-    ],
-    description: '可以使用直接添加sql条件',
-  },
+
   NVD3TimeSeries: [
     {
       label: null,
@@ -66,6 +59,14 @@ export const sections = {
       controlSetRows: [['having_filters']],
     },
   ],
+    sqlClause: {
+        label: 'SQL',
+        controlSetRows: [
+            ['where'],
+            ['having'],
+        ],
+        description: '可以使用直接添加sql条件',
+    },
 };
 
 const visTypes = {
@@ -250,7 +251,7 @@ const visTypes = {
         label: '选项',
         controlSetRows: [
           ['row_limit', 'page_length'],
-          ['include_search', 'table_filter'],
+          [ 'table_filter','include_search'],
         ],
       },
     ],
