@@ -334,6 +334,9 @@ class TableViz(BaseViz):
         if fd.get('all_columns') and (fd.get('groupby') or fd.get('metrics')):
             raise Exception(
                 "只能在明细模式或者分组+指标模式中选择一种")
+        if not fd.get('all_columns') and not (fd.get('groupby') or fd.get('metrics')):
+            raise Exception(
+                "请在明细模式或者分组+指标模式中选择一种方式分析")
 
         if fd.get('all_columns'):
             d['columns'] = fd.get('all_columns')
