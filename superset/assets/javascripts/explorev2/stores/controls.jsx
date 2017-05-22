@@ -57,7 +57,7 @@ export const controls = {
       visTypes[vt].label,
       `/static/assets/images/viz_thumbnails/${vt}.png`,
     ]),
-    description: 'The type of visualization to display',
+    description: '选择一种分析模式',
   },
 
   metrics: {

@@ -251,7 +251,7 @@ const visTypes = {
         label: '选项',
         controlSetRows: [
           ['row_limit', 'page_length'],
-          [ 'table_filter','include_search'],
+          [ 'include_search'],
         ],
       },
     ],
@@ -766,7 +766,8 @@ export function sectionsToRender(vizType, datasourceType) {
     sections.datasourceAndVizType,
     datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
     viz.controlPanelSections,
-    datasourceType === 'table' ? sections.sqlClause : [],
     datasourceType === 'table' ? sections.filters[0] : sections.filters,
+    datasourceType === 'table' ? sections.sqlClause : [],
+
   );
 }
