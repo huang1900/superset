@@ -124,7 +124,7 @@ const px = function () {
       },
       getErrorMsg(xhr) {
         if (xhr.statusText === 'timeout') {
-          return 'The request timed out';
+          return '查询超时';
         }
         let msg = '';
         if (!xhr.responseText) {
