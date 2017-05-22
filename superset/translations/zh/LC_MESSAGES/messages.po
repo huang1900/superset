@@ -406,7 +406,7 @@ msgstr ""
 #: superset/connectors/sqla/views.py:79 superset/connectors/sqla/views.py:122
 #: superset/connectors/sqla/views.py:182 superset/views/core.py:352
 msgid "Table"
-msgstr "表"
+msgstr "数据域"
 
 #: superset/connectors/sqla/views.py:84
 msgid "Expression"
