@@ -1,7 +1,7 @@
 export const sections = {
   druidTimeSeries: {
     label: '时间',
-    description: 'Time related form attributes',
+    description: '',
     controlSetRows: [
       ['granularity', 'druid_time_origin'],
       ['since', 'until'],
@@ -70,10 +70,10 @@ export const sections = {
 
 const visTypes = {
   dist_bar: {
-    label: 'Distribution - Bar Chart',
+    label: '柱状图',
     controlPanelSections: [
       {
-        label: 'Chart Options',
+        label: '图表参数',
         controlSetRows: [
           ['metrics'],
           ['groupby'],
@@ -90,7 +90,7 @@ const visTypes = {
     ],
     controlOverrides: {
       groupby: {
-        label: 'Series',
+        label: '列',
       },
       columns: {
         label: 'Breakdowns',
