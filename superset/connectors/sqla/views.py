@@ -194,7 +194,7 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
         'link': _("Table"),
         'changed_by_': _("Changed By"),
         'database': _("Database"),
-        'description':_("Description")
+        'description':_("Description"),
         'changed_on_': _("Last Changed"),
         'filter_select_enabled': _("Enable Filter Select"),
         'schema': _("Schema"),
