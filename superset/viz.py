@@ -147,9 +147,8 @@ class BaseViz(object):
         if from_dttm > to_dttm:
             raise Exception("From date cannot be larger than to date")
         ##截至当天结束
-        print("until= {}",until)
-        if len(until.strip()) < 10:
-            to_dttm.replace(hour=23, minute=59,second=59)
+        if len(until.strip()) <= 10:
+            to_dttm=to_dttm.replace(hour=23, minute=59,second=59)
 
         # extras are used to query elements specific to a datasource type
         # for instance the extra where clause that applies only to Tables
