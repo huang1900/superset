@@ -192,7 +192,7 @@ class SqlaTable(Model, BaseDatasource):
 
     __table_args__ = (
         sa.UniqueConstraint(
-            'database_id', 'schema', 'table_name',
+            'database_id', 'table_name',
             name='_customer_location_uc'),)
 
     def __repr__(self):
