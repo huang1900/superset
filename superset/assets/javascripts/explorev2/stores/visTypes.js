@@ -234,15 +234,15 @@ const visTypes = {
     controlPanelSections: [
       {
         label: '分组查询',
-        description: 'Use this section if you want a query that aggregates',
+        description: '选择分组维度，以及计算指标',
         controlSetRows: [
           ['groupby', 'metrics'],
-          ['include_time'],
+          ['include_time','granularity'],
         ],
       },
       {
         label: '明细查询模式',
-        description: 'Use this section if you want to query atomic rows',
+        description: '选择需要的明细数据列表',
         controlSetRows: [
           ['all_columns'],
           ['order_by_cols'],
@@ -251,7 +251,6 @@ const visTypes = {
       {
         label: '选项',
         controlSetRows: [
-          ['table_timestamp_format'],
           ['row_limit', 'page_length'],
           ['include_search', 'table_filter'],
         ],

@@ -358,34 +358,23 @@ export const controls = {
   granularity: {
     type: 'SelectControl',
     freeForm: true,
-    label: '时间列表',
+    label: '时间粒度',
     default: '1 天',
     choices: formatSelectOptions([
-      'all',
-      // '5 seconds',
-      // '30 seconds',
-      // '1 minute',
-      // '5 minutes',
-      // '1 hour',
-      // '6 hour',
-      '1 天',
-      '7 天',
-      'week',
-      'week_starting_sunday',
-      'week_ending_saturday',
-      'month',
+      '全部',
+      '天',
+      '周',
+      '月',
     ]),
-    description: 'The time granularity for the visualization. Note that you ' +
-                 'can type and use simple natural language as in `10 seconds`, ' +
-                 '`1 day` or `56 weeks`',
+    description: '',
   },
 
   domain_granularity: {
     type: 'SelectControl',
-    label: 'Domain',
+    label: '时间粒度',
     default: 'month',
-    choices: formatSelectOptions(['hour', 'day', 'week', 'month', 'year']),
-    description: 'The time unit used for the grouping of blocks',
+    choices: formatSelectOptions(['小时', '日', '周', '月', '年']),
+    description: '时间字段统计粒度',
   },
 
   subdomain_granularity: {

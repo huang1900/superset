@@ -1124,7 +1124,7 @@ class Superset(BaseSupersetView):
                 .one()
             )
             flash(
-                "Slice [{}] was added to dashboard [{}]".format(
+                "切片 [{}] 添加至看板 [{}]".format(
                     slc.slice_name,
                     dash.dashboard_title),
                 "info")
@@ -1133,7 +1133,7 @@ class Superset(BaseSupersetView):
                 dashboard_title=request.args.get('new_dashboard_name'),
                 owners=[g.user] if g.user else [])
             flash(
-                "Dashboard [{}] just got created and slice [{}] was added "
+                "看板 [{}] 已被创建，切片 [{}] 已填加至其中 "
                 "to it".format(
                     dash.dashboard_title,
                     slc.slice_name),
@@ -1150,7 +1150,7 @@ class Superset(BaseSupersetView):
 
     def save_slice(self, slc):
         session = db.session()
-        msg = "Slice [{}] has been saved".format(slc.slice_name)
+        msg = "切片 [{}] 已保存".format(slc.slice_name)
         session.add(slc)
         session.commit()
         flash(msg, "info")
@@ -1159,7 +1159,7 @@ class Superset(BaseSupersetView):
         session = db.session()
         session.merge(slc)
         session.commit()
-        msg = "Slice [{}] has been overwritten".format(slc.slice_name)
+        msg = "切片 [{}] 已修改".format(slc.slice_name)
         flash(msg, "info")
 
     @api
@@ -1572,7 +1572,7 @@ class Superset(BaseSupersetView):
             slices = session.query(models.Slice).filter_by(id=slice_id).all()
             if not slices:
                 return json_error_response(__(
-                    "Slice %(id)s not found", id=slice_id), status=404)
+                    "切片 %(id)没有找到", id=slice_id), status=404)
         elif table_name and db_name:
             SqlaTable = ConnectorRegistry.sources['table']
             table = (
@@ -1584,7 +1584,7 @@ class Superset(BaseSupersetView):
             ).first()
             if not table:
                 return json_error_response(__(
-                    "Table %(t)s wasn't found in the database %(d)s",
+                    "数据域 %(t)s 不在 %(d)s",
                     t=table_name, s=db_name), status=404)
             slices = session.query(models.Slice).filter_by(
                 datasource_id=table.id,
