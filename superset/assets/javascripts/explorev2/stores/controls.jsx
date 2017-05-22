@@ -30,7 +30,7 @@ export const TIME_STAMP_OPTIONS = [
 export const controls = {
   datasource: {
     type: 'SelectControl',
-    label: 'Datasource',
+    label: '数据域',
     isLoading: true,
     clearable: false,
     default: null,
@@ -40,7 +40,7 @@ export const controls = {
         choices: datasources,
         isLoading: datasources.length === 0,
         rightNode: state.datasource ?
-          <a href={state.datasource.edit_url}>edit</a>
+          <a href={state.datasource.edit_url}>编辑</a>
           : null,
       };
     },
@@ -49,7 +49,7 @@ export const controls = {
 
   viz_type: {
     type: 'SelectControl',
-    label: 'Visualization Type',
+    label: '分析模式',
     clearable: false,
     default: 'table',
     choices: Object.keys(visTypes).map(vt => [
@@ -190,8 +190,8 @@ export const controls = {
 
   include_time: {
     type: 'CheckboxControl',
-    label: 'Include Time',
-    description: 'Whether to include the time granularity as defined in the time section',
+    label: '包含时间',
+    description: '是否显示过滤的时间字段',
     default: false,
   },
 
@@ -484,8 +484,8 @@ export const controls = {
     label: '开始时间',
     default: '7 days ago',
     choices: formatSelectOptions([
-      '1 hour ago',
-      '12 hours ago',
+      // '1 hour ago',
+      // '12 hours ago',
       '1 day ago',
       '7 days ago',
       '28 days ago',
@@ -671,12 +671,9 @@ export const controls = {
 
   where: {
     type: 'TextControl',
-    label: 'Custom WHERE clause',
+    label: '自定义where语句',
     default: '',
-    description: 'The text in this box gets included in your query\'s WHERE ' +
-                 'clause, as an AND to other criteria. You can include ' +
-                 'complex expression, parenthesis and anything else ' +
-                 'supported by the backend it is directed towards.',
+    description: '支持自定义sql条件过滤',
   },
 
   having: {

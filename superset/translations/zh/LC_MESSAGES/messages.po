@@ -692,7 +692,15 @@ msgid "Slices"
 msgstr "切片"
 
 msgid "Tables"
-msgstr "数据表"
+msgstr "数据域"
+
+msgid "Last Modified"
+msgstr "最后修改"
+
+
+msgid "Table"
+msgstr "数据域"
+
 
 
 

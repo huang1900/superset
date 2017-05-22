@@ -720,3 +720,12 @@ msgstr ""
 msgid "Query Search"
 msgstr ""
 
+
+
+
+msgid "Table"
+msgstr ""
+
+
+msgid "Tables"
+msgstr ""
