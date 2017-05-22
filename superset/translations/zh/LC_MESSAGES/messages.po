@@ -282,7 +282,7 @@ msgstr "度量"
 #: superset/connectors/sqla/views.py:76 superset/connectors/sqla/views.py:118
 #: superset/views/core.py:346
 msgid "Description"
-msgstr "描述"
+msgstr "详情"
 
 #: superset/connectors/druid/views.py:96 superset/connectors/sqla/views.py:75
 #: superset/connectors/sqla/views.py:119
