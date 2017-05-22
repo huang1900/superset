@@ -323,7 +323,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
         'slice_name'
     )
     list_columns = [
-        'slice_link', 'viz_type']
+        'slice_link', 'viz_type', 'datasource_link', 'creator', 'modified']
     edit_columns = [
         'slice_name', 'description', 'viz_type', 'owners', 'dashboards',
         'params', 'cache_timeout']
