@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -320,7 +321,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
         'datasource_link': 'Datasource',
     }
     search_columns = (
-        'slice_name'
+        'slice_name', 'viz_type', 'owners',
     )
     list_columns = [
         'slice_link', 'viz_type', 'datasource_link']
@@ -340,7 +341,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
             "object is exposed here for reference and for power users who may "
             "want to alter specific parameters."),
         'cache_timeout': _(
-            "Duration (in seconds) of the caching timeout for this slice."
+            "切片的缓存时间"
         ),
     }
     base_filters = [['id', SliceFilter, lambda: []]]
@@ -369,9 +370,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     @has_access
     def add(self):
         flash(__(
-            "To create a new slice, you can open a data source "
-            "through the `Sources` menu, or alter an existing slice "
-            "from the `Slices` menu"), "info")
+            "创建一个切片"), "info")
         return redirect('/superset/welcome')
 
 appbuilder.add_view(
