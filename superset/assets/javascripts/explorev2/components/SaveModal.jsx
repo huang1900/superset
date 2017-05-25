@@ -69,7 +69,7 @@ class SaveModal extends React.Component {
     if (sliceParams.action === 'saveas') {
       sliceName = this.state.newSliceName;
       if (sliceName === '') {
-        this.setState({ alert: 'Please enter a slice name' });
+        this.setState({ alert: '请输入一个切片名' });
         return;
       }
       sliceParams.slice_name = sliceName;
@@ -84,7 +84,7 @@ class SaveModal extends React.Component {
       case ('existing'):
         dashboard = this.state.saveToDashboardId;
         if (!dashboard) {
-          this.setState({ alert: 'Please select a dashboard' });
+          this.setState({ alert: '请选择一个看板' });
           return;
         }
         sliceParams.save_to_dashboard_id = dashboard;
@@ -92,7 +92,7 @@ class SaveModal extends React.Component {
       case ('new'):
         dashboard = this.state.newDashboardName;
         if (dashboard === '') {
-          this.setState({ alert: 'Please enter a dashboard name' });
+          this.setState({ alert: '请输入一个看板名' });
           return;
         }
         sliceParams.new_dashboard_name = dashboard;
@@ -147,7 +147,7 @@ class SaveModal extends React.Component {
               checked={this.state.action === 'overwrite'}
               onChange={this.changeAction.bind(this, 'overwrite')}
             >
-              {`Overwrite slice ${this.props.slice.slice_name}`}
+              {`覆盖原有切片 ${this.props.slice.slice_name}`}
             </Radio>
           }
 
