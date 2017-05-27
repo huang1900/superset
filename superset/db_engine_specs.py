@@ -919,9 +919,9 @@ class sparkSpec(BaseEngineSpec):
         Grain("Time Column", _('Time Column'), "{col}"),
         Grain("hour", _('hour'), "date_format({col},'yyyy-MM-dd hh') "),
         Grain("day", _('day'), "date_format({col},'yyyy-MM-dd')"),
-        Grain("week", _('week'), "concat(date_format({col},'yyyy'),'第'',WeekOfYear({col}'),'周"),
-        Grain("month", _('month'), "date_format({col},'yyyy-MM')"),
-        Grain('quarter', _('quarter'), "concat(date_format({col},'yyyy'),'第'',Quarter({col}'),'季度"),
+        Grain("周", _('week'), "concat(date_format({col},'yyyy'),'第',WeekOfYear({col}),'周')"),
+        Grain("month", '月', "date_format({col},'yyyy-MM')"),
+        Grain('quarter', _('quarter'), "concat(date_format({col},'yyyy'),'第',Quarter({col}),'季度')"),
         Grain("year", _('year'), "date_format({col},'yyyy')"),
     )
     @classmethod

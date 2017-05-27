@@ -423,7 +423,7 @@ class SqlaTable(Model, BaseDatasource):
 
             if is_timeseries:
                 timestamp = dttm_col.get_timestamp_expression(time_grain)
-                select_exprs += [timestamp]
+                select_exprs.insert(0,timestamp)
                 groupby_exprs += [timestamp]
 
             # Use main dttm column to support index with secondary dttm columns
