@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 """Utility functions used across Superset"""
 from __future__ import absolute_import
 from __future__ import division
@@ -45,7 +46,7 @@ logging.getLogger('MARKDOWN').setLevel(logging.INFO)
 
 PY3K = sys.version_info >= (3, 0)
 EPOCH = datetime(1970, 1, 1)
-DTTM_ALIAS = '__timestamp'
+DTTM_ALIAS = '时间'
 
 
 class SupersetException(Exception):

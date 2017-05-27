@@ -313,7 +313,43 @@ class TableViz(BaseViz):
     verbose_name = _("Table View")
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = False
+    def get_df(self, query_obj=None):
+        """Returns a pandas dataframe based on the query object"""
+        if not query_obj:
+            query_obj = self.query_obj()
 
+        self.error_msg = ""
+        self.results = None
+
+        timestamp_format = None
+        if self.datasource.type == 'table':
+            dttm_col = self.datasource.get_col(query_obj['granularity'])
+            if dttm_col:
+                timestamp_format = dttm_col.python_date_format
+
+        # The datasource here can be different backend but the interface is common
+        self.results = self.datasource.query(query_obj)
+        self.query = self.results.query
+        self.status = self.results.status
+        self.error_message = self.results.error_message
+
+        df = self.results.df
+        # Transform the timestamp we received from database to pandas supported
+        # datetime format. If no python_date_format is specified, the pattern will
+        # be considered as the default ISO date format
+        # If the datetime format is unix, the parse will use the corresponding
+        # parsing logic.
+        if df is None or df.empty:
+            self.status = utils.QueryStatus.FAILED
+            if not self.error_message:
+                self.error_message = "No data."
+            return pd.DataFrame()
+        else:
+            if self.datasource.offset:
+                df[DTTM_ALIAS] += timedelta(hours=self.datasource.offset)
+            df.replace([np.inf, -np.inf], np.nan)
+            df = df.fillna(0)
+        return df
     def should_be_timeseries(self):
         fd = self.form_data
         # TODO handle datasource-type-specific code in datasource

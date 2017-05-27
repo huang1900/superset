@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 """Compatibility layer for different database engines
 
 This modules stores logic specific to different database engines. Things
@@ -921,7 +922,7 @@ class sparkSpec(BaseEngineSpec):
         Grain("week", _('week'), "concat(date_format({col},'yyyy'),'第'',WeekOfYear({col}'),'周"),
         Grain("month", _('month'), "date_format({col},'yyyy-MM')"),
         Grain('quarter', _('quarter'), "concat(date_format({col},'yyyy'),'第'',Quarter({col}'),'季度"),
-        Grain("year", _('year'), "date_format({col},'yyyy'))"),
+        Grain("year", _('year'), "date_format({col},'yyyy')"),
     )
     @classmethod
     def epoch_to_dttm(cls):
