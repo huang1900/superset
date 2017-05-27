@@ -19,7 +19,7 @@ export const sections = {
     label: '时间',
     description: '时间类型范围',
     controlSetRows: [
-      ['granularity_sqla'],
+      ['granularity_sqla','time_grain_sqla'],
       ['since', 'until'],
     ],
   },
@@ -251,7 +251,7 @@ const visTypes = {
         label: '选项',
         controlSetRows: [
           ['row_limit', 'page_length'],
-          [ 'include_search'],
+          [ 'include_search','include_time'],
         ],
       },
     ],

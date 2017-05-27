@@ -522,6 +522,12 @@ msgstr ""
 msgid "Test Connection"
 msgstr ""
 
+#: superset/views/core.py:60
+msgid "The user seems to have been deleted"
+msgstr ""
+#: superset/views/core.py:61
+msgid "You don't have access to this datasource"
+msgstr ""
 #: superset/views/core.py:201
 msgid "Expose this DB in SQL Lab"
 msgstr ""

@@ -191,7 +191,7 @@ export const controls = {
   include_time: {
     type: 'CheckboxControl',
     label: '包含时间',
-    description: '是否显示过滤的时间字段',
+    description: '是否显示时间字段',
     default: false,
   },
 
@@ -428,13 +428,9 @@ export const controls = {
 
   time_grain_sqla: {
     type: 'SelectControl',
-    label: 'Time Grain',
+    label: '时间粒度',
     default: control => control.choices && control.choices.length ? control.choices[0][0] : null,
-    description: 'The time granularity for the visualization. This ' +
-                 'applies a date transformation to alter ' +
-                 'your time column and defines a new time granularity. ' +
-                 'The options here are defined on a per database ' +
-                 'engine basis in the Superset source code.',
+    description: '选择分析需要的时间粒度',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.time_grain_sqla : null,
     }),
@@ -534,7 +530,7 @@ export const controls = {
     type: 'SelectControl',
     freeForm: true,
     label: '数据条数上限',
-    default: null,
+    default:500 ,
     choices: formatSelectOptions(ROW_LIMIT_OPTIONS),
   },
 
