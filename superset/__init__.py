@@ -110,5 +110,16 @@ results_backend = app.config.get("RESULTS_BACKEND")
 module_datasource_map = app.config.get("DEFAULT_MODULE_DS_MAP")
 module_datasource_map.update(app.config.get("ADDITIONAL_MODULE_DS_MAP"))
 ConnectorRegistry.register_sources(module_datasource_map)
+from flask._compat import text_type
+from flask.json import JSONEncoder as BaseEncoder
+from speaklater import _LazyString
 
+class JSONEncoder(BaseEncoder):
+    def default(self, o):
+        if isinstance(o, _LazyString):
+            return text_type(o)
+
+        return BaseEncoder.default(self, o)
+
+app.json_encoder = JSONEncoder
 from superset import views  # noqa
