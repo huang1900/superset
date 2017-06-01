@@ -109,6 +109,10 @@ export default class SelectControl extends React.PureComponent {
       isLoading: this.props.isLoading,
       onChange: this.onChange,
       optionRenderer: this.renderOption,
+      noResultsText:"无",
+      promptTextCreator:(label)=> {
+            return '添加选项"' + label + '"';
+        }
     };
     //  Tab, comma or Enter will trigger a new option created for FreeFormSelect
     const selectWrap = this.props.freeForm ?

@@ -32,7 +32,7 @@ export function getInitialState(boostrapData) {
 }
 
 function unload() {
-  const message = 'You have unsaved changes.';
+  const message = '你有未保存的修改.';
   window.event.returnValue = message; // Gecko + IE
   return message; // Gecko + Webkit, Safari, Chrome etc.
 }
@@ -49,9 +49,9 @@ function renderAlert() {
   render(
     <div className="container-fluid">
       <Alert bsStyle="warning">
-        <strong>You have unsaved changes.</strong> Click the&nbsp;
+        <strong>You have unsaved changes.</strong> 点击&nbsp;
         <i className="fa fa-save" />&nbsp;
-        button on the top right to save your changes.
+        点击保存修改
       </Alert>
     </div>,
     document.getElementById('alert-container'),
@@ -151,13 +151,13 @@ export function dashboardContainer(dashboard, datasources, userid) {
         .addClass('danger')
         .attr(
           'title',
-          `Served from data cached ${cachedWhen}. ` +
-          'Click to force refresh')
+          `来自缓存 ${cachedWhen}. ` +
+          '点击刷新数据')
         .tooltip('fixTitle');
       } else {
         refresh
         .removeClass('danger')
-        .attr('title', 'Click to force refresh')
+        .attr('title', '点击刷新')
         .tooltip('fixTitle');
       }
     },
@@ -327,7 +327,7 @@ export function dashboardContainer(dashboard, datasources, userid) {
           const errorMsg = getAjaxErrorMsg(error);
           utils.showModal({
             title: 'Error',
-            body: 'Sorry, there was an error adding slices to this dashboard: </ br>' + errorMsg,
+            body: '添加切片失败: </ br>' + errorMsg,
           });
         },
       });
