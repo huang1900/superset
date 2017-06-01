@@ -101,7 +101,7 @@ export default class SelectControl extends React.PureComponent {
     const selectProps = {
       multi: this.props.multi,
       name: `select-${this.props.name}`,
-      placeholder: `Select (${this.state.options.length})`,
+      placeholder: `选项 (${this.state.options.length})`,
       options: this.state.options,
       value: this.props.value,
       autosize: false,

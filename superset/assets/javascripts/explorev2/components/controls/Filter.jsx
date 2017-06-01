@@ -112,7 +112,7 @@ export default class Filter extends React.Component {
         onChange={this.changeText.bind(this)}
         value={filter.val}
         className="form-control input-sm"
-        placeholder="Filter value"
+        placeholder="过滤"
       />
     );
   }
@@ -141,7 +141,7 @@ export default class Filter extends React.Component {
           <Col md={12}>
             <Select
               id="select-col"
-              placeholder={this.props.having ? 'Select metric' : 'Select column'}
+              placeholder={this.props.having ? '选择计算指标' : '选择列'}
               clearable={false}
               options={colChoices}
               value={filter.col}
@@ -153,7 +153,7 @@ export default class Filter extends React.Component {
           <Col md={3}>
             <Select
               id="select-op"
-              placeholder="Select operator"
+              placeholder="选择操作"
               options={opsChoices}
               clearable={false}
               value={filter.op}
