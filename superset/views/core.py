@@ -1056,7 +1056,7 @@ class Superset(BaseSupersetView):
             else datasource.datasource_name
         return self.render_template(
             "superset/explorev2.html",
-            bootstrap_data=json.dumps(bootstrap_data),
+            bootstrap_data=json.dumps(bootstrap_data,cls=app.json_encoder),
             slice=slc,
             standalone_mode=standalone,
             table_name=table_name)
