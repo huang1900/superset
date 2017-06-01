@@ -312,7 +312,7 @@ class TableViz(BaseViz):
     viz_type = "table"
     verbose_name = _("Table View")
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
-    is_timeseries = False
+    is_timeseries = True
     def get_df(self, query_obj=None):
         """Returns a pandas dataframe based on the query object"""
         if not query_obj:

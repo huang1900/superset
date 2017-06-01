@@ -28,7 +28,7 @@ const px = function () {
       }
     }
     $('.favstar')
-    .attr('title', 'Click to favorite/unfavorite')
+    .attr('title', '赞')
     .css('cursor', 'pointer')
     .each(show)
     .each(function () {

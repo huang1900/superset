@@ -57,7 +57,7 @@ export const exploreReducer = function (state, action) {
 
     [actions.FETCH_DASHBOARDS_FAILED]() {
       return Object.assign({}, state,
-        { saveModalAlert: `fetching dashboards failed for ${action.userId}` });
+        { saveModalAlert: `获取看板失败 ${action.userId}` });
     },
     [actions.SET_FIELD_VALUE]() {
       const controls = Object.assign({}, state.controls);
@@ -123,7 +123,7 @@ export const exploreReducer = function (state, action) {
     [actions.CHART_UPDATE_FAILED]() {
       return Object.assign({}, state, {
         chartStatus: 'failed',
-        chartAlert: action.queryResponse ? action.queryResponse.error : 'Network error.',
+        chartAlert: action.queryResponse ? action.queryResponse.error : '网络异常.',
         chartUpdateEndTime: now(),
         queryResponse: action.queryResponse,
       });
@@ -142,7 +142,7 @@ export const exploreReducer = function (state, action) {
       return state;
     },
     [actions.SAVE_SLICE_FAILED]() {
-      return Object.assign({}, state, { saveModalAlert: 'Failed to save slice' });
+      return Object.assign({}, state, { saveModalAlert: '保存切片失败' });
     },
     [actions.REMOVE_SAVE_MODAL_ALERT]() {
       return Object.assign({}, state, { saveModalAlert: null });
