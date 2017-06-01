@@ -764,8 +764,8 @@ msgstr "查询搜索"
 #~ msgid "This endpoint requires the `all_datasource_access` permission"
 #~ msgstr ""
 
-#~ msgid "The datasource seems to have been deleted"
-#~ msgstr ""
+msgid "The datasource seems to have been deleted"
+msgstr "数据源不存在"
 
 #~ msgid "The access requests seem to have been deleted"
 #~ msgstr ""
@@ -773,8 +773,8 @@ msgstr "查询搜索"
 #~ msgid "The user seems to have been deleted"
 #~ msgstr ""
 
-#~ msgid "You don't have access to this datasource"
-#~ msgstr ""
+msgid "You don't have access to this datasource"
+msgstr "你没有访问该数据的权限"
 
 #~ msgid ""
 #~ "This view requires the database %(name)s"
