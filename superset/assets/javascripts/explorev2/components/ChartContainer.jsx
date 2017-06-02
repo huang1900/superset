@@ -315,7 +315,7 @@ function mapStateToProps(state) {
     queryResponse: state.queryResponse,
     slice: state.slice,
     standalone: state.standalone,
-    table_name: formData.datasource.name,
+    table_name: state.datasource.name,
     viz_type: formData.viz_type,
     triggerRender: state.triggerRender,
     datasourceType: state.datasource ? state.datasource.type : null,
