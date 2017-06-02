@@ -324,15 +324,15 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
         'slice_name', 'viz_type', 'owners',
     )
     list_columns = [
-        'slice_link', 'viz_type', 'datasource_link']
+        'slice_link', 'datasource_link','owners']
     edit_columns = [
         'slice_name', 'description', 'viz_type', 'owners', 'dashboards',
         'params', 'cache_timeout']
     base_order = ('changed_on', 'desc')
     description_columns = {
         'description': Markup(
-            "The content here can be displayed as widget headers in the "
-            "dashboard view. Supports "
+            "显示在看板上方 "
+            " 支持"
             "<a href='https://daringfireball.net/projects/markdown/'>"
             "markdown</a>"),
         'params': _(

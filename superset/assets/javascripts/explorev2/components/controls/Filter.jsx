@@ -7,16 +7,18 @@ import SelectControl from './SelectControl';
 const $ = window.$ = require('jquery');
 
 const operatorsArr = [
-  { val: 'in', type: 'array', useSelect: true, multi: true },
-  { val: 'not in', type: 'array', useSelect: true, multi: true },
-  { val: '==', type: 'string', useSelect: true, multi: false, havingOnly: true },
-  { val: '!=', type: 'string', useSelect: true, multi: false, havingOnly: true },
-  { val: '>=', type: 'string', havingOnly: true },
-  { val: '<=', type: 'string', havingOnly: true },
-  { val: '>', type: 'string', havingOnly: true },
-  { val: '<', type: 'string', havingOnly: true },
-  { val: 'regex', type: 'string', datasourceTypes: ['druid'] },
-  { val: 'LIKE', type: 'string', datasourceTypes: ['table'] },
+  { val: 'in', type: 'array', useSelect: true, multi: true, label: '包括' },
+  { val: 'not in', type: 'array', useSelect: true, multi: true ,label: '排除'},
+  { val: '==', type: 'string', useSelect: true, multi: false, havingOnly: true, label:'等于' },
+  { val: '!=', type: 'string', useSelect: true, multi: false, havingOnly: true, label:'不等于'},
+  { val: '>=', type: 'string', havingOnly: true,label:'大于等于' },
+  { val: '<=', type: 'string', havingOnly: true,label:'小于等于' },
+  { val: '>', type: 'string', havingOnly: true,label:'大于'},
+  { val: '<', type: 'string', havingOnly: true ,label:'小于'},
+  { val: 'regex', type: 'string', datasourceTypes: ['druid'] ,label:'包括'},
+  { val: 'LIKE', type: 'string', datasourceTypes: ['table'] ,label:'包含'},
+  { val: 'start_with', type: 'string', datasourceTypes: ['table'] ,label:'以此开始'},
+  { val: 'end_with', type: 'string', datasourceTypes: ['table'] ,label:'以此结束'},
 ];
 const operators = {};
 operatorsArr.forEach((op) => {
@@ -126,7 +128,7 @@ export default class Filter extends React.Component {
       }
       return (!o.datasourceTypes || o.datasourceTypes.indexOf(datasource.type) >= 0);
     })
-    .map(o => ({ value: o.val, label: o.val }));
+    .map(o => ({ value: o.val, label: o.label }));
     let colChoices;
     if (datasource) {
       if (this.props.having) {

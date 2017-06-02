@@ -487,8 +487,12 @@ class SqlaTable(Model, BaseDatasource):
                     where_clause_and.append(col_obj.sqla_col >= eq)
                 elif op == '<=':
                     where_clause_and.append(col_obj.sqla_col <= eq)
+                elif op == 'start_with':
+                    where_clause_and.append(col_obj.sqla_col.like('%{}'.format(eq)))
+                elif op == 'end_with':
+                    where_clause_and.append(col_obj.sqla_col.like('{}%'.format(eq)))
                 elif op == 'LIKE':
-                    where_clause_and.append(col_obj.sqla_col.like(eq))
+                    where_clause_and.append(col_obj.sqla_col.like('%{}%'.format(eq)))
         if extras:
             where = extras.get('where')
             if where:
