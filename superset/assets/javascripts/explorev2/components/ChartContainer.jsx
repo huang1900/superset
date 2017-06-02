@@ -150,7 +150,7 @@ class ChartContainer extends React.PureComponent {
     if (this.props.slice) {
       title = this.props.slice.slice_name;
     } else {
-      title = `[${this.props.table_name}] - untitled`;
+      title = `[${this.props.table_name}] - 未命名`;
     }
     return title;
   }
@@ -315,7 +315,7 @@ function mapStateToProps(state) {
     queryResponse: state.queryResponse,
     slice: state.slice,
     standalone: state.standalone,
-    table_name: formData.datasource_name,
+    table_name: formData.datasource.name,
     viz_type: formData.viz_type,
     triggerRender: state.triggerRender,
     datasourceType: state.datasource ? state.datasource.type : null,
