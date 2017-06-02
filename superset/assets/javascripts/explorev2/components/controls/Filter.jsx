@@ -62,6 +62,7 @@ export default class Filter extends React.Component {
         },
       });
     }
+
   }
   switchFilterValue(prevOp, nextOp) {
     if (operators[prevOp].type !== operators[nextOp].type) {
