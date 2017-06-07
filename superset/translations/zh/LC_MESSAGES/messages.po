@@ -810,17 +810,16 @@ msgstr "管理"
 #~ msgid "Access was requested"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "%(user)s was granted the role %(role)s"
-#~ " that gives access to the "
-#~ "%(datasource)s"
-#~ msgstr ""
+ msgid  "%(user)s was granted the role %(role)s"
+ " that gives access to the "
+"%(datasource)s"
+ msgstr "%(user)s 给角色%(role)s 添加%(datasource)s权限 "
 
 #~ msgid "Role %(r)s was extended to provide the access to the datasource %(ds)s"
 #~ msgstr ""
 
-#~ msgid "You have no permission to approve this request"
-#~ msgstr ""
+msgid "You have no permission to approve this request"
+msgstr "没有权限"
 
 #~ msgid ""
 #~ "Malformed request. slice_id or table_name "

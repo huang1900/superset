@@ -93,7 +93,7 @@ def check_ownership(obj, raise_if_false=True):
         return False
 
     security_exception = utils.SupersetSecurityException(
-        "You don't have the rights to alter [{}]".format(obj))
+        "没有权限操作 [{}]".format(obj))
 
     if g.user.is_anonymous():
         if raise_if_false:
@@ -321,7 +321,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
         'datasource_link': 'Datasource',
     }
     search_columns = (
-        'slice_name', 'viz_type', 'owners',
+        'slice_name', 'datasource_link', 'owners',
     )
     list_columns = [
         'slice_link', 'datasource_link','owners']

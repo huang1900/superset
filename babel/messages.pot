@@ -726,7 +726,10 @@ msgstr ""
 msgid "Query Search"
 msgstr ""
 
-
+ msgid  "%(user)s was granted the role %(role)s"
+ " that gives access to the "
+"%(datasource)s"
+ msgstr ""
 
 
 msgid "Table"
@@ -734,4 +737,8 @@ msgstr ""
 
 
 msgid "Tables"
+msgstr ""
+
+
+msgid "You have no permission to approve this request"
 msgstr ""
