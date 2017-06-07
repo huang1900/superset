@@ -927,11 +927,14 @@ class Superset(BaseSupersetView):
             return json_error_response(DATASOURCE_ACCESS_ERR, status=404)
 
         if request.args.get("csv") == "true":
-            return Response(
+            response = Response(
                 viz_obj.get_csv(),
                 status=200,
                 headers=generate_download_headers("csv"),
-                mimetype="application/csv")
+                mimetype="application/csv",content_type='.csv,application/octet-stream')
+            response.charset='UTF-8'
+            response.content_encoding='utf-8'
+            return response
 
         if request.args.get("query") == "true":
             try:
