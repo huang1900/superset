@@ -2060,7 +2060,9 @@ class Superset(BaseSupersetView):
             df = query.database.get_df(sql, query.schema)
             # TODO(bkyryliuk): add compression=gzip for big files.
             csv = df.to_csv(index=False, encoding='utf-8')
-        response = Response(csv, mimetype='text/csv')
+        response = Response(csv, mimetype='text/csv',content_type='.csv,application/octet-stream')
+        response.charset='UTF-8'
+        response.content_encoding='utf-8'
         response.headers['Content-Disposition'] = (
             'attachment; filename={}.csv'.format(query.name))
         return response
