@@ -324,7 +324,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
         'slice_name', 'datasource_link', 'owners',
     )
     list_columns = [
-        'slice_link', 'datasource_link','owners']
+        'slice_link', 'datasource_name','owners']
     edit_columns = [
         'slice_name', 'description', 'viz_type', 'owners', 'dashboards',
         'params', 'cache_timeout']
