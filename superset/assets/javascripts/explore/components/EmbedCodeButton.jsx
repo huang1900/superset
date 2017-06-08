@@ -63,7 +63,7 @@ export default class EmbedCodeButton extends React.Component {
               <CopyToClipboard
                 shouldShowText={false}
                 text={html}
-                copyNode={<i className="fa fa-clipboard" title="Copy to clipboard" />}
+                copyNode={<i className="fa fa-clipboard" title="复制到剪贴板" />}
               />
             </div>
           </div>

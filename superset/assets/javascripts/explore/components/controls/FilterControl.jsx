@@ -66,7 +66,7 @@ export default class FilterControl extends React.Component {
               bsSize="sm"
               onClick={this.addFilter.bind(this)}
             >
-              <i className="fa fa-plus" /> &nbsp; Add Filter
+              <i className="fa fa-plus" /> &nbsp; 添加过滤
             </Button>
           </Col>
         </Row>

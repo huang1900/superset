@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 from datetime import datetime
 import logging
 import sqlparse
@@ -280,7 +281,7 @@ class SqlaTable(Model, BaseDatasource):
         if self.type == 'table':
             grains = self.database.grains() or []
             if grains:
-                grains = [(g.name, g.name) for g in grains]
+                grains = [(g.name, g.label) for g in grains]
             d['granularity_sqla'] = utils.choicify(self.dttm_cols)
             d['time_grain_sqla'] = grains
         return d
@@ -430,7 +431,7 @@ class SqlaTable(Model, BaseDatasource):
 
             if is_timeseries:
                 timestamp = dttm_col.get_timestamp_expression(time_grain)
-                select_exprs += [timestamp]
+                select_exprs.insert(0,timestamp)
                 groupby_exprs += [timestamp]
 
             # Use main dttm column to support index with secondary dttm columns
@@ -477,23 +478,24 @@ class SqlaTable(Model, BaseDatasource):
                     if op == 'not in':
                         cond = ~cond
                     where_clause_and.append(cond)
-                else:
-                    if col_obj.is_num:
-                        eq = utils.string_to_num(flt['val'])
-                    if op == '==':
-                        where_clause_and.append(col_obj.sqla_col == eq)
-                    elif op == '!=':
-                        where_clause_and.append(col_obj.sqla_col != eq)
-                    elif op == '>':
-                        where_clause_and.append(col_obj.sqla_col > eq)
-                    elif op == '<':
-                        where_clause_and.append(col_obj.sqla_col < eq)
-                    elif op == '>=':
-                        where_clause_and.append(col_obj.sqla_col >= eq)
-                    elif op == '<=':
-                        where_clause_and.append(col_obj.sqla_col <= eq)
-                    elif op == 'LIKE':
-                        where_clause_and.append(col_obj.sqla_col.like(eq))
+                elif op == '==':
+                    where_clause_and.append(col_obj.sqla_col == eq)
+                elif op == '!=':
+                    where_clause_and.append(col_obj.sqla_col != eq)
+                elif op == '>':
+                    where_clause_and.append(col_obj.sqla_col > eq)
+                elif op == '<':
+                    where_clause_and.append(col_obj.sqla_col < eq)
+                elif op == '>=':
+                    where_clause_and.append(col_obj.sqla_col >= eq)
+                elif op == '<=':
+                    where_clause_and.append(col_obj.sqla_col <= eq)
+                elif op == 'start_with':
+                    where_clause_and.append(col_obj.sqla_col.like('%{}'.format(eq)))
+                elif op == 'end_with':
+                    where_clause_and.append(col_obj.sqla_col.like('{}%'.format(eq)))
+                elif op == 'LIKE':
+                    where_clause_and.append(col_obj.sqla_col.like('%{}%'.format(eq)))
         if extras:
             where = extras.get('where')
             if where:

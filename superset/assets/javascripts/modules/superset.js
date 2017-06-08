@@ -29,7 +29,7 @@ const px = function () {
       }
     }
     $('.favstar')
-    .attr('title', 'Click to favorite/unfavorite')
+    .attr('title', '赞')
     .css('cursor', 'pointer')
     .each(show)
     .each(function () {
@@ -124,6 +124,9 @@ const px = function () {
         controller.done(this);
       },
       getErrorMsg(xhr) {
+        if (xhr.statusText === 'timeout') {
+          return '查询超时';
+        }
         let msg = '';
         if (!xhr.responseText) {
           const status = xhr.status;
@@ -133,7 +136,7 @@ const px = function () {
               'The server could not be reached. You may want to ' +
               'verify your connection and try again.');
           } else {
-            msg += 'An unknown error occurred. (Status: ' + status + ')';
+            msg += '未知错误 (Status: ' + status + ')';
           }
         }
         return msg;

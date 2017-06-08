@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 from flask import redirect, g
 
 from flask_appbuilder import expose

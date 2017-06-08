@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 """A collection of ORM sqlalchemy models for Superset"""
 from __future__ import absolute_import
 from __future__ import division

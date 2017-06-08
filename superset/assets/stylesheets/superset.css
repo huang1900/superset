@@ -209,3 +209,6 @@ div.widget .slice_container {
 .table-condensed input[type="checkbox"] {
     float: left;
 }
+.table-responsive th{
+    min-width: 100px;
+}

@@ -10,7 +10,9 @@
         {% endif %}
       {% endblock %}
     </title>
-    {% block head_meta %}{% endblock %}
+    {% block head_meta %}
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    {% endblock %}
     {% block head_css %}
       <link rel="stylesheet" type="text/css" href="/static/assets/node_modules/font-awesome/css/font-awesome.min.css" />
       <link rel="stylesheet" type="text/css" href="/static/assets/stylesheets/superset.css" />

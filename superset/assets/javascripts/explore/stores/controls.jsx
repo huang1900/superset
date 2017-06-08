@@ -29,7 +29,7 @@ export const TIME_STAMP_OPTIONS = [
 export const controls = {
   datasource: {
     type: 'SelectControl',
-    label: 'Datasource',
+    label: '数据域',
     isLoading: true,
     clearable: false,
     default: null,
@@ -39,7 +39,7 @@ export const controls = {
         choices: datasources,
         isLoading: datasources.length === 0,
         rightNode: state.datasource ?
-          <a href={state.datasource.edit_url}>edit</a>
+          <a href={state.datasource.edit_url}>编辑</a>
           : null,
       };
     },
@@ -48,9 +48,9 @@ export const controls = {
 
   viz_type: {
     type: 'VizTypeControl',
-    label: 'Visualization Type',
+    label: '分析模式',
     default: 'table',
-    description: 'The type of visualization to display',
+    description: '选择一种分析模式',
   },
 
   metrics: {
@@ -79,9 +79,9 @@ export const controls = {
   order_by_cols: {
     type: 'SelectControl',
     multi: true,
-    label: 'Ordering',
+    label: '排序',
     default: [],
-    description: 'One or many metrics to display',
+    description: '选择指标排序',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.order_by_choices : [],
     }),
@@ -89,9 +89,9 @@ export const controls = {
 
   metric: {
     type: 'SelectControl',
-    label: 'Metric',
+    label: '字段',
     clearable: false,
-    description: 'Choose the metric',
+    description: '选择字段',
     default: control =>
       control.choices && control.choices.length > 0 ? control.choices[0][0] : null,
     mapStateToProps: state => ({
@@ -193,8 +193,8 @@ export const controls = {
 
   include_time: {
     type: 'CheckboxControl',
-    label: 'Include Time',
-    description: 'Whether to include the time granularity as defined in the time section',
+    label: '包含时间',
+    description: '是否显示时间字段',
     default: false,
   },
 
@@ -245,10 +245,10 @@ export const controls = {
     renderTrigger: true,
     default: false,
     description: 'Reduces the number of X axis ticks to be rendered. ' +
-    'If true, the x axis wont overflow and labels may be ' +
-    'missing. If false, a minimum width will be applied ' +
-    'to columns and the width may overflow into an ' +
-    'horizontal scroll.',
+                 'If true, the x axis wont overflow and labels may be ' +
+                 'missing. If false, a minimum width will be applied ' +
+                 'to columns and the width may overflow into an ' +
+                 'horizontal scroll.',
   },
 
   include_series: {
@@ -308,9 +308,9 @@ export const controls = {
   groupby: {
     type: 'SelectControl',
     multi: true,
-    label: 'Group by',
+    label: '分组',
     default: [],
-    description: 'One or many controls to group by',
+    description: '选择指标分组',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.gb_cols : [],
     }),
@@ -319,20 +319,20 @@ export const controls = {
   columns: {
     type: 'SelectControl',
     multi: true,
-    label: 'Columns',
+    label: '列',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.gb_cols : [],
     }),
     default: [],
-    description: 'One or many controls to pivot as columns',
+    description: '选择列',
   },
 
   all_columns: {
     type: 'SelectControl',
     multi: true,
-    label: 'Columns',
+    label: '列',
     default: [],
-    description: 'Columns to display',
+    description: '显示列',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.all_cols : [],
     }),
@@ -383,34 +383,23 @@ export const controls = {
   granularity: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Time Granularity',
-    default: 'one day',
+    label: '时间粒度',
+    default: '1 天',
     choices: formatSelectOptions([
-      'all',
-      '5 seconds',
-      '30 seconds',
-      '1 minute',
-      '5 minutes',
-      '1 hour',
-      '6 hour',
-      '1 day',
-      '7 days',
-      'week',
-      'week_starting_sunday',
-      'week_ending_saturday',
-      'month',
+      '全部',
+      '天',
+      '周',
+      '月',
     ]),
-    description: 'The time granularity for the visualization. Note that you ' +
-    'can type and use simple natural language as in `10 seconds`, ' +
-    '`1 day` or `56 weeks`',
+    description: '',
   },
 
   domain_granularity: {
     type: 'SelectControl',
-    label: 'Domain',
+    label: '时间粒度',
     default: 'month',
-    choices: formatSelectOptions(['hour', 'day', 'week', 'month', 'year']),
-    description: 'The time unit used for the grouping of blocks',
+    choices: formatSelectOptions(['小时', '日', '周', '月', '年']),
+    description: '时间字段统计粒度',
   },
 
   subdomain_granularity: {
@@ -453,14 +442,10 @@ export const controls = {
 
   granularity_sqla: {
     type: 'SelectControl',
-    label: 'Time Column',
+    label: '时间字段',
     default: control =>
       control.choices && control.choices.length > 0 ? control.choices[0][0] : null,
-    description: 'The time column for the visualization. Note that you ' +
-    'can define arbitrary expression that return a DATETIME ' +
-    'column in the table or. Also note that the ' +
-    'filter below is applied against this column or ' +
-    'expression',
+    description: '选择一个时间字段过滤，指定时间请手工输入如2007-02-13',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.granularity_sqla : [],
     }),
@@ -468,13 +453,9 @@ export const controls = {
 
   time_grain_sqla: {
     type: 'SelectControl',
-    label: 'Time Grain',
+    label: '时间粒度',
     default: control => control.choices && control.choices.length ? control.choices[0][0] : null,
-    description: 'The time granularity for the visualization. This ' +
-    'applies a date transformation to alter ' +
-    'your time column and defines a new time granularity. ' +
-    'The options here are defined on a per database ' +
-    'engine basis in the Superset source code.',
+    description: '选择分析需要的时间粒度',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.time_grain_sqla : null,
     }),
@@ -510,34 +491,23 @@ export const controls = {
   since: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Since',
-    default: '7 days ago',
+    label: '开始时间',
+    default: '1 day ago',
     choices: formatSelectOptions([
-      '1 hour ago',
-      '12 hours ago',
       '1 day ago',
-      '7 days ago',
-      '28 days ago',
-      '90 days ago',
-      '1 year ago',
-      '100 year ago',
+      '7 days ago'
     ]),
-    description: 'Timestamp from filter. This supports free form typing and ' +
-    'natural language as in `1 day ago`, `28 days` or `3 years`',
+    description: '',
   },
 
   until: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Until',
+    label: '结束时间',
     default: 'now',
     choices: formatSelectOptions([
       'now',
       '1 day ago',
-      '7 days ago',
-      '28 days ago',
-      '90 days ago',
-      '1 year ago',
     ]),
   },
 
@@ -584,8 +554,8 @@ export const controls = {
   row_limit: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Row limit',
-    default: null,
+    label: '数据条数上限',
+    default:500 ,
     choices: formatSelectOptions(ROW_LIMIT_OPTIONS),
   },
 
@@ -700,22 +670,16 @@ export const controls = {
 
   where: {
     type: 'TextControl',
-    label: 'Custom WHERE clause',
+    label: '自定义where语句',
     default: '',
-    description: 'The text in this box gets included in your query\'s WHERE ' +
-    'clause, as an AND to other criteria. You can include ' +
-    'complex expression, parenthesis and anything else ' +
-    'supported by the backend it is directed towards.',
+    description: '支持自定义sql条件过滤',
   },
 
   having: {
     type: 'TextControl',
-    label: 'Custom HAVING clause',
+    label: '分组过滤（having）',
     default: '',
-    description: 'The text in this box gets included in your query\'s HAVING ' +
-    'clause, as an AND to other criteria. You can include ' +
-    'complex expression, parenthesis and anything else ' +
-    'supported by the backend it is directed towards.',
+    description: '针对分组过滤支持sql表达式.',
   },
 
   compare_lag: {
@@ -752,10 +716,10 @@ export const controls = {
   page_length: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Page Length',
+    label: '每页显示数量',
     default: 0,
     choices: formatSelectOptions([0, 10, 25, 40, 50, 75, 100, 150, 200]),
-    description: 'Rows per page, 0 means no pagination',
+    description: '每一页显示的数据数量，0代表不分页',
   },
 
   x_axis_format: {
@@ -847,7 +811,7 @@ export const controls = {
     ]),
     default: 'sum',
     description: 'Aggregate function to apply when pivoting and ' +
-    'computing the total rows and columns',
+                 'computing the total rows and columns',
   },
 
   size_from: {
@@ -887,9 +851,9 @@ export const controls = {
 
   date_filter: {
     type: 'CheckboxControl',
-    label: 'Date Filter',
+    label: '时间过滤器',
     default: false,
-    description: 'Whether to include a time filter',
+    description: '是否有时间过滤',
   },
 
   show_datatable: {
@@ -901,17 +865,17 @@ export const controls = {
 
   include_search: {
     type: 'CheckboxControl',
-    label: 'Search Box',
+    label: '查询框',
     renderTrigger: true,
     default: false,
-    description: 'Whether to include a client side search box',
+    description: '是否有查询框',
   },
 
   table_filter: {
     type: 'CheckboxControl',
-    label: 'Table Filter',
+    label: '表过滤器',
     default: false,
-    description: 'Whether to apply filter when table cell is clicked',
+    description: '是否在列表上过滤',
   },
 
   show_bubbles: {
@@ -924,10 +888,10 @@ export const controls = {
 
   show_legend: {
     type: 'CheckboxControl',
-    label: 'Legend',
+    label: '图例',
     renderTrigger: true,
     default: true,
-    description: 'Whether to display the legend (toggles)',
+    description: '是否有图例',
   },
 
   x_axis_showminmax: {

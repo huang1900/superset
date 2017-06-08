@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 """Utility functions used across Superset"""
 from __future__ import absolute_import
 from __future__ import division
@@ -45,7 +46,7 @@ logging.getLogger('MARKDOWN').setLevel(logging.INFO)
 
 PY3K = sys.version_info >= (3, 0)
 EPOCH = datetime(1970, 1, 1)
-DTTM_ALIAS = '__timestamp'
+DTTM_ALIAS = '时间'
 
 
 class SupersetException(Exception):
@@ -201,7 +202,11 @@ def parse_human_datetime(s):
     except Exception:
         try:
             cal = parsedatetime.Calendar()
-            dttm = dttm_from_timtuple(cal.parse(s)[0])
+            # dttm = dttm_from_timtuple(cal.parse(s)[0])
+            parsed_dttm, parsed_flags = cal.parseDT(s)
+            if parsed_flags & 2 == 0:
+                parsed_dttm = parsed_dttm.replace(hour=0, minute=0, second=0)
+            dttm = dttm_from_timtuple(parsed_dttm.utctimetuple())
         except Exception as e:
             logging.exception(e)
             raise ValueError("Couldn't parse date string [{}]".format(s))

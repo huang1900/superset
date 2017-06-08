@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -94,7 +95,7 @@ def check_ownership(obj, raise_if_false=True):
         return False
 
     security_exception = utils.SupersetSecurityException(
-        "You don't have the rights to alter [{}]".format(obj))
+        "没有权限操作 [{}]".format(obj))
 
     if g.user.is_anonymous():
         if raise_if_false:
@@ -320,22 +321,26 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
+    list_title = "切片列表"
+    show_title = "显示切片"
+    add_title = "添加切片"
+    edit_title = "编辑切片"
     label_columns = {
         'datasource_link': 'Datasource',
     }
     search_columns = (
-        'slice_name', 'description', 'viz_type', 'owners',
+        'slice_name', 'datasource_name', 'owners',
     )
     list_columns = [
-        'slice_link', 'viz_type', 'datasource_link', 'creator', 'modified']
+        'slice_link', 'datasource_link','owners']
     edit_columns = [
         'slice_name', 'description', 'viz_type', 'owners', 'dashboards',
         'params', 'cache_timeout']
     base_order = ('changed_on', 'desc')
     description_columns = {
         'description': Markup(
-            "The content here can be displayed as widget headers in the "
-            "dashboard view. Supports "
+            "显示在看板上方 "
+            " 支持"
             "<a href='https://daringfireball.net/projects/markdown/'>"
             "markdown</a>"),
         'params': _(
@@ -344,7 +349,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
             "object is exposed here for reference and for power users who may "
             "want to alter specific parameters."),
         'cache_timeout': _(
-            "Duration (in seconds) of the caching timeout for this slice."
+            "切片的缓存时间"
         ),
     }
     base_filters = [['id', SliceFilter, lambda: []]]
@@ -938,11 +943,14 @@ class Superset(BaseSupersetView):
             return json_error_response(DATASOURCE_ACCESS_ERR, status=404)
 
         if request.args.get("csv") == "true":
-            return Response(
+            response = Response(
                 viz_obj.get_csv(),
                 status=200,
                 headers=generate_download_headers("csv"),
-                mimetype="application/csv")
+                mimetype="application/csv",content_type='.csv,application/octet-stream')
+            response.charset='gbk'
+            response.content_encoding='gbk'
+            return response
 
         if request.args.get("query") == "true":
             try:
@@ -1077,7 +1085,7 @@ class Superset(BaseSupersetView):
             else datasource.datasource_name
         return self.render_template(
             "superset/explore.html",
-            bootstrap_data=json.dumps(bootstrap_data),
+            bootstrap_data=json.dumps(bootstrap_data,cls=app.json_encoder),
             slice=slc,
             standalone_mode=standalone,
             table_name=table_name)
@@ -1144,7 +1152,7 @@ class Superset(BaseSupersetView):
                 .one()
             )
             flash(
-                "Slice [{}] was added to dashboard [{}]".format(
+                "切片 [{}] 添加至看板 [{}]".format(
                     slc.slice_name,
                     dash.dashboard_title),
                 "info")
@@ -1153,7 +1161,7 @@ class Superset(BaseSupersetView):
                 dashboard_title=request.args.get('new_dashboard_name'),
                 owners=[g.user] if g.user else [])
             flash(
-                "Dashboard [{}] just got created and slice [{}] was added "
+                "看板 [{}] 已被创建，切片 [{}] 已填加至其中 "
                 "to it".format(
                     dash.dashboard_title,
                     slc.slice_name),
@@ -1170,7 +1178,7 @@ class Superset(BaseSupersetView):
 
     def save_slice(self, slc):
         session = db.session()
-        msg = "Slice [{}] has been saved".format(slc.slice_name)
+        msg = "切片 [{}] 已保存".format(slc.slice_name)
         session.add(slc)
         session.commit()
         flash(msg, "info")
@@ -1179,7 +1187,7 @@ class Superset(BaseSupersetView):
         session = db.session()
         session.merge(slc)
         session.commit()
-        msg = "Slice [{}] has been overwritten".format(slc.slice_name)
+        msg = "切片 [{}] 已修改".format(slc.slice_name)
         flash(msg, "info")
 
     @api
@@ -1592,7 +1600,7 @@ class Superset(BaseSupersetView):
             slices = session.query(models.Slice).filter_by(id=slice_id).all()
             if not slices:
                 return json_error_response(__(
-                    "Slice %(id)s not found", id=slice_id), status=404)
+                    "切片 %(id)没有找到", id=slice_id), status=404)
         elif table_name and db_name:
             SqlaTable = ConnectorRegistry.sources['table']
             table = (
@@ -1604,7 +1612,7 @@ class Superset(BaseSupersetView):
             ).first()
             if not table:
                 return json_error_response(__(
-                    "Table %(t)s wasn't found in the database %(d)s",
+                    "数据域 %(t)s 不在 %(d)s",
                     t=table_name, s=db_name), status=404)
             slices = session.query(models.Slice).filter_by(
                 datasource_id=table.id,
@@ -1701,7 +1709,7 @@ class Superset(BaseSupersetView):
         return self.render_template(
             "superset/dashboard.html",
             dashboard_title=dash.dashboard_title,
-            bootstrap_data=json.dumps(bootstrap_data),
+            bootstrap_data=json.dumps(bootstrap_data,cls=app.json_encoder),
         )
 
     @has_access
@@ -2081,7 +2089,9 @@ class Superset(BaseSupersetView):
             df = query.database.get_df(sql, query.schema)
             # TODO(bkyryliuk): add compression=gzip for big files.
             csv = df.to_csv(index=False, encoding='utf-8')
-        response = Response(csv, mimetype='text/csv')
+        response = Response(csv, mimetype='text/csv',content_type='.csv,application/octet-stream')
+        response.charset='UTF-8'
+        response.content_encoding='utf-8'
         response.headers['Content-Disposition'] = (
             'attachment; filename={}.csv'.format(query.name))
         return response

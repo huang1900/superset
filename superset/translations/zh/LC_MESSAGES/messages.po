@@ -265,7 +265,7 @@ msgstr "最大值"
 msgid ""
 "Whether this column is exposed in the `Filters` section of the explore "
 "view."
-msgstr ""
+msgstr "是否可以被过滤"
 
 #: superset/connectors/druid/views.py:88 superset/connectors/sqla/views.py:102
 msgid ""
@@ -282,7 +282,7 @@ msgstr "度量"
 #: superset/connectors/sqla/views.py:76 superset/connectors/sqla/views.py:118
 #: superset/views/core.py:346
 msgid "Description"
-msgstr "描述"
+msgstr "详情"
 
 #: superset/connectors/druid/views.py:96 superset/connectors/sqla/views.py:75
 #: superset/connectors/sqla/views.py:119
@@ -336,14 +336,14 @@ msgid ""
 "populate the filter component. Only applies when `Enable Filter Select` "
 "is on. If you enter `7 days ago`, the distinct list of values in the "
 "filter will be populated based on the distinct value over the past week"
-msgstr ""
+msgstr "输入时间表达式"
 
 #: superset/connectors/druid/views.py:178 superset/connectors/sqla/views.py:175
 msgid ""
 "Whether to populate the filter's dropdown in the explore view's filter "
 "section with a list of distinct values fetched from the backend on the "
 "fly"
-msgstr ""
+msgstr "是否开启过滤内容自动获取"
 
 #: superset/connectors/druid/views.py:182 superset/connectors/sqla/views.py:188
 msgid ""
@@ -406,7 +406,7 @@ msgstr ""
 #: superset/connectors/sqla/views.py:79 superset/connectors/sqla/views.py:122
 #: superset/connectors/sqla/views.py:182 superset/views/core.py:352
 msgid "Table"
-msgstr "表"
+msgstr "数据域"
 
 #: superset/connectors/sqla/views.py:84
 msgid "Expression"
@@ -692,7 +692,15 @@ msgid "Slices"
 msgstr "切片"
 
 msgid "Tables"
-msgstr "数据表"
+msgstr "数据域"
+
+msgid "Last Modified"
+msgstr "最后修改"
+
+
+msgid "Table"
+msgstr "数据域"
+
 
 
 
@@ -753,11 +761,11 @@ msgstr "查询搜索"
 #~ msgid "Datasource %(name)s already exists"
 #~ msgstr ""
 
-#~ msgid "This endpoint requires the `all_datasource_access` permission"
-#~ msgstr ""
+msgid "需要全部数据权限"
+msgstr ""
 
-#~ msgid "The datasource seems to have been deleted"
-#~ msgstr ""
+msgid "The datasource seems to have been deleted"
+msgstr "数据源不存在"
 
 #~ msgid "The access requests seem to have been deleted"
 #~ msgstr ""
@@ -765,25 +773,24 @@ msgstr "查询搜索"
 #~ msgid "The user seems to have been deleted"
 #~ msgstr ""
 
-#~ msgid "You don't have access to this datasource"
-#~ msgstr ""
+msgid "You don't have access to this datasource"
+msgstr "你没有访问该数据的权限"
 
 #~ msgid ""
 #~ "This view requires the database %(name)s"
 #~ " or `all_datasource_access` permission"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "This endpoint requires the datasource "
-#~ "%(name)s, database or `all_datasource_access` "
-#~ "permission"
-#~ msgstr ""
+msgid ""
+"This endpoint requires the datasource "
+"%(name)s, database or `all_datasource_access` permission"
+msgstr "需要%(name)s或者全部数据权限在能进行此次操作"
 
-#~ msgid "Import Dashboards"
-#~ msgstr "导入仪表盘"
+msgid "Import Dashboards"
+msgstr "导入仪表盘"
 
-#~ msgid "Manage"
-#~ msgstr "管理"
+msgid "Manage"
+msgstr "管理"
 
 #~ msgid "Databases"
 #~ msgstr "数据库"
@@ -803,17 +810,16 @@ msgstr "查询搜索"
 #~ msgid "Access was requested"
 #~ msgstr ""
 
-#~ msgid ""
-#~ "%(user)s was granted the role %(role)s"
-#~ " that gives access to the "
-#~ "%(datasource)s"
-#~ msgstr ""
+ msgid  "%(user)s was granted the role %(role)s"
+ " that gives access to the "
+"%(datasource)s"
+ msgstr "%(user)s 给角色%(role)s 添加%(datasource)s权限 "
 
 #~ msgid "Role %(r)s was extended to provide the access to the datasource %(ds)s"
 #~ msgstr ""
 
-#~ msgid "You have no permission to approve this request"
-#~ msgstr ""
+msgid "You have no permission to approve this request"
+msgstr "没有权限"
 
 #~ msgid ""
 #~ "Malformed request. slice_id or table_name "
@@ -832,8 +838,8 @@ msgstr "查询搜索"
 #~ msgid "Can't find DruidCluster with cluster_name = '%(name)s'"
 #~ msgstr ""
 
-#~ msgid "CSS Templates"
-#~ msgstr "CSS模板"
+msgid "CSS Templates"
+msgstr "CSS模板"
 
 #~ msgid "SQL Lab"
 #~ msgstr "SQL工具箱"

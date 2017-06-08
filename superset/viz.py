@@ -147,6 +147,9 @@ class BaseViz(object):
         to_dttm = utils.parse_human_datetime(until)
         if from_dttm > to_dttm:
             raise Exception("From date cannot be larger than to date")
+        ##截至当天结束
+        if len(until.strip()) <= 10:
+            to_dttm=to_dttm.replace(hour=23, minute=59,second=59)
 
         # extras are used to query elements specific to a datasource type
         # for instance the extra where clause that applies only to Tables
@@ -295,7 +298,7 @@ class BaseViz(object):
     def get_csv(self):
         df = self.get_df()
         include_index = not isinstance(df.index, pd.RangeIndex)
-        return df.to_csv(index=include_index, encoding="utf-8")
+        return df.to_csv(index=include_index, encoding="gb18030")
 
     def get_data(self, df):
         return []
@@ -312,8 +315,44 @@ class TableViz(BaseViz):
     viz_type = "table"
     verbose_name = _("Table View")
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
-    is_timeseries = False
+    is_timeseries = True
+    def get_df(self, query_obj=None):
+        """Returns a pandas dataframe based on the query object"""
+        if not query_obj:
+            query_obj = self.query_obj()
 
+        self.error_msg = ""
+        self.results = None
+
+        timestamp_format = None
+        if self.datasource.type == 'table':
+            dttm_col = self.datasource.get_col(query_obj['granularity'])
+            if dttm_col:
+                timestamp_format = dttm_col.python_date_format
+
+        # The datasource here can be different backend but the interface is common
+        self.results = self.datasource.query(query_obj)
+        self.query = self.results.query
+        self.status = self.results.status
+        self.error_message = self.results.error_message
+
+        df = self.results.df
+        # Transform the timestamp we received from database to pandas supported
+        # datetime format. If no python_date_format is specified, the pattern will
+        # be considered as the default ISO date format
+        # If the datetime format is unix, the parse will use the corresponding
+        # parsing logic.
+        if df is None or df.empty:
+            self.status = utils.QueryStatus.FAILED
+            if not self.error_message:
+                self.error_message = "No data."
+            return pd.DataFrame()
+        else:
+            if self.datasource.offset:
+                df[DTTM_ALIAS] += timedelta(hours=self.datasource.offset)
+            df.replace([np.inf, -np.inf], np.nan)
+            df = df.fillna(0)
+        return df
     def should_be_timeseries(self):
         fd = self.form_data
         # TODO handle datasource-type-specific code in datasource
@@ -334,6 +373,9 @@ class TableViz(BaseViz):
         if fd.get('all_columns') and (fd.get('groupby') or fd.get('metrics')):
             raise Exception(
                 "只能在明细模式或者分组+指标模式中选择一种")
+        if not fd.get('all_columns') and not (fd.get('groupby') or fd.get('metrics')):
+            raise Exception(
+                "请在明细模式或者分组+指标模式中选择一种方式分析")
 
         if fd.get('all_columns'):
             d['columns'] = fd.get('all_columns')
