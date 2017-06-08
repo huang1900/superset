@@ -1687,7 +1687,7 @@ class Superset(BaseSupersetView):
         return self.render_template(
             "superset/dashboard.html",
             dashboard_title=dash.dashboard_title,
-            bootstrap_data=json.dumps(bootstrap_data),
+            bootstrap_data=json.dumps(bootstrap_data,cls=app.json_encoder),
         )
 
     @has_access
