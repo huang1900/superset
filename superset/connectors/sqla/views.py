@@ -138,6 +138,10 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     list_columns = [
         'link','description']
     order_columns = []
+    list_title = "数据域列表"
+    show_title = "显示数据域"
+    add_title = "添加数据域"
+    edit_title = "编辑数据域"
     add_columns = ['database', 'schema', 'table_name']
     edit_columns = [
         'table_name', 'sql', 'filter_select_enabled', 'slices',

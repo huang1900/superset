@@ -317,7 +317,10 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
-    list_title='切片列表'
+    list_title = "切片列表"
+    show_title = "显示切片"
+    add_title = "添加切片"
+    edit_title = "编辑切片"
     label_columns = {
         'datasource_link': 'Datasource',
     }
