@@ -102,7 +102,7 @@ export default class SelectControl extends React.PureComponent {
       noResultsText:"无",
       promptTextCreator:(label)=> {
             return '添加选项"' + label + '"';
-        }
+        },
       optionRenderer: opt => opt.label,
     };
     //  Tab, comma or Enter will trigger a new option created for FreeFormSelect
