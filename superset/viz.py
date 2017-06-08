@@ -33,6 +33,7 @@ from superset import app, utils, cache
 from superset.utils import DTTM_ALIAS
 
 config = app.config
+stats_logger = config.get('STATS_LOGGER')
 
 
 class BaseViz(object):
@@ -216,6 +217,7 @@ class BaseViz(object):
             payload = cache.get(cache_key)
 
         if payload:
+            stats_logger.incr('loaded_from_source')
             is_cached = True
             try:
                 cached_data = zlib.decompress(payload)
@@ -229,6 +231,7 @@ class BaseViz(object):
             logging.info("Serving from cache")
 
         if not payload:
+            stats_logger.incr('loaded_from_cache')
             data = None
             is_cached = False
             cache_timeout = self.cache_timeout
@@ -654,6 +657,7 @@ class BubbleViz(NVD3Viz):
         self.z_metric = form_data.get('size')
         self.entity = form_data.get('entity')
         self.series = form_data.get('series')
+        d['row_limit'] = form_data.get('limit')
 
         d['metrics'] = [
             self.z_metric,
@@ -1227,6 +1231,35 @@ class DirectedForceViz(BaseViz):
         return df.to_dict(orient='records')
 
 
+class CountryMapViz(BaseViz):
+
+    """A country centric"""
+
+    viz_type = "country_map"
+    verbose_name = _("Country Map")
+    is_timeseries = False
+    credits = 'From bl.ocks.org By john-guerra'
+
+    def query_obj(self):
+        qry = super(CountryMapViz, self).query_obj()
+        qry['metrics'] = [
+            self.form_data['metric']]
+        qry['groupby'] = [self.form_data['entity']]
+        return qry
+
+    def get_data(self, df):
+        from superset.data import countries
+        fd = self.form_data
+        cols = [fd.get('entity')]
+        metric = fd.get('metric')
+        cols += [metric]
+        ndf = df[cols]
+        df = ndf
+        df.columns = ['country_id', 'metric']
+        d = df.to_dict(orient='records')
+        return d
+
+
 class WorldMapViz(BaseViz):
 
     """A country centric world map"""
@@ -1540,6 +1573,7 @@ viz_types_list = [
     SunburstViz,
     DirectedForceViz,
     SankeyViz,
+    CountryMapViz,
     WorldMapViz,
     FilterBoxViz,
     IFrameViz,
