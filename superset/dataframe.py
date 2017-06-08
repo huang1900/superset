@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 """ Superset wrapper around pandas.DataFrame.
 
 TODO(bkyryliuk): add support for the conventions like: *_dim or dim_*

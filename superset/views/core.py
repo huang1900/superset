@@ -932,8 +932,8 @@ class Superset(BaseSupersetView):
                 status=200,
                 headers=generate_download_headers("csv"),
                 mimetype="application/csv",content_type='.csv,application/octet-stream')
-            response.charset='UTF-8'
-            response.content_encoding='utf-8'
+            response.charset='gbk'
+            response.content_encoding='gbk'
             return response
 
         if request.args.get("query") == "true":
