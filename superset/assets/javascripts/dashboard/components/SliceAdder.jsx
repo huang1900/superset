@@ -133,13 +133,13 @@ class SliceAdder extends React.Component {
               isKey
               dataSort
             >
-              Name
+              名称
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="vizType"
               dataSort
             >
-              Viz
+              模式
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="modified"
@@ -148,7 +148,7 @@ class SliceAdder extends React.Component {
               // Will cause react-bootstrap-table to interpret the HTML returned
               dataFormat={modified => modified}
             >
-              Modified
+              修改
             </TableHeaderColumn>
           </BootstrapTable>
           <button
@@ -158,7 +158,7 @@ class SliceAdder extends React.Component {
             onClick={this.addSlices}
             disabled={!enableAddSlice}
           >
-            Add Slices
+            添加
           </button>
         </div>
       </div>
