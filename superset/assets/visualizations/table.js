@@ -135,6 +135,9 @@ function tableVis(slice, payload) {
     pageLength,
     aaSorting: [],
     searching: fd.include_search,
+    language: {
+        search: "在结果中查询:"
+    },
     bInfo: false,
     scrollY: height + 'px',
     scrollCollapse: true,

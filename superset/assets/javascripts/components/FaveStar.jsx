@@ -28,7 +28,7 @@ export default class FaveStar extends React.Component {
     return (
       <TooltipWrapper
         label="fave-unfave"
-        tooltip="Click to favorite/unfavorite"
+        tooltip="点击关注/取消关注"
       >
         <a
           href="#"

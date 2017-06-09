@@ -61,10 +61,10 @@ class CssEditor extends React.PureComponent {
     if (this.props.templates) {
       return (
         <div style={{ zIndex: 10 }}>
-          <h5>Load a template</h5>
+          <h5>载入css</h5>
           <Select
             options={this.props.templates}
-            placeholder="Load a CSS template"
+            placeholder="载入css模板"
             onChange={this.changeCssTemplate.bind(this)}
           />
         </div>
@@ -82,7 +82,7 @@ class CssEditor extends React.PureComponent {
           <div>
             {this.renderTemplateSelector()}
             <div style={{ zIndex: 1 }}>
-              <h5>Live CSS Editor</h5>
+              <h5>在线编辑css</h5>
               <div style={{ border: 'solid 1px grey' }}>
                 <AceEditor
                   mode="css"
