@@ -33,12 +33,12 @@ export default class URLShortLinkButton extends React.Component {
       <Popover id="shorturl-popover">
         <CopyToClipboard
           text={this.state.shortUrl}
-          copyNode={<i className="fa fa-clipboard" title="Copy to clipboard" />}
+          copyNode={<i className="fa fa-clipboard" title="复制到剪切板" />}
         />
-        &nbsp;&nbsp;
-        <a href={`mailto:?Subject=Superset%20Slice%20&Body=${emailBody}`}>
-          <i className="fa fa-envelope" />
-        </a>
+        {/*&nbsp;&nbsp;*/}
+        {/*<a href={`mailto:?Subject=Superset%20Slice%20&Body=${emailBody}`}>*/}
+          {/*<i className="fa fa-envelope" />*/}
+        {/*</a>*/}
       </Popover>
     );
   }
@@ -52,7 +52,7 @@ export default class URLShortLinkButton extends React.Component {
         onEnter={this.getCopyUrl.bind(this)}
         overlay={this.renderPopover()}
       >
-        <span className="btn btn-default btn-sm">
+        <span className="btn btn-default btn-sm" title="分享链接">
           <i className="fa fa-link" />&nbsp;
         </span>
       </OverlayTrigger>

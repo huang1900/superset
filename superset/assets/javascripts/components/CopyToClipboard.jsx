@@ -17,7 +17,7 @@ const defaultProps = {
   onCopyEnd: () => {},
   shouldShowText: true,
   inMenu: false,
-  tooltipText: 'Copy to clipboard',
+  tooltipText: '复制到剪切板',
 };
 
 export default class CopyToClipboard extends React.Component {
@@ -64,7 +64,7 @@ export default class CopyToClipboard extends React.Component {
         throw new Error('Not successful');
       }
     } catch (err) {
-      window.alert('Sorry, your browser does not support copying. Use Ctrl / Cmd + C!'); // eslint-disable-line
+      window.alert('你的浏览器不支持复制，请手工复制'); // eslint-disable-line
     }
 
     document.body.removeChild(textArea);
