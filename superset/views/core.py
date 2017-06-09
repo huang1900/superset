@@ -359,6 +359,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
         'dashboards': _("Dashboards"),
         'datasource_link': _("Datasource"),
         'description': _("Description"),
+        'datasource_name': _("Datasource"),
         'modified': _("Last Modified"),
         'owners': _("Owners"),
         'params': _("Parameters"),
