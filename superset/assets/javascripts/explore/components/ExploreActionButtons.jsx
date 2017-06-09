@@ -25,20 +25,20 @@ export default function ExploreActionButtons({
 
         <EmbedCodeButton slice={slice} />
 
-        <a
-          href={slice.data.json_endpoint}
-          className="btn btn-default btn-sm"
-          title="Export to .json"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <i className="fa fa-file-code-o" /> .json
-        </a>
+        {/*<a*/}
+          {/*href={slice.data.json_endpoint}*/}
+          {/*className="btn btn-default btn-sm"*/}
+          {/*title="Export to .json"*/}
+          {/*target="_blank"*/}
+          {/*rel="noopener noreferrer"*/}
+        {/*>*/}
+          {/*<i className="fa fa-file-code-o" /> .json*/}
+        {/*</a>*/}
 
         <a
           href={slice.data.csv_endpoint}
           className={exportToCSVClasses}
-          title="Export to .csv format"
+          title="导出为csv"
           target="_blank"
           rel="noopener noreferrer"
         >

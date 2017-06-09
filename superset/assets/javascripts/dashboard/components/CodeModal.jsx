@@ -31,7 +31,7 @@ export default class CodeModal extends React.PureComponent {
         triggerNode={this.props.triggerNode}
         isButton
         beforeOpen={this.beforeOpen.bind(this)}
-        modalTitle="Active Dashboard Filters"
+        modalTitle="过滤"
         modalBody={
           <div className="CodeModal">
             <pre>

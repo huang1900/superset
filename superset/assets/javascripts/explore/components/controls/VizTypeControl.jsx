@@ -76,7 +76,7 @@ export default class VizTypeControl extends React.PureComponent {
         <ControlHeader
           {...this.props}
           rightNode={
-            <a onClick={this.toggleModal}>edit</a>
+            <a onClick={this.toggleModal}>编辑</a>
           }
         />
         <Label onClick={this.toggleModal} style={{ cursor: 'pointer' }}>
@@ -84,7 +84,7 @@ export default class VizTypeControl extends React.PureComponent {
         </Label>
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
           <Modal.Header closeButton>
-            <Modal.Title>Select a visualization type</Modal.Title>
+            <Modal.Title>选择一种分析模式</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div>
@@ -93,7 +93,7 @@ export default class VizTypeControl extends React.PureComponent {
                 type="text"
                 bsSize="sm"
                 value={this.state.filter}
-                placeholder="Search / Filter"
+                placeholder="过滤"
                 onChange={this.changeSearch}
               />
             </div>
