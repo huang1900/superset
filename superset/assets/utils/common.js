@@ -81,7 +81,7 @@ export function getShortUrl(longUrl, callback) {
       callback(data);
     },
     error: () => {
-      notify.error('Error getting the short URL');
+      notify.error('无法得到短链接');
       callback(longUrl);
     },
   });
