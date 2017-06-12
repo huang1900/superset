@@ -602,7 +602,7 @@ class R(BaseSupersetView):
         if url:
             return redirect('/' + url.url)
         else:
-            flash("URL to nowhere...", "danger")
+            flash("URL 无效", "danger")
             return redirect('/')
 
     @log_this
