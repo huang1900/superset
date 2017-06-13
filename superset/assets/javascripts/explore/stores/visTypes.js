@@ -59,14 +59,14 @@ export const sections = {
       controlSetRows: [['having_filters']],
     },
   ],
-    // sqlClause: {
-    //     label: 'SQL',
-    //     controlSetRows: [
-    //         ['where'],
-    //         ['having'],
-    //     ],
-    //     description: '可以使用直接添加sql条件',
-    // },
+    sqlClause: {
+        label: 'SQL',
+        controlSetRows: [
+            ['where'],
+            ['having'],
+        ],
+        description: '可以使用直接添加sql条件',
+    },
 };
 
 const visTypes = {
@@ -767,7 +767,7 @@ export function sectionsToRender(vizType, datasourceType) {
     datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
     viz.controlPanelSections,
     datasourceType === 'table' ? sections.filters[0] : sections.filters,
-    datasourceType === 'table' ? sections.sqlClause : [],
+   // datasourceType === 'table' ? sections.sqlClause : [],
 
   );
 }
