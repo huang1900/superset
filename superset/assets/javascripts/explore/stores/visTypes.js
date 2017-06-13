@@ -59,14 +59,14 @@ export const sections = {
       controlSetRows: [['having_filters']],
     },
   ],
-    sqlClause: {
-        label: 'SQL',
-        controlSetRows: [
-            ['where'],
-            ['having'],
-        ],
-        description: '可以使用直接添加sql条件',
-    },
+    // sqlClause: {
+    //     label: 'SQL',
+    //     controlSetRows: [
+    //         ['where'],
+    //         ['having'],
+    //     ],
+    //     description: '可以使用直接添加sql条件',
+    // },
 };
 
 const visTypes = {
