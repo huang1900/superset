@@ -12,6 +12,7 @@ from .base import SupersetModelView, BaseSupersetView, DeleteMixin
 
 
 class QueryView(SupersetModelView):
+    flask_title = __("Queries")
     datamodel = SQLAInterface(Query)
     list_columns = ['user', 'database', 'status', 'start_time', 'end_time']
 

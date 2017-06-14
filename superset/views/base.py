@@ -189,6 +189,12 @@ class BaseSupersetView(BaseView):
 
 
 class SupersetModelView(ModelView):
+    flask_title=""
+    if(len(flask_title)>0) :
+        list_title = "{}列表".format(flask_title)
+        show_title = "显示{}".format(flask_title)
+        add_title = "添加{}".format(flask_title)
+        edit_title = "编辑{}".format(flask_title)
     page_size = 100
 
 

@@ -170,6 +170,7 @@ def generate_download_headers(extension):
 
 
 class DatabaseView(SupersetModelView, DeleteMixin):  # noqa
+    flask_title="数据源"
     datamodel = SQLAInterface(models.Database)
     list_columns = [
         'database_name', 'backend', 'allow_run_sync', 'allow_run_async',
@@ -321,10 +322,7 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
-    list_title = "{}列表".format(__("Slice"))
-    show_title = "显示{}".format(__("Slice"))
-    add_title = "添加{}".format(__("Slice"))
-    edit_title = "编辑{}".format(__("Slice"))
+    flask_title=_("Slice")
     label_columns = {
         'datasource_link': 'Datasource',
     }
@@ -421,10 +419,7 @@ appbuilder.add_view_no_menu(SliceAddView)
 
 class DashboardModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Dashboard)
-    list_title = "{}列表".format(__("Dashboard"))
-    show_title = "显示{}".format(__("Dashboard"))
-    add_title = "添加{}".format(__("Dashboard"))
-    edit_title = "编辑{}".format(__("Dashboard"))
+    flask_title="看板"
     list_columns = ['dashboard_link', 'creator', 'modified']
     edit_columns = [
         'dashboard_title', 'slug', 'slices', 'owners', 'position_json', 'css',
