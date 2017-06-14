@@ -66,7 +66,7 @@ export default class Filter extends React.Component {
   }
   switchFilterValue(prevOp, nextOp) {
     if (operators[prevOp].type !== operators[nextOp].type) {
-      const val = this.props.filter.value;
+      const val = this.props.filter.val;
       let newVal;
       // switch from array to string
       if (operators[nextOp].type === 'string' && val && val.length > 0) {
