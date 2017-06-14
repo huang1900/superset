@@ -234,7 +234,7 @@ const visTypes = {
     label: '数据交叉表',
     controlPanelSections: [
       {
-        label: '分组查询',
+        label: '汇总查询',
         description: '选择分组维度，以及计算指标',
         controlSetRows: [
           ['groupby', 'metrics']
