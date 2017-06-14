@@ -321,10 +321,10 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
-    list_title = _("Slice")+"列表"
-    show_title = "显示"+_("Slice")
-    add_title = "添加"+_("Slice")
-    edit_title = "编辑"+_("Slice")
+    list_title = "{}列表".format(_("Slice"))
+    show_title = "显示{}".format(_("Slice"))
+    add_title = "添加{}".format(_("Slice"))
+    edit_title = "编辑{}".format(_("Slice"))
     label_columns = {
         'datasource_link': 'Datasource',
     }
@@ -421,10 +421,10 @@ appbuilder.add_view_no_menu(SliceAddView)
 
 class DashboardModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Dashboard)
-    list_title = _("Dashboard")+"列表"
-    show_title = "显示"+_("Dashboard")
-    add_title = "添加"+_("Dashboard")
-    edit_title = "编辑"+_("Dashboard")
+    list_title = "{}列表".format(_("Dashboard"))
+    show_title = "显示{}".format(_("Dashboard"))
+    add_title = "添加{}".format(_("Dashboard"))
+    edit_title = "编辑{}".format(_("Dashboard"))
     list_columns = ['dashboard_link', 'creator', 'modified']
     edit_columns = [
         'dashboard_title', 'slug', 'slices', 'owners', 'position_json', 'css',
