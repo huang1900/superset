@@ -632,7 +632,7 @@ msgstr "参数"
 
 #: superset/views/core.py:350 superset/views/core.py:386
 msgid "Slice"
-msgstr "数据单图"
+msgstr "切片"
 
 
 #: superset/views/core.py:271
@@ -689,7 +689,7 @@ msgstr ""
 
 #: superset/views/core.py:436
 msgid "Slices"
-msgstr "数据单图"
+msgstr "切片"
 
 msgid "Tables"
 msgstr "数据域"
