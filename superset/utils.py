@@ -399,7 +399,7 @@ def validate_json(obj):
         try:
             json.loads(obj)
         except Exception:
-            raise SupersetException("JSON is not valid")
+            raise SupersetException("JSON 格式不合法")
 
 
 def table_has_constraint(table, name, db):

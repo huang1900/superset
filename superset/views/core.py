@@ -170,6 +170,7 @@ def generate_download_headers(extension):
 
 
 class DatabaseView(SupersetModelView, DeleteMixin):  # noqa
+    flask_title="数据源"
     datamodel = SQLAInterface(models.Database)
     list_columns = [
         'database_name', 'backend', 'allow_run_sync', 'allow_run_async',
@@ -321,10 +322,11 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
-    list_title = "切片列表"
-    show_title = "显示切片"
-    add_title = "添加切片"
-    edit_title = "编辑切片"
+    flask_title= "数据单图"
+    list_title = "{}列表".format(flask_title)
+    show_title = "显示{}".format(flask_title)
+    add_title = "添加{}".format(flask_title)
+    edit_title = "编辑{}".format(flask_title)
     label_columns = {
         'datasource_link': 'Datasource',
     }
@@ -421,6 +423,11 @@ appbuilder.add_view_no_menu(SliceAddView)
 
 class DashboardModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Dashboard)
+    flask_title = "看板"
+    list_title = "{}列表".format(flask_title)
+    show_title = "显示{}".format(flask_title)
+    add_title = "添加{}".format(flask_title)
+    edit_title = "编辑{}".format(flask_title)
     list_columns = ['dashboard_link', 'creator', 'modified']
     edit_columns = [
         'dashboard_title', 'slug', 'slices', 'owners', 'position_json', 'css',
@@ -602,7 +609,7 @@ class R(BaseSupersetView):
         if url:
             return redirect('/' + url.url)
         else:
-            flash("URL to nowhere...", "danger")
+            flash("URL 无效", "danger")
             return redirect('/')
 
     @log_this
