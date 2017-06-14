@@ -362,8 +362,7 @@ class TableViz(BaseViz):
         )
         if fd.get('include_time') and not conditions_met:
             raise Exception(
-                "Pick a granularity in the Time section or "
-                "uncheck 'Include Time'")
+                "包含时间时需要选择时间粒度")
         return fd.get('include_time')
 
     def query_obj(self):
@@ -420,11 +419,11 @@ class PivotTableViz(BaseViz):
         if not groupby:
             raise Exception("Please choose at least one \"Group by\" field ")
         if not metrics:
-            raise Exception("Please choose at least one metric")
+            raise Exception("请至少选择一个列")
         if (
                 any(v in groupby for v in columns) or
                 any(v in columns for v in groupby)):
-            raise Exception("groupby and columns can't overlap")
+            raise Exception("分组字段和列不能重复")
 
         d['groupby'] = list(set(groupby) | set(columns))
         return d
