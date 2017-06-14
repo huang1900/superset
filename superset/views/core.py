@@ -322,7 +322,7 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
-    flask_title= "数据单图"
+    flask_title= "切片"
     list_title = "{}列表".format(flask_title)
     show_title = "显示{}".format(flask_title)
     add_title = "添加{}".format(flask_title)
