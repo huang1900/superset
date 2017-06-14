@@ -71,7 +71,7 @@ export default class Filter extends React.Component {
       // switch from array to string
       if (operators[nextOp].type === 'string' && val && val.length > 0) {
         newVal = val[0];
-      } else if (operators[nextOp].type === 'string' && val) {
+      } else if (operators[nextOp].type === 'array' && val) {
         newVal = [val];
       }
       this.props.changeFilter('val', newVal);
