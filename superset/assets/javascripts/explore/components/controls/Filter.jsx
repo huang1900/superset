@@ -64,22 +64,6 @@ export default class Filter extends React.Component {
     }
 
   }
-  switchFilterValue(prevOp, nextOp) {
-    if (operators[prevOp].type !== operators[nextOp].type) {
-      const val = this.props.filter.val;
-      let newVal;
-      // switch from array to string
-      if (operators[nextOp].type === 'string' && val && val.length > 0) {
-        newVal = val[0];
-      } else if (operators[nextOp].type === 'array' && val) {
-        newVal = [val];
-      }
-      this.props.changeFilter(['val','op'], [newVal,nextOp]);
-    }else{
-      this.props.changeFilter('op', nextOp);
-    }
-
-  }
   changeText(event) {
     this.props.changeFilter('val', event.target.value);
   }
@@ -91,8 +75,21 @@ export default class Filter extends React.Component {
     this.fetchFilterValues(event.value);
   }
   changeOp(event) {
-    this.switchFilterValue(this.props.filter.op, event.value);
-
+      let prevOp=this.props.filter.op
+      let nextOp=event.value
+      if (operators[prevOp].type !== operators[nextOp].type) {
+          const val = this.props.filter.val;
+          let newVal;
+          // switch from array to string
+          if (operators[nextOp].type === 'string' && val && val.length > 0) {
+              newVal = val[0];
+          } else if (operators[nextOp].type === 'array' && val) {
+              newVal = [val];
+          }
+          this.props.changeFilter(['val','op'], [newVal,nextOp]);
+      }else{
+          this.props.changeFilter('op', nextOp);
+      }
   }
   removeFilter(filter) {
     this.props.removeFilter(filter);
