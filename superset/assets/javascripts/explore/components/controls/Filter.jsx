@@ -74,8 +74,11 @@ export default class Filter extends React.Component {
       } else if (operators[nextOp].type === 'array' && val) {
         newVal = [val];
       }
-      this.props.changeFilter('val', newVal);
+      this.props.changeFilter(['val','op'], [newVal,nextOp]);
+    }else{
+      this.props.changeFilter('op', nextOp);
     }
+
   }
   changeText(event) {
     this.props.changeFilter('val', event.target.value);
@@ -89,7 +92,7 @@ export default class Filter extends React.Component {
   }
   changeOp(event) {
     this.switchFilterValue(this.props.filter.op, event.value);
-    this.props.changeFilter('op', event.value);
+
   }
   removeFilter(filter) {
     this.props.removeFilter(filter);
