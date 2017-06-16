@@ -161,7 +161,7 @@ const px = function () {
         if (xhr) {
           if (xhr.statusText === 'timeout') {
             errHtml += '<div class="alert alert-warning">' +
-              `Query timeout - visualization query are set to time out at ${QUERY_TIMEOUT_THRESHOLD / 1000} seconds.</div>`;
+              `查询超时 ${QUERY_TIMEOUT_THRESHOLD / 1000} 秒.</div>`;
           } else {
             const extendedMsg = this.getErrorMsg(xhr);
             if (extendedMsg) {
