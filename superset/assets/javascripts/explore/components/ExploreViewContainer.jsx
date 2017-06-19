@@ -191,7 +191,7 @@ function mapStateToProps(state) {
     controls: state.controls,
     form_data,
     standalone: state.standalone,
-    triggerQuery: state.triggerQuery?state.triggerQuery:true,
+    triggerQuery: state.triggerQuery,
     forcedHeight: state.forced_height,
     queryRequest: state.queryRequest,
   };
