@@ -481,7 +481,7 @@ msgstr ""
 
 #: superset/templates/appbuilder/navbar_right.html:41
 msgid "Profile"
-msgstr "策略"
+msgstr "用户中心"
 
 #: superset/templates/appbuilder/navbar_right.html:42
 msgid "Logout"
