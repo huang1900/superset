@@ -1,6 +1,8 @@
 import React from 'react';
 import { formatSelectOptionsForRange, formatSelectOptions } from '../../modules/utils';
 import * as v from '../validators';
+import MetricOption from '../../components/MetricOption';
+import ColumnOption from '../../components/ColumnOption';
 
 const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
@@ -58,10 +60,13 @@ export const controls = {
     multi: true,
     label: '计算指标',
     validators: [v.nonEmpty],
+    valueKey: 'metric_name',
+    optionRenderer: m => <MetricOption metric={m} />,
+    valueRenderer: m => <MetricOption metric={m} />,
     default: control =>
       control.choices && control.choices.length > 0 ? [control.choices[0][0]] : null,
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.metrics_combo : [],
+      options: (state.datasource) ? state.datasource.metrics : [],
     }),
     description: '选择一个或多个计算指标',
   },
@@ -91,22 +96,30 @@ export const controls = {
     type: 'SelectControl',
     label: '字段',
     clearable: false,
+    validators: [v.nonEmpty],
+    optionRenderer: m => <MetricOption metric={m} />,
+    valueRenderer: m => <MetricOption metric={m} />,
+    valueKey: 'metric_name',
     description: '选择字段',
     default: control =>
       control.choices && control.choices.length > 0 ? control.choices[0][0] : null,
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.metrics_combo : null,
+      options: (state.datasource) ? state.datasource.metrics : [],
     }),
   },
 
   metric_2: {
     type: 'SelectControl',
     label: 'Right Axis Metric',
-    choices: [],
-    default: [],
+    default: null,
+    validators: [v.nonEmpty],
+    clearable: true,
     description: 'Choose a metric for right axis',
+    valueKey: 'metric_name',
+    optionRenderer: m => <MetricOption metric={m} />,
+    valueRenderer: m => <MetricOption metric={m} />,
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.metrics_combo : [],
+      options: (state.datasource) ? state.datasource.metrics : [],
     }),
   },
 
@@ -245,10 +258,10 @@ export const controls = {
     renderTrigger: true,
     default: false,
     description: 'Reduces the number of X axis ticks to be rendered. ' +
-                 'If true, the x axis wont overflow and labels may be ' +
-                 'missing. If false, a minimum width will be applied ' +
-                 'to columns and the width may overflow into an ' +
-                 'horizontal scroll.',
+    'If true, the x axis wont overflow and labels may be ' +
+    'missing. If false, a minimum width will be applied ' +
+    'to columns and the width may overflow into an ' +
+    'horizontal scroll.',
   },
 
   include_series: {
@@ -311,8 +324,11 @@ export const controls = {
     label: '分组',
     default: [],
     description: '选择指标分组',
+    optionRenderer: c => <ColumnOption column={c} />,
+    valueRenderer: c => <ColumnOption column={c} />,
+    valueKey: 'column_name',
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.gb_cols : [],
+      options: (state.datasource) ? state.datasource.columns : [],
     }),
   },
 
@@ -620,10 +636,14 @@ export const controls = {
   x: {
     type: 'SelectControl',
     label: 'X Axis',
-    default: null,
     description: 'Metric assigned to the [X] axis',
+    default: null,
+    validators: [v.nonEmpty],
+    optionRenderer: m => <MetricOption metric={m} />,
+    valueRenderer: m => <MetricOption metric={m} />,
+    valueKey: 'metric_name',
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.metrics_combo : [],
+      options: (state.datasource) ? state.datasource.metrics : [],
     }),
   },
 
@@ -632,8 +652,12 @@ export const controls = {
     label: 'Y Axis',
     default: null,
     description: 'Metric assigned to the [Y] axis',
+    validators: [v.nonEmpty],
+    optionRenderer: m => <MetricOption metric={m} />,
+    valueRenderer: m => <MetricOption metric={m} />,
+    valueKey: 'metric_name',
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.metrics_combo : [],
+      options: (state.datasource) ? state.datasource.metrics : [],
     }),
   },
 
@@ -641,8 +665,12 @@ export const controls = {
     type: 'SelectControl',
     label: 'Bubble Size',
     default: null,
+    validators: [v.nonEmpty],
+    optionRenderer: m => <MetricOption metric={m} />,
+    valueRenderer: m => <MetricOption metric={m} />,
+    valueKey: 'metric_name',
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.metrics_combo : [],
+      options: (state.datasource) ? state.datasource.metrics : [],
     }),
   },
 
