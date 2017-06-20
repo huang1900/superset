@@ -349,8 +349,10 @@ export const controls = {
     label: '列',
     default: [],
     description: '显示列',
+    optionRenderer: c => <ColumnOption column={c} />,
+    valueRenderer: c => <ColumnOption column={c} />,
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.all_cols : [],
+      options: (state.datasource) ? state.datasource.columns : [],
     }),
   },
 
@@ -513,7 +515,7 @@ export const controls = {
       '1 day ago',
       '7 days ago'
     ]),
-    description: '',
+    description: '输入时间描述或者直接输入时间字符串如：20170302',
   },
 
   until: {
@@ -521,6 +523,7 @@ export const controls = {
     freeForm: true,
     label: '结束时间',
     default: 'now',
+    description: '输入时间描述或者直接输入时间字符串如：20170302',
     choices: formatSelectOptions([
       'now',
       '1 day ago',

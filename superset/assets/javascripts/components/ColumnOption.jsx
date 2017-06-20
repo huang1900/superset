@@ -16,19 +16,19 @@ export default function ColumnOption({ column }) {
       {column.description &&
         <InfoTooltipWithTrigger
           className="m-r-5 text-muted"
-          icon="info"
+          icon="question-circle-o"
           tooltip={column.description}
           label={`descr-${column.column_name}`}
         />
       }
-      {column.expression && column.expression !== column.column_name &&
-        <InfoTooltipWithTrigger
-          className="m-r-5 text-muted"
-          icon="question-circle-o"
-          tooltip={column.expression}
-          label={`expr-${column.column_name}`}
-        />
-      }
+      {/*{column.expression && column.expression !== column.column_name &&*/}
+        {/*<InfoTooltipWithTrigger*/}
+          {/*className="m-r-5 text-muted"*/}
+          {/*icon="question-circle-o"*/}
+          {/*tooltip={column.expression}*/}
+          {/*label={`expr-${column.column_name}`}*/}
+        {/*/>*/}
+      {/*}*/}
     </span>);
 }
 ColumnOption.propTypes = propTypes;

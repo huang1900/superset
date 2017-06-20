@@ -16,17 +16,17 @@ export default function MetricOption({ metric }) {
       {metric.description &&
         <InfoTooltipWithTrigger
           className="m-r-5 text-muted"
-          icon="info"
+          icon="question-circle-o"
           tooltip={metric.description}
           label={`descr-${metric.metric_name}`}
         />
       }
-      <InfoTooltipWithTrigger
-        className="m-r-5 text-muted"
-        icon="question-circle-o"
-        tooltip={metric.expression}
-        label={`expr-${metric.metric_name}`}
-      />
+      {/*<InfoTooltipWithTrigger*/}
+        {/*className="m-r-5 text-muted"*/}
+        {/*icon="question-circle-o"*/}
+        {/*tooltip={metric.expression}*/}
+        {/*label={`expr-${metric.metric_name}`}*/}
+      {/*/>*/}
     </div>);
 }
 MetricOption.propTypes = propTypes;
