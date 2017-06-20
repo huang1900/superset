@@ -349,6 +349,7 @@ export const controls = {
     label: '列',
     default: [],
     description: '显示列',
+    valueKey: 'column_name',
     optionRenderer: c => <ColumnOption column={c} />,
     valueRenderer: c => <ColumnOption column={c} />,
     mapStateToProps: state => ({
