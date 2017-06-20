@@ -63,7 +63,7 @@ class EditableTitle extends React.PureComponent {
       <span className="editable-title">
         <TooltipWrapper
           label="title"
-          tooltip={this.props.canEdit ? 'click to edit title' : 'You don\'t have the rights to alter this title.'}
+          tooltip={this.props.canEdit ? '点击编辑' : '没有权限修改'}
         >
           <input
             required
