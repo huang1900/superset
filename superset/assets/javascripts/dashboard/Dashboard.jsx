@@ -50,7 +50,7 @@ function renderAlert() {
   render(
     <div className="container-fluid">
       <Alert bsStyle="warning">
-        <strong>You have unsaved changes.</strong> 点击&nbsp;
+        <strong>你有未保存的修改.</strong> 点击&nbsp;
         <i className="fa fa-save" />&nbsp;
         点击保存修改
       </Alert>

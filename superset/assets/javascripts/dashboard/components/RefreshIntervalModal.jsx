@@ -15,11 +15,11 @@ const defaultProps = {
 };
 
 const options = [
-  [0, "Don't refresh"],
-  [10, '10 seconds'],
-  [30, '30 seconds'],
-  [60, '1 minute'],
-  [300, '5 minutes'],
+  [0, "不刷新"],
+  [10, '10秒'],
+  [30, '30秒'],
+  [60, '一分钟'],
+  [300, '5分钟'],
 ].map(o => ({ value: o[0], label: o[1] }));
 
 class RefreshIntervalModal extends React.PureComponent {
@@ -40,7 +40,7 @@ class RefreshIntervalModal extends React.PureComponent {
             刷新周期
             <Select
               options={options}
-              value={this.state.refreshFrequency}
+              value={this.state.refreshFrequency}=
               onChange={(opt) => {
                 this.setState({ refreshFrequency: opt.value });
                 this.props.onChange(opt.value);
