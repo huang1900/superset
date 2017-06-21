@@ -211,6 +211,14 @@ class BaseViz(object):
         s = str([(k, self.form_data[k]) for k in sorted(self.form_data.keys())])
         return hashlib.md5(s.encode('utf-8')).hexdigest()
 
+    def is_timeout(self,payload):
+         if payload['cached_dttm']:
+             try:
+                return datetime.utcnow().timestamp()-datetime.strptime(payload['cached_dttm'] ,'%Y-%m-%dT%H:%M:%S').timestamp()>=self.cache_timeout
+             except Exception as e:
+                 logging.error("Error reading cache: " +
+                               utils.error_msg_from_exception(e))
+         return False
     def get_payload(self, force=False):
         """Handles caching around the json payload retrieval"""
         cache_key = self.cache_key
@@ -232,7 +240,7 @@ class BaseViz(object):
                               utils.error_msg_from_exception(e))
                 payload = None
             logging.info("Serving from cache")
-
+        payload = None if self.is_timeout(payload)else payload
         if not payload:
             stats_logger.incr('loaded_from_cache')
             data = None

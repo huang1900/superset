@@ -898,7 +898,7 @@ export const controls = {
   include_search: {
     type: 'CheckboxControl',
     label: '查询框',
-    renderTrigger: true,
+    // renderTrigger: true,
     default: false,
     description: '是否有查询框',
   },
@@ -1218,9 +1218,9 @@ export const controls = {
 
   cache_timeout: {
     type: 'HiddenControl',
-    label: 'Cache Timeout (seconds)',
+    label: '缓存时间 (秒)',
     hidden: true,
-    description: 'The number of seconds before expiring the cache',
+    description: '缓存的有效时间',
   },
 };
 export default controls;
