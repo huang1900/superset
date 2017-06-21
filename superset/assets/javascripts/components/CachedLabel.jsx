@@ -23,7 +23,7 @@ class CacheLabel extends React.PureComponent {
     moment.locale('zh-cn');
     const cachedText = this.props.cachedTimestamp ? (
       <span>
-        结果来自 <b>{moment.utc(this.props.cachedTimestamp).fromNow()}</b>
+        缓存于 <b>{moment.utc(this.props.cachedTimestamp).fromNow()}</b>
       </span>) :'的缓存数据';
 
 

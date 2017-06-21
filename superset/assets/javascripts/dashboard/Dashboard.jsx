@@ -16,7 +16,7 @@ const urlLib = require('url');
 const utils = require('../modules/utils');
 
 appSetup();
-
+moment.locale('zh-cn');
 export function getInitialState(boostrapData) {
   const dashboard = Object.assign({}, utils.controllerInterface, boostrapData.dashboard_data);
   dashboard.firstLoad = true;
@@ -155,7 +155,7 @@ export function dashboardContainer(dashboard, datasources, userid) {
         .addClass('danger')
         .attr(
           'title',
-          `来自缓存 ${cachedWhen}. ` +
+          `缓存于 ${cachedWhen}. ` +
           '点击刷新数据')
         .tooltip('fixTitle');
       } else {
