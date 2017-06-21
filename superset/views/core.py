@@ -95,7 +95,7 @@ def check_ownership(obj, raise_if_false=True):
         return False
 
     security_exception = utils.SupersetSecurityException(
-        "没有权限操作 [{}]".format(obj))
+        "没有权限操作 [{}]😜".format(obj))
 
     if g.user.is_anonymous():
         if raise_if_false:

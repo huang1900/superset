@@ -497,12 +497,12 @@ msgstr "导入"
 
 #: superset/templates/superset/request_access.html:2
 msgid "No Access!"
-msgstr "无法访问"
+msgstr "无法访问！"
 
 #: superset/templates/superset/request_access.html:7
 #, python-format
 msgid "You do not have permissions to access the datasource(s): %(name)s."
-msgstr "对不起，你没有权限访问数据源： %(name)s."
+msgstr "对不起，你没有权限访问数据源： %(name)s.😜"
 
 #: superset/templates/superset/request_access.html:13
 msgid "Request Permissions"
@@ -774,7 +774,7 @@ msgstr "数据源不存在"
 #~ msgstr ""
 
 msgid "You don't have access to this datasource"
-msgstr "你没有访问该数据的权限"
+msgstr "你没有访问该数据的权限😜"
 
 #~ msgid ""
 #~ "This view requires the database %(name)s"
@@ -819,7 +819,7 @@ msgstr "管理"
 #~ msgstr ""
 
 msgid "You have no permission to approve this request"
-msgstr "没有权限"
+msgstr "没有权限.😜"
 
 #~ msgid ""
 #~ "Malformed request. slice_id or table_name "
