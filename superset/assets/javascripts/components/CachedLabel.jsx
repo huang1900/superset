@@ -24,8 +24,8 @@ class CacheLabel extends React.PureComponent {
     const cachedText = this.props.cachedTimestamp ? (
       <span>
         结果来自 <b>{moment.utc(this.props.cachedTimestamp).fromNow()}</b>
-      </span>) :
-      '的缓存数据';
+      </span>) :'的缓存数据';
+
 
     const tooltipContent = (
       <span>
@@ -60,7 +60,7 @@ class CacheLabel extends React.PureComponent {
           onMouseOver={this.mouseOver.bind(this)}
           onMouseOut={this.mouseOut.bind(this)}
         >
-          cached <i className="fa fa-refresh" />
+          来自缓存 <i className="fa fa-refresh" />
         </Label>
       </TooltipWrapper>);
   }
