@@ -125,7 +125,7 @@ const px = function () {
       },
       getErrorMsg(xhr) {
         if (xhr.statusText === 'timeout') {
-          return '查询超时';
+          return '查询超时😫';
         }
         let msg = '';
         if (!xhr.responseText) {
@@ -133,8 +133,7 @@ const px = function () {
           if (status === 0) {
             // This may happen when the worker in gunicorn times out
             msg += (
-              'The server could not be reached. You may want to ' +
-              'verify your connection and try again.');
+              '无法链接服务😫.请稍后再试.');
           } else {
             msg += '未知错误 (Status: ' + status + ')';
           }
