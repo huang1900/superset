@@ -212,7 +212,7 @@ class BaseViz(object):
         return hashlib.md5(s.encode('utf-8')).hexdigest()
 
     def is_timeout(self,payload):
-         if payload['cached_dttm']:
+         if payload and payload['cached_dttm']:
              try:
                 return datetime.utcnow().timestamp()-datetime.strptime(payload['cached_dttm'] ,'%Y-%m-%dT%H:%M:%S').timestamp()>=self.cache_timeout
              except Exception as e:
