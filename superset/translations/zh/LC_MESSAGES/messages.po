@@ -388,7 +388,7 @@ msgstr "缺少时间字段"
 
 #: superset/connectors/sqla/models.py:376
 msgid "Metric '{}' is not valid"
-msgstr ""
+msgstr "指标{}不存在"
 
 #: superset/connectors/sqla/views.py:39
 msgid ""
