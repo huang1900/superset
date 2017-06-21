@@ -20,16 +20,17 @@ class CacheLabel extends React.PureComponent {
   }
 
   updateTooltipContent() {
+    moment.locale('zh-cn');
     const cachedText = this.props.cachedTimestamp ? (
       <span>
-        Loaded data cached <b>{moment.utc(this.props.cachedTimestamp).fromNow()}</b>
+        结果来自 <b>{moment.utc(this.props.cachedTimestamp).fromNow()}</b>
       </span>) :
-      'Loaded from cache';
+      '的缓存数据';
 
     const tooltipContent = (
       <span>
         {cachedText}.
-        Click to force-refresh
+        点击强制刷新
       </span>
     );
     this.setState({ tooltipContent });
