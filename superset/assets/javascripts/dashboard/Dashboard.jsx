@@ -7,6 +7,7 @@ import moment from 'moment';
 import GridLayout from './components/GridLayout';
 import Header from './components/Header';
 import { appSetup } from '../common';
+import AlertsWrapper from '../components/AlertsWrapper';
 
 import '../../stylesheets/dashboard.css';
 
@@ -15,7 +16,7 @@ const urlLib = require('url');
 const utils = require('../modules/utils');
 
 appSetup();
-
+moment.locale('zh-cn');
 export function getInitialState(boostrapData) {
   const dashboard = Object.assign({}, utils.controllerInterface, boostrapData.dashboard_data);
   dashboard.firstLoad = true;
@@ -49,7 +50,7 @@ function renderAlert() {
   render(
     <div className="container-fluid">
       <Alert bsStyle="warning">
-        <strong>You have unsaved changes.</strong> 点击&nbsp;
+        <strong>你有未保存的修改.</strong> 点击&nbsp;
         <i className="fa fa-save" />&nbsp;
         点击保存修改
       </Alert>
@@ -60,7 +61,10 @@ function renderAlert() {
 
 function initDashboardView(dashboard) {
   render(
-    <Header dashboard={dashboard} />,
+    <div>
+      <AlertsWrapper />
+      <Header dashboard={dashboard} />
+    </div>,
     document.getElementById('dashboard-header'),
   );
   // eslint-disable-next-line no-param-reassign
@@ -151,7 +155,7 @@ export function dashboardContainer(dashboard, datasources, userid) {
         .addClass('danger')
         .attr(
           'title',
-          `来自缓存 ${cachedWhen}. ` +
+          `缓存于 ${cachedWhen}. ` +
           '点击刷新数据')
         .tooltip('fixTitle');
       } else {
@@ -336,6 +340,10 @@ export function dashboardContainer(dashboard, datasources, userid) {
           });
         },
       });
+    },
+    updateDashboardTitle(title) {
+      this.dashboard_title = title;
+      this.onChange();
     },
   });
 }

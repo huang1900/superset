@@ -71,20 +71,20 @@ class Controls extends React.PureComponent {
           codeCallback={dashboard.readFilters.bind(dashboard)}
           triggerNode={<i className="fa fa-filter" />}
         />
-        <CssEditor
-          dashboard={dashboard}
-          triggerNode={
-            <i className="fa fa-css3" />
-          }
-          initialCss={dashboard.css}
-          templates={this.state.cssTemplates}
-          onChange={this.changeCss.bind(this)}
-        />
-        <Button
-          onClick={() => { window.location = emailLink; }}
-        >
-          <i className="fa fa-envelope" />
-        </Button>
+        {/*<CssEditor*/}
+          {/*dashboard={dashboard}*/}
+          {/*triggerNode={*/}
+            {/*<i className="fa fa-css3" />*/}
+          {/*}*/}
+          {/*initialCss={dashboard.css}*/}
+          {/*templates={this.state.cssTemplates}*/}
+          {/*onChange={this.changeCss.bind(this)}*/}
+        {/*/>*/}
+        {/*<Button*/}
+          {/*onClick={() => { window.location = emailLink; }}*/}
+        {/*>*/}
+          {/*<i className="fa fa-envelope" />*/}
+        {/*</Button>*/}
         <Button
           disabled={!dashboard.dash_edit_perm}
           onClick={() => {

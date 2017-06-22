@@ -211,6 +211,14 @@ class BaseViz(object):
         s = str([(k, self.form_data[k]) for k in sorted(self.form_data.keys())])
         return hashlib.md5(s.encode('utf-8')).hexdigest()
 
+    def is_timeout(self,payload):
+         if payload and payload['cached_dttm']:
+             try:
+                return datetime.utcnow().timestamp()-datetime.strptime(payload['cached_dttm'] ,'%Y-%m-%dT%H:%M:%S').timestamp()>=self.cache_timeout
+             except Exception as e:
+                 logging.error("Error reading cache: " +
+                               utils.error_msg_from_exception(e))
+         return False
     def get_payload(self, force=False):
         """Handles caching around the json payload retrieval"""
         cache_key = self.cache_key
@@ -232,7 +240,7 @@ class BaseViz(object):
                               utils.error_msg_from_exception(e))
                 payload = None
             logging.info("Serving from cache")
-
+        payload = None if self.is_timeout(payload)else payload
         if not payload:
             stats_logger.incr('loaded_from_cache')
             data = None
@@ -362,8 +370,7 @@ class TableViz(BaseViz):
         )
         if fd.get('include_time') and not conditions_met:
             raise Exception(
-                "Pick a granularity in the Time section or "
-                "uncheck 'Include Time'")
+                "包含时间时需要选择时间粒度")
         return fd.get('include_time')
 
     def query_obj(self):
@@ -420,11 +427,11 @@ class PivotTableViz(BaseViz):
         if not groupby:
             raise Exception("Please choose at least one \"Group by\" field ")
         if not metrics:
-            raise Exception("Please choose at least one metric")
+            raise Exception("请至少选择一个列")
         if (
                 any(v in groupby for v in columns) or
                 any(v in columns for v in groupby)):
-            raise Exception("groupby and columns can't overlap")
+            raise Exception("分组字段和列不能重复")
 
         d['groupby'] = list(set(groupby) | set(columns))
         return d

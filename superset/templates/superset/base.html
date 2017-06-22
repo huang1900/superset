@@ -19,3 +19,33 @@
       {% include "superset/partials/_script_tag.html" %}
     {% endwith %}
   {% endblock %}
+{% block body %}
+    {% include 'superset/fab_overrides/alert.html' %}
+    {% include 'superset/fab_overrides/confirm.html' %}
+
+    {% block navbar %}
+        <header class="top" role="header">
+            {% include 'appbuilder/navbar.html' %}
+        </header>
+    {% endblock %}
+
+    <div class="container">
+        <div class="row">
+            {% block messages %}
+                {% include 'appbuilder/flash.html' %}
+            {% endblock %}
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+
+    {% block footer %}
+        <footer>
+            <div class="img-rounded nav-fixed-bottom">
+                <div class="container">
+                    {% include 'appbuilder/footer.html' %}
+                </div>
+            </div>
+        </footer>
+    {% endblock %}
+{% endblock %}

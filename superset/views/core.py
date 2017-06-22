@@ -79,7 +79,7 @@ def json_success(json_msg, status=200):
 
 def is_owner(obj, user):
     """ Check if user is owner of the slice """
-    return obj and obj.owners and user in obj.owners
+    return obj and user in obj.owners
 
 
 def check_ownership(obj, raise_if_false=True):
@@ -95,7 +95,7 @@ def check_ownership(obj, raise_if_false=True):
         return False
 
     security_exception = utils.SupersetSecurityException(
-        "没有权限操作 [{}]".format(obj))
+        "没有权限操作 [{}]😜".format(obj))
 
     if g.user.is_anonymous():
         if raise_if_false:
@@ -170,6 +170,7 @@ def generate_download_headers(extension):
 
 
 class DatabaseView(SupersetModelView, DeleteMixin):  # noqa
+    flask_title="数据源"
     datamodel = SQLAInterface(models.Database)
     list_columns = [
         'database_name', 'backend', 'allow_run_sync', 'allow_run_async',
@@ -321,10 +322,11 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
-    list_title = "切片列表"
-    show_title = "显示切片"
-    add_title = "添加切片"
-    edit_title = "编辑切片"
+    flask_title= "切片"
+    list_title = "{}列表".format(flask_title)
+    show_title = "显示{}".format(flask_title)
+    add_title = "添加{}".format(flask_title)
+    edit_title = "编辑{}".format(flask_title)
     label_columns = {
         'datasource_link': 'Datasource',
     }
@@ -386,7 +388,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
         return self.render_template(
             "superset/add_slice.html",
             bootstrap_data=json.dumps({
-                'datasources': datasources,
+                'datasources': sorted(datasources, key=lambda d: d["label"]),
             }),
         )
 
@@ -421,6 +423,11 @@ appbuilder.add_view_no_menu(SliceAddView)
 
 class DashboardModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Dashboard)
+    flask_title = "看板"
+    list_title = "{}列表".format(flask_title)
+    show_title = "显示{}".format(flask_title)
+    add_title = "添加{}".format(flask_title)
+    edit_title = "编辑{}".format(flask_title)
     list_columns = ['dashboard_link', 'creator', 'modified']
     edit_columns = [
         'dashboard_title', 'slug', 'slices', 'owners', 'position_json', 'css',
@@ -602,7 +609,7 @@ class R(BaseSupersetView):
         if url:
             return redirect('/' + url.url)
         else:
-            flash("URL to nowhere...", "danger")
+            flash("URL 无效", "danger")
             return redirect('/')
 
     @log_this
@@ -1072,13 +1079,13 @@ class Superset(BaseSupersetView):
             "can_download": slice_download_perm,
             "can_overwrite": slice_overwrite_perm,
             "datasource": datasource.data,
-            # TODO: separate endpoint for fetching datasources
             "form_data": form_data,
             "datasource_id": datasource_id,
             "datasource_type": datasource_type,
             "slice": slc.data if slc else None,
             "standalone": standalone,
             "user_id": user_id,
+            "triggerQuery" : True if slc else False,
             "forced_height": request.args.get('height'),
         }
         table_name = datasource.table_name \
@@ -1116,7 +1123,9 @@ class Superset(BaseSupersetView):
         if not self.datasource_access(datasource):
             return json_error_response(DATASOURCE_ACCESS_ERR)
 
-        payload = json.dumps(datasource.values_for_column(column))
+        payload = json.dumps(
+            datasource.values_for_column(column),
+            default=utils.json_int_dttm_ser)
         return json_success(payload)
 
     def save_or_overwrite_slice(
@@ -1328,6 +1337,7 @@ class Superset(BaseSupersetView):
         dashboard.position_json = json.dumps(positions, indent=4, sort_keys=True)
         md = dashboard.params_dict
         dashboard.css = data['css']
+        dashboard.dashboard_title = data['dashboard_title']
 
         if 'filter_immune_slices' not in md:
             md['filter_immune_slices'] = []

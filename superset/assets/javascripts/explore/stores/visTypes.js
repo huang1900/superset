@@ -234,7 +234,7 @@ const visTypes = {
     label: '数据交叉表',
     controlPanelSections: [
       {
-        label: '分组查询',
+        label: '汇总查询',
         description: '选择分组维度，以及计算指标',
         controlSetRows: [
           ['groupby', 'metrics']
@@ -767,7 +767,7 @@ export function sectionsToRender(vizType, datasourceType) {
     datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
     viz.controlPanelSections,
     datasourceType === 'table' ? sections.filters[0] : sections.filters,
-    datasourceType === 'table' ? sections.sqlClause : [],
+   // datasourceType === 'table' ? sections.sqlClause : [],
 
   );
 }

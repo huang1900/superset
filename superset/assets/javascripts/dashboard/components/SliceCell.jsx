@@ -40,7 +40,7 @@ function SliceCell({ expandedSlices, removeSlice, slice }) {
               >
                 <i className="fa fa-pencil" />
               </a>
-              <a href={slice.slice_url} title="Explore chart" data-toggle="tooltip">
+              <a href={slice.slice_url} title="进入图表" data-toggle="tooltip">
                 <i className="fa fa-share" />
               </a>
               <a
