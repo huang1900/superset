@@ -386,12 +386,11 @@ class SqlaTable(Model, BaseDatasource):
         metrics_dict = {m.metric_name: m for m in self.metrics}
 
         if not granularity and is_timeseries:
-            raise Exception(_(
-                "Datetime column not provided as part table configuration "
-                "and is required by this type of chart"))
+            raise Exception((
+                "缺少时间字段"))
         for m in metrics:
             if m not in metrics_dict:
-                raise Exception(_("Metric '{}' is not valid".format(m)))
+                raise Exception(("字段 '{}' 不存在".format(m)))
         metrics_exprs = [metrics_dict.get(m).sqla_col for m in metrics]
         timeseries_limit_metric = metrics_dict.get(timeseries_limit_metric)
         timeseries_limit_metric_expr = None
@@ -579,8 +578,7 @@ class SqlaTable(Model, BaseDatasource):
             table = self.get_sqla_table_object()
         except Exception:
             raise Exception(
-                "Table doesn't seem to exist in the specified database, "
-                "couldn't fetch column information")
+                "表不存在无法获取源数据")
 
         TC = TableColumn  # noqa shortcut to class
         M = SqlMetric  # noqa
