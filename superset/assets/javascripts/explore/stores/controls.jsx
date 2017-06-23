@@ -335,12 +335,15 @@ export const controls = {
   columns: {
     type: 'SelectControl',
     multi: true,
-    label: '列',
+    label: '分组',
+    valueKey: 'column_name',
+    optionRenderer: c => <ColumnOption column={c} />,
+    valueRenderer: c => <ColumnOption column={c} />,
     mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.gb_cols : [],
+        options: (state.datasource) ? state.datasource.gb_cols : [],
     }),
     default: [],
-    description: '选择列',
+    description: '选择分组列',
   },
 
   all_columns: {
