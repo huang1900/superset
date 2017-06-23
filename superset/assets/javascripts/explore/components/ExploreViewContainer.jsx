@@ -46,7 +46,6 @@ class ExploreViewContainer extends React.Component {
       this.props.actions.triggerQuery();
     }
     if (np.controls.datasource.value !== this.props.controls.datasource.value) {
-      this.props.actions.resetControls();
       this.props.actions.fetchDatasourceMetadata(np.form_data.datasource, false);
     }
   }
@@ -87,6 +86,8 @@ class ExploreViewContainer extends React.Component {
 
   triggerQueryIfNeeded() {
     if (this.props.triggerQuery && !this.hasErrors()) {
+      this.props.actions.removeControlPanelAlert();
+      this.props.actions.removeChartAlert();
       this.props.actions.runQuery(this.props.form_data);
     }
   }

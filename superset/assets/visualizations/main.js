@@ -21,7 +21,7 @@ const vizMap = {
   // markup: require('./markup.js'),
   // para: require('./parallel_coordinates.js'),
   // pie: require('./nvd3_vis.js'),
-  // pivot_table: require('./pivot_table.js'),
+  pivot_table: require('./pivot_table.js'),
   // sankey: require('./sankey.js'),
   // separator: require('./markup.js'),
   // sunburst: require('./sunburst.js'),

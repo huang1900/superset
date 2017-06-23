@@ -278,19 +278,19 @@ const visTypes = {
   //   ],
   // },
   //
-  // pivot_table: {
-  //   label: '透视图',
-  //   controlPanelSections: [
-  //     {
-  //       label: null,
-  //       controlSetRows: [
-  //         ['groupby', 'columns'],
-  //         ['metrics', 'pandas_aggfunc'],
-  //         ['number_format'],
-  //       ],
-  //     },
-  //   ],
-  // },
+  pivot_table: {
+    label: '透视图',
+    controlPanelSections: [
+      {
+        label: null,
+        controlSetRows: [
+          ['groupby', 'columns'],
+          ['metrics', 'pandas_aggfunc'],
+          ['number_format'],
+        ],
+      },
+    ],
+  },
   //
   // separator: {
   //   label: 'Separator',
