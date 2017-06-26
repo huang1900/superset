@@ -29,7 +29,7 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'column_name', 'verbose_name', 'description',
         'type', 'groupby', 'filterable',
         'table', 'count_distinct', 'sum', 'min', 'max', 'expression',
-        'is_dttm', 'python_date_format', 'database_expression']
+        'is_dttm', 'python_date_format', 'database_expression','is_restricted']
     add_columns = edit_columns
     list_columns = [
         'column_name', 'type', 'groupby', 'filterable', 'count_distinct',
