@@ -425,7 +425,7 @@ class PivotTableViz(BaseViz):
         if not groupby:
             groupby = []
         if not groupby:
-            raise Exception("Please choose at least one \"Group by\" field ")
+            raise Exception("请至少选择一个分组")
         if not metrics:
             raise Exception("请至少选择一个列")
         if (
