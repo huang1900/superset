@@ -49,7 +49,7 @@ class TableColumn(Model, BaseColumn):
         'table_id', 'column_name', 'verbose_name', 'is_dttm', 'is_active',
         'type', 'groupby', 'count_distinct', 'sum', 'avg', 'max', 'min',
         'filterable', 'expression', 'description', 'python_date_format',
-        'database_expression'
+        'database_expression', 'is_restricted'
     )
     @property
     def perm(self):
