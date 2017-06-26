@@ -8,7 +8,7 @@ const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
 // input choices & options
 const D3_TIME_FORMAT_OPTIONS = [
-  ['，', '千位分隔'],
+  [',', '千位分隔'],
   ['.2%', '百分比（保留2位）'],
 ];
 
@@ -561,9 +561,10 @@ export const controls = {
     type: 'SelectControl',
     freeForm: true,
     label: '数字格式化模式（d3）',
-    default: ',',
+    default: control =>
+          control.choices && control.choices.length > 0 ? control.choices[0][0] : null,
     choices: D3_TIME_FORMAT_OPTIONS,
-    description: D3_FORMAT_DOCS,
+    description: '输入d3格式化字符串，详见https://github.com/d3/d3-format',
   },
 
   row_limit: {
