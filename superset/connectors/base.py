@@ -162,6 +162,7 @@ class BaseColumn(AuditMixinNullable, ImportMixin):
     verbose_name = Column(String(1024))
     is_active = Column(Boolean, default=True)
     type = Column(String(32))
+    is_restricted = Column(Boolean, default=False, nullable=True)
     groupby = Column(Boolean, default=False)
     count_distinct = Column(Boolean, default=False)
     sum = Column(Boolean, default=False)
