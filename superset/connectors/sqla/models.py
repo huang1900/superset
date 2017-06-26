@@ -51,7 +51,12 @@ class TableColumn(Model, BaseColumn):
         'filterable', 'expression', 'description', 'python_date_format',
         'database_expression'
     )
-
+    @property
+    def perm(self):
+        return (
+            "{parent_name}.[{obj.column_name}](id:{obj.id})"
+        ).format(obj=self,
+                 parent_name=self.table.full_name) if self.table else None
     @property
     def sqla_col(self):
         name = self.column_name

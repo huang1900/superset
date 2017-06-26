@@ -43,6 +43,10 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'filterable': _(
             "Whether this column is exposed in the `Filters` section "
             "of the explore view."),
+        'is_restricted': _("Whether the access to this metric is restricted "
+                           "to certain roles. Only roles with the permission "
+                           "'metric access on XXX (the name of this metric)' "
+                           "are allowed to access this metric"),
         'type': _(
             "The data type that was inferred by the database. "
             "It may be necessary to input a type manually for "
@@ -86,6 +90,13 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'python_date_format': _("Datetime Format"),
         'database_expression': _("Database Expression")
     }
+    def post_add(self, columns):
+        if columns.is_restricted:
+            security.merge_perm(sm, 'columns_access', columns.get_perm())
+
+    def post_update(self, columns):
+        if columns.is_restricted:
+            security.merge_perm(sm, 'columns_access', columns.get_perm())
 appbuilder.add_view_no_menu(TableColumnInlineView)
 
 
