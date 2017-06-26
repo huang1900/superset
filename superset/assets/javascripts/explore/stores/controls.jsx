@@ -561,7 +561,6 @@ export const controls = {
     type: 'SelectControl',
     freeForm: true,
     label: '数字格式化模式（d3）',
-    renderTrigger: true,
     default: ',',
     choices: D3_TIME_FORMAT_OPTIONS,
     description: D3_FORMAT_DOCS,
