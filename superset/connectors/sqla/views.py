@@ -96,14 +96,11 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     }
     def post_add(self, columns):
         if columns.is_restricted:
-            security.merge_perm(sm, 'columns_access', columns.perm())
-    def pre_update(self, columns):
-        print("---------------添加权限{}".format(columns.perm()))
+            security.merge_perm(sm, 'columns_access', columns.perm)
     def post_update(self, columns):
-        print("++++++++++++添加权限{}".format(columns))
-        print("++++++++++++添加权限{}".format(columns.perm()))
+        print("++++++++++++添加权限{}".format(columns.perm))
         if columns.is_restricted:
-            security.merge_perm(sm, 'columns_access', columns.perm())
+            security.merge_perm(sm, 'columns_access', columns.perm)
 appbuilder.add_view_no_menu(TableColumnInlineView)
 
 
@@ -145,13 +142,11 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     }
 
     def post_add(self, metric):
-        print("添加权限{}".format(metric.perm()))
         if metric.is_restricted:
-            security.merge_perm(sm, 'metric_access', metric.perm())
+            security.merge_perm(sm, 'metric_access', metric.perm)
     def post_update(self, metric):
-        print("---------------添加权限")
         if metric.is_restricted:
-            security.merge_perm(sm, 'metric_access', metric.perm())
+            security.merge_perm(sm, 'metric_access', metric.perm)
 
 appbuilder.add_view_no_menu(SqlMetricInlineView)
 
