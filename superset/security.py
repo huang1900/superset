@@ -76,6 +76,7 @@ def merge_perm(sm, permission_name, view_menu_name):
     logging.info("permission_name={permission_name} and view_menu_name={view_menu_name}".format(permission_name=permission_name,view_menu_name=view_menu_name) )
     permission = sm.find_permission(permission_name)
     view_menu = sm.find_view_menu(view_menu_name)
+    print("permission_name={permission_name} and view_menu_name={view_menu_name}".format(permission_name=permission_name,view_menu_name=view_menu_name))
     pv = None
     if permission and view_menu:
         pv = sm.get_session.query(sm.permissionview_model).filter_by(
