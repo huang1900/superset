@@ -97,6 +97,7 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
             security.merge_perm(sm, 'columns_access', columns.get_perm())
 
     def post_update(self, columns):
+        print("添加权限{}".format(columns.get_perm()))
         flash((
             "添加权限{}".format(columns.get_perm())), "info")
         if columns.is_restricted:
