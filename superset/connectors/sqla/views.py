@@ -247,6 +247,7 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
 
     def post_add(self, table, flash_message=True):
         table.fetch_metadata()
+        flash(_("添加权限"), "info")
         security.merge_perm(sm, 'datasource_access', table.get_perm())
         if table.schema:
             security.merge_perm(sm, 'schema_access', table.schema_perm)
