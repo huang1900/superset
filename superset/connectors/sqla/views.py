@@ -100,7 +100,8 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         print("添加权限{}".format(columns.get_perm()))
         if columns.is_restricted:
             security.merge_perm(sm, 'columns_access', columns.get_perm())
-
+    def pre_update(self, columns):
+        print("---------------添加权限{}".format(columns.get_perm()))
     def post_update(self, columns):
         print("添加权限{}".format(columns.get_perm()))
         flash((
@@ -151,7 +152,8 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         print("添加权限{}".format(metric.get_perm()))
         if metric.is_restricted:
             security.merge_perm(sm, 'metric_access', metric.get_perm())
-
+    def pre_update(self, columns):
+        print("---------------添加权限{}".format(columns.get_perm()))
     def post_update(self, metric):
         print("添加权限{}".format(metric.get_perm()))
         flash((
