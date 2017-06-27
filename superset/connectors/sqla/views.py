@@ -91,10 +91,14 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'database_expression': _("Database Expression")
     }
     def post_add(self, columns):
+        flash((
+            "添加权限{}".format(columns.get_perm())), "info")
         if columns.is_restricted:
             security.merge_perm(sm, 'columns_access', columns.get_perm())
 
     def post_update(self, columns):
+        flash((
+            "添加权限{}".format(columns.get_perm())), "info")
         if columns.is_restricted:
             security.merge_perm(sm, 'columns_access', columns.get_perm())
 appbuilder.add_view_no_menu(TableColumnInlineView)
