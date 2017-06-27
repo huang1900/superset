@@ -96,18 +96,18 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     }
     def post_add(self, columns):
         flash((
-            "添加权限{}".format(columns.get_perm())), "info")
-        print("添加权限{}".format(columns.get_perm()))
+            "添加权限{}".format(columns.perm())), "info")
+        print("添加权限{}".format(columns.perm()))
         if columns.is_restricted:
-            security.merge_perm(sm, 'columns_access', columns.get_perm())
+            security.merge_perm(sm, 'columns_access', columns.perm())
     def pre_update(self, columns):
-        print("---------------添加权限{}".format(columns.get_perm()))
+        print("---------------添加权限{}".format(columns.perm()))
     def post_update(self, columns):
-        print("添加权限{}".format(columns.get_perm()))
+        print("添加权限{}".format(columns.perm()))
         flash((
-            "添加权限{}".format(columns.get_perm())), "info")
+            "添加权限{}".format(columns.perm())), "info")
         if columns.is_restricted:
-            security.merge_perm(sm, 'columns_access', columns.get_perm())
+            security.merge_perm(sm, 'columns_access', columns.perm())
 appbuilder.add_view_no_menu(TableColumnInlineView)
 
 
@@ -149,17 +149,17 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     }
 
     def post_add(self, metric):
-        print("添加权限{}".format(metric.get_perm()))
+        print("添加权限{}".format(metric.perm()))
         if metric.is_restricted:
-            security.merge_perm(sm, 'metric_access', metric.get_perm())
+            security.merge_perm(sm, 'metric_access', metric.perm())
     def pre_update(self, columns):
-        print("---------------添加权限{}".format(columns.get_perm()))
+        print("---------------添加权限{}".format(columns.perm()))
     def post_update(self, metric):
-        print("添加权限{}".format(metric.get_perm()))
+        print("添加权限{}".format(metric.perm()))
         flash((
-            "添加权限{}".format(metric.get_perm())), "info")
+            "添加权限{}".format(metric.perm())), "info")
         if metric.is_restricted:
-            security.merge_perm(sm, 'metric_access', metric.get_perm())
+            security.merge_perm(sm, 'metric_access', metric.perm())
 
 appbuilder.add_view_no_menu(SqlMetricInlineView)
 
