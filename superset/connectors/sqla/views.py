@@ -143,6 +143,9 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
             security.merge_perm(sm, 'metric_access', metric.get_perm())
 
     def post_update(self, metric):
+        print("添加权限{}".format(metric.get_perm()))
+        flash((
+            "添加权限{}".format(metric.get_perm())), "info")
         if metric.is_restricted:
             security.merge_perm(sm, 'metric_access', metric.get_perm())
 
@@ -247,11 +250,9 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
 
     def post_add(self, table, flash_message=True):
         table.fetch_metadata()
-        flash(_("添加权限"), "info")
         security.merge_perm(sm, 'datasource_access', table.get_perm())
         if table.schema:
             security.merge_perm(sm, 'schema_access', table.schema_perm)
-
         if flash_message:
             flash(_(
                 "The table was created. "
