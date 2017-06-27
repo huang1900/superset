@@ -24,6 +24,10 @@ from . import models
 class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     datamodel = SQLAInterface(models.TableColumn)
     can_delete = False
+    list_title = "字段列表"
+    show_title = "显示字段"
+    add_title = "添加字段"
+    edit_title = "编辑字段"
     list_widget = ListWidgetWithCheckboxes
     edit_columns = [
         'column_name', 'verbose_name', 'description',
@@ -108,6 +112,10 @@ appbuilder.add_view_no_menu(TableColumnInlineView)
 
 class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     datamodel = SQLAInterface(models.SqlMetric)
+    list_title = "计算指标列表"
+    show_title = "显示计算指标"
+    add_title = "添加计算指标"
+    edit_title = "编辑计算指标"
     list_columns = ['metric_name', 'verbose_name', 'metric_type']
     edit_columns = [
         'metric_name', 'description', 'verbose_name', 'metric_type',
@@ -140,7 +148,7 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     }
 
     def post_add(self, metric):
-        print("添加权限{}".format(metric).get_perm())
+        print("添加权限{}".format(metric.get_perm()))
         if metric.is_restricted:
             security.merge_perm(sm, 'metric_access', metric.get_perm())
 
