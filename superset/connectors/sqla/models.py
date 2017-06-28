@@ -426,7 +426,7 @@ class SqlaTable(Model, BaseDatasource):
         time_groupby_inline = self.database.db_engine_spec.time_groupby_inline
 
         cols = {col.column_name: col for col in self.columns if self.has_col_access(col)}
-        metrics_dict = {m.metric_name: m for m in self.metrics if self.has_met_accessif(m)}
+        metrics_dict = {m.metric_name: m for m in self.metrics if self.has_met_access(m)}
         if not granularity and is_timeseries:
             raise Exception((
                 "缺少时间字段"))
