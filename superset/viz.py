@@ -221,10 +221,9 @@ class BaseViz(object):
     def is_timeout(self,payload):
          if payload and payload['cached_dttm']:
              try:
-                return time.mktime(datetime.now().timetuple())-datetime.strptime(payload['cached_dttm'] ,'%Y-%m-%dT%H:%M:%S').timestamp()>=self.cache_timeout
+                return time.mktime(datetime.now().timetuple())-time.mktime(datetime.strptime(payload['cached_dttm'],'%Y-%m-%dT%H:%M:%S').timetuple())>=self.cache_timeout
              except Exception as e:
-                 logging.error("get cache timeout : " +
-                               utils.error_msg_from_exception(e))
+                 logging.error("get cache timeout : " +utils.error_msg_from_exception(e))
          return False
     def get_payload(self, force=False):
         """Handles caching around the json payload retrieval"""
