@@ -387,15 +387,22 @@ class SqlaTable(Model, BaseDatasource):
         # Database spec supports join-free timeslot grouping
         time_groupby_inline = self.database.db_engine_spec.time_groupby_inline
 
-        cols = {col.column_name: col for col in self.columns}
-        metrics_dict = {m.metric_name: m for m in self.metrics}
-
+        cols = {col.column_name: col for col in self.columns
+                if not col.is_restricted or (col.is_restricted and sm.has_access('columns_access', col.perm))}
+        metrics_dict = {m.metric_name: m for m in self.metrics
+                        if not m.is_restricted or (m.is_restricted and sm.has_access('metric_access', m.perm))}
         if not granularity and is_timeseries:
             raise Exception((
                 "缺少时间字段"))
         for m in metrics:
             if m not in metrics_dict:
-                raise Exception(("字段 '{}' 不存在".format(m)))
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(m)))
+        for s in groupby:
+            if s not in cols:
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(s)))
+        for s in columns:
+            if s not in cols:
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(s)))
         metrics_exprs = [metrics_dict.get(m).sqla_col for m in metrics]
         timeseries_limit_metric = metrics_dict.get(timeseries_limit_metric)
         timeseries_limit_metric_expr = None
@@ -462,6 +469,8 @@ class SqlaTable(Model, BaseDatasource):
             col = flt['col']
             op = flt['op']
             eq = flt['val']
+            if col not in cols:
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(col)))
             col_obj = cols.get(col)
             if col_obj:
                 if op in ('in', 'not in'):

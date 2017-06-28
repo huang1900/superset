@@ -146,7 +146,7 @@ class BaseViz(object):
         until = extra_filters.get('__to') or form_data.get("until", "now")
         to_dttm = utils.parse_human_datetime(until)
         if from_dttm > to_dttm:
-            raise Exception("From date cannot be larger than to date")
+            raise Exception("结束日在开始日期之前")
         ##截至当天结束
         if len(until.strip()) <= 10:
             to_dttm=to_dttm.replace(hour=23, minute=59,second=59)

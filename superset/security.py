@@ -73,17 +73,13 @@ def merge_perm(sm, permission_name, view_menu_name):
     # Implementation copied from sm.find_permission_view_menu.
     # TODO: use sm.find_permission_view_menu once issue
     #       https://github.com/airbnb/superset/issues/1944 is resolved.
-    logging.info("permission_name={permission_name} and view_menu_name={view_menu_name}".format(permission_name=permission_name,view_menu_name=view_menu_name) )
     permission = sm.find_permission(permission_name)
     view_menu = sm.find_view_menu(view_menu_name)
-    logging.info("permission_name={permission_name} and view_menu_name={view_menu_name}".format(permission_name=permission,view_menu_name=view_menu))
     pv = None
     if permission and view_menu:
         pv = sm.get_session.query(sm.permissionview_model).filter_by(
             permission=permission, view_menu=view_menu).first()
-        logging.info("权限{}".format(pv))
     if not pv and permission_name and view_menu_name:
-        logging.info("添加权限 permission_name={permission_name} and view_menu_name={view_menu_name}".format(permission_name=permission_name,view_menu_name=view_menu_name) )
         sm.add_permission_view_menu(permission_name, view_menu_name)
 
 
