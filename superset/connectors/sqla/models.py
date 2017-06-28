@@ -310,11 +310,6 @@ class SqlaTable(Model, BaseDatasource):
     @property
     def data(self):
         d = super(SqlaTable, self).data
-        order_by_choices = []
-        for s in sorted(self.column_names):
-            if self.has_col_access(s):
-                order_by_choices.append((json.dumps([s, True]), s + ' [asc]'))
-                order_by_choices.append((json.dumps([s, False]), s + ' [desc]'))
         if self.type == 'table':
             grains = self.database.grains() or []
             if grains:
@@ -332,7 +327,6 @@ class SqlaTable(Model, BaseDatasource):
                            for o in self.columns if self.has_col_access(o)
                            })
         d['verbose_map'] = verbose_map
-        d['order_by_choices'] = order_by_choices
         return d
 
     def values_for_column(self, column_name, limit=10000):
