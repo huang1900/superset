@@ -209,11 +209,14 @@ class BaseViz(object):
     @property
     def cache_key(self):
         query_obj = self.query_obj()
+        s = ""
         try:
-          key=self.datasource.get_query_str(query_obj)
+          s = self.datasource.get_query_str(query_obj)
         except Exception as e:
             logging.error("查询错误:" +utils.error_msg_from_exception(e))
-        return hashlib.md5(key.encode('utf-8')).hexdigest()
+        if len(s)==0:
+            s = str([(k, self.form_data[k]) for k in sorted(self.form_data.keys())])
+        return hashlib.md5(s.encode('utf-8')).hexdigest()
 
     def is_timeout(self,payload):
          if payload and payload['cached_dttm']:
