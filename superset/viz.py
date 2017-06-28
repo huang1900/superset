@@ -9,7 +9,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-
+import time
 import copy
 import hashlib
 import logging
@@ -221,9 +221,9 @@ class BaseViz(object):
     def is_timeout(self,payload):
          if payload and payload['cached_dttm']:
              try:
-                return datetime.utcnow().timestamp()-datetime.strptime(payload['cached_dttm'] ,'%Y-%m-%dT%H:%M:%S').timestamp()>=self.cache_timeout
+                return time.mktime(datetime.now().timetuple())-datetime.strptime(payload['cached_dttm'] ,'%Y-%m-%dT%H:%M:%S').timestamp()>=self.cache_timeout
              except Exception as e:
-                 logging.error("Error reading cache: " +
+                 logging.error("get cache timeout : " +
                                utils.error_msg_from_exception(e))
          return False
     def get_payload(self, force=False):
