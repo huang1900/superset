@@ -1,5 +1,6 @@
 #-*-coding:utf8-*-
 from datetime import datetime
+import json
 import logging
 import sqlparse
 from past.builtins import basestring
@@ -204,6 +205,32 @@ class SqlaTable(Model, BaseDatasource):
     def __repr__(self):
         return self.name
 
+
+    @property
+    def metrics_combo(self):
+        return sorted(
+            [
+                (m.metric_name, m.verbose_name or m.metric_name)
+                for m in self.metrics if self.has_met_access(m)],
+            key=lambda x: x[1])
+    @staticmethod
+    def has_col_access(c):
+        return not c.is_restricted or (c.is_restricted and sm.has_access('columns_access', c.perm))
+    @staticmethod
+    def has_met_access(m):
+        return not m.is_restricted or (m.is_restricted and sm.has_access('metric_access', m.perm))
+    @property
+    def groupby_column_names(self):
+         return sorted([c.column_name for c in self.columns if c.groupby and self.has_col_access(c)])
+    @property
+    def filterable_column_names(self):
+        return sorted([c.column_name for c in self.columns if c.filterable and
+                       self.has_col_access(c)])
+    @property
+    def column_names(self):
+        return sorted([c.column_name for c in self.columns
+                       if self.has_col_access(c)])
+
     @property
     def description_markeddown(self):
         return utils.markdown(self.description)
@@ -244,7 +271,7 @@ class SqlaTable(Model, BaseDatasource):
 
     @property
     def num_cols(self):
-        return [c.column_name for c in self.columns if c.is_num]
+        return [c.column_name for c in self.columns if c.is_num and self.has_col_access(c)]
 
     @property
     def any_dttm_col(self):
@@ -254,7 +281,7 @@ class SqlaTable(Model, BaseDatasource):
 
     @property
     def html(self):
-        t = ((c.column_name, c.type) for c in self.columns)
+        t = ((c.column_name, c.type) for c in self.columns if self.has_col_access(c))
         df = pd.DataFrame(t)
         df.columns = ['field', 'type']
         return df.to_html(
@@ -283,12 +310,29 @@ class SqlaTable(Model, BaseDatasource):
     @property
     def data(self):
         d = super(SqlaTable, self).data
+        order_by_choices = []
+        for s in sorted(self.column_names):
+            if self.has_col_access(s):
+                order_by_choices.append((json.dumps([s, True]), s + ' [asc]'))
+                order_by_choices.append((json.dumps([s, False]), s + ' [desc]'))
         if self.type == 'table':
             grains = self.database.grains() or []
             if grains:
                 grains = [(g.name, g.label) for g in grains]
             d['granularity_sqla'] = utils.choicify(self.dttm_cols)
             d['time_grain_sqla'] = grains
+        d['metrics'] = [m.data for m in self.metrics if self.has_met_access(m)]
+        d['columns'] = [c.data for c in self.columns if self.has_col_access(c)]
+        verbose_map = {
+            o.metric_name: o.verbose_name or o.metric_name
+            for o in self.metrics if self.has_met_access(o)
+            }
+        verbose_map.update({
+                           o.column_name: o.verbose_name or o.column_name
+                           for o in self.columns if self.has_col_access(o)
+                           })
+        d['verbose_map'] = verbose_map
+        d['order_by_choices'] = order_by_choices
         return d
 
     def values_for_column(self, column_name, limit=10000):
@@ -387,10 +431,8 @@ class SqlaTable(Model, BaseDatasource):
         # Database spec supports join-free timeslot grouping
         time_groupby_inline = self.database.db_engine_spec.time_groupby_inline
 
-        cols = {col.column_name: col for col in self.columns
-                if not col.is_restricted or (col.is_restricted and sm.has_access('columns_access', col.perm))}
-        metrics_dict = {m.metric_name: m for m in self.metrics
-                        if not m.is_restricted or (m.is_restricted and sm.has_access('metric_access', m.perm))}
+        cols = {col.column_name: col for col in self.columns if self.has_col_access(col)}
+        metrics_dict = {m.metric_name: m for m in self.metrics if self.has_met_accessif(m)}
         if not granularity and is_timeseries:
             raise Exception((
                 "缺少时间字段"))
