@@ -230,6 +230,7 @@ class BaseViz(object):
         cache_key = self.cache_key
         payload = None
         force = force if force else self.form_data.get('force') == 'true'
+        logging.info("+++++++++++++++++cachekey={}".format(cache_key) )
         if not force and cache:
             payload = cache.get(cache_key)
 
