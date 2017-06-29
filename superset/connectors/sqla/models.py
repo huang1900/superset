@@ -500,14 +500,14 @@ class SqlaTable(Model, BaseDatasource):
         where_clause_and = []
         having_clause_and = []
         # 添加维度过滤
-        dim_acslist=security.get_permission_view_by_permission("dim_access")
-        dim_acl_map={}
+        dim_acslist = security.get_permission_view_by_permission("dim_access")
+        dim_acl_map = {}
         for ac in dim_acslist:
            if sm.has_access('dim_access', ac) and len(ac.split('_')) > 1 and ac.split('_')[0] in self.filterable_column_names :
-               if dim_acl_map[ac.split('_')[0]]:
-                   dim_acl_map[ac.split('_')[0]]+=ac.split('_')[1]
+               if dim_acl_map.has_key(ac.split('_')[0]):
+                   dim_acl_map[ac.split('_')[0]] += ac.split('_')[1]
                else :
-                   dim_acl_map[ac.split('_')[0]]=[ac.split('_')[1]]
+                   dim_acl_map[ac.split('_')[0]] = [ac.split('_')[1]]
 
         for  dim in dim_acl_map :
             filter += [{
