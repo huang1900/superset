@@ -216,7 +216,6 @@ class BaseViz(object):
             logging.error("查询错误:" +utils.error_msg_from_exception(e))
         if len(s)==0:
             s = str([(k, self.form_data[k]) for k in sorted(self.form_data.keys())])
-        logging.info("+++++++++++++++++cachekey={}".format(s))
         return hashlib.md5(s.encode('utf-8')).hexdigest()
 
     def is_timeout(self,payload):
@@ -231,7 +230,6 @@ class BaseViz(object):
         cache_key = self.cache_key
         payload = None
         force = force if force else self.form_data.get('force') == 'true'
-        logging.info("+++++++++++++++++cachekey={}".format(cache_key) )
         if not force and cache:
             payload = cache.get(cache_key)
 

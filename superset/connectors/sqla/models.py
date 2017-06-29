@@ -22,7 +22,7 @@ from flask import escape, Markup
 from flask_appbuilder import Model
 from flask_babel import lazy_gettext as _
 
-from superset import db, utils, import_util, sm
+from superset import db, utils, import_util, sm,security
 from superset.connectors.base import BaseDatasource, BaseColumn, BaseMetric
 from superset.utils import DTTM_ALIAS, QueryStatus
 from superset.models.helpers import QueryResult
@@ -494,14 +494,19 @@ class SqlaTable(Model, BaseDatasource):
 
         select_exprs += metrics_exprs
         qry = sa.select(select_exprs)
-
         tbl = self.get_from_clause(template_processor)
-
         if not columns:
             qry = qry.group_by(*groupby_exprs)
-
         where_clause_and = []
         having_clause_and = []
+        dim_acslist=security.get_permission_view_by_permission("dim_access")
+        for ac in dim_acslist:
+           if sm.has_access('dim_access', ac) and len(ac.split('_')) > 1 and ac.split('_')[0] in self.filterable_column_names :
+               filter += [{
+                   'col': ac.split('.')[0],
+                   'op': 'in',
+                   'val': ac.split('.')[1],
+               }]
         for flt in filter:
             if not all([flt.get(s) for s in ['col', 'op', 'val']]):
                 continue
