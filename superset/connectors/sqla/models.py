@@ -316,17 +316,17 @@ class SqlaTable(Model, BaseDatasource):
                 grains = [(g.name, g.label) for g in grains]
             d['granularity_sqla'] = utils.choicify(self.dttm_cols)
             d['time_grain_sqla'] = grains
-        d['metrics'] = [m.data for m in self.metrics if self.has_met_access(m)]
-        d['columns'] = [c.data for c in self.columns if self.has_col_access(c)]
-        verbose_map = {
-            o.metric_name: o.verbose_name or o.metric_name
-            for o in self.metrics if self.has_met_access(o)
-            }
-        verbose_map.update({
-                           o.column_name: o.verbose_name or o.column_name
-                           for o in self.columns if self.has_col_access(o)
-                           })
-        d['verbose_map'] = verbose_map
+        # d['metrics'] = [m.data for m in self.metrics if self.has_met_access(m)]
+        # d['columns'] = [c.data for c in self.columns if self.has_col_access(c)]
+        # verbose_map = {
+        #     o.metric_name: o.verbose_name or o.metric_name
+        #     for o in self.metrics if self.has_met_access(o)
+        #     }
+        # verbose_map.update({
+        #                    o.column_name: o.verbose_name or o.column_name
+        #                    for o in self.columns if self.has_col_access(o)
+        #                    })
+        # d['verbose_map'] = verbose_map
         return d
 
     def values_for_column(self, column_name, limit=10000):
