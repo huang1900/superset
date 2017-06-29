@@ -69,7 +69,7 @@ OBJECT_SPEC_PERMISSIONS = set([
     'dim_access',
 ])
 
-def get_permission_view_by_permission(sm, permission_name):
+def get_permission_view_by_permission(permission_name):
     permission = sm.find_permission(permission_name)
     if permission:
         pv = sm.get_session.query(sm.permissionview_model).filter_by(
