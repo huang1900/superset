@@ -505,7 +505,7 @@ class SqlaTable(Model, BaseDatasource):
         for ac in dim_acslist:
            if sm.has_access('dim_access', ac) and len(ac.split('_')) > 1 and ac.split('_')[0] in self.filterable_column_names :
                if dim_acl_map.has_key(ac.split('_')[0]):
-                   dim_acl_map[ac.split('_')[0]] += ac.split('_')[1]
+                   dim_acl_map[ac.split('_')[0]] += [ac.split('_')[1]]
                else :
                    dim_acl_map[ac.split('_')[0]] = [ac.split('_')[1]]
 
