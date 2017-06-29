@@ -503,9 +503,9 @@ class SqlaTable(Model, BaseDatasource):
         for ac in dim_acslist:
            if sm.has_access('dim_access', ac) and len(ac.split('_')) > 1 and ac.split('_')[0] in self.filterable_column_names :
                filter += [{
-                   'col': ac.split('.')[0],
+                   'col': ac.split('_')[0],
                    'op': 'in',
-                   'val': ac.split('.')[1],
+                   'val': ac.split('_')[1],
                }]
         for flt in filter:
             if not all([flt.get(s) for s in ['col', 'op', 'val']]):
