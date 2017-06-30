@@ -380,6 +380,7 @@ class SqlaTable(Model, BaseDatasource):
         if self.schema:
             tbl.schema = self.schema
         return tbl
+    @property
     def get_dim_acl_where(self):
         #维度验证
         cols = {col.column_name: col for col in self.columns if self.has_col_access(col)}
@@ -428,13 +429,16 @@ class SqlaTable(Model, BaseDatasource):
 
     def get_from_clause(self, template_processor=None):
         # Supporting arbitrary SQL statements in place of tables
-
+        rs = None
         if self.sql:
             from_sql = self.sql
             if template_processor:
                 from_sql = template_processor.process_template(from_sql)
-            return TextAsFrom(sa.text(from_sql).where(and_(self.get_dim_acl_where())), []).alias('expr_qry')
-        return self.get_sqla_table()
+            rs = TextAsFrom(sa.text(from_sql), []).alias('expr_qry')
+        rs = self.get_sqla_table()
+        if len(self.get_dim_acl_where)>0:
+            rs = sa.select(columns="*").select_from(rs).where(self.get_dim_acl_where)
+        return rs
 
     def get_sqla_query(  # sqla
             self,
