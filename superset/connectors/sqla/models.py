@@ -380,14 +380,60 @@ class SqlaTable(Model, BaseDatasource):
         if self.schema:
             tbl.schema = self.schema
         return tbl
+    def get_dim_acl_where(self):
+        #维度验证
+        cols = {col.column_name: col for col in self.columns if self.has_col_access(col)}
+        dim_acslist = security.get_permission_view_by_permission("dim_access")
+        dim_acl_map = {}
+        acl_where_clause_and = []
+        for ac in dim_acslist:
+            if sm.has_access('dim_access', ac) and len(ac.split('_')) > 1 and ac.split('_')[0] in self.filterable_column_names :
+                if dim_acl_map.has_key(ac.split('_')[0]):
+                    dim_acl_map[ac.split('_')[0]] += [ac.split('_')[1]]
+                else :
+                    dim_acl_map[ac.split('_')[0]] = [ac.split('_')[1]]
+        acl_filter=[]
+        for  dim in dim_acl_map :
+            acl_filter += [{
+                'col': dim,
+                'op': 'in',
+                'val': dim_acl_map[dim],
+            }]
+        for flt in acl_filter:
+            if not all([flt.get(s) for s in ['col', 'op', 'val']]):
+                continue
+            col = flt['col']
+            op = flt['op']
+            eq = flt['val']
+            if col not in cols:
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(col)))
+            col_obj = cols.get(col)
+            if col_obj:
+                if op in ('in', 'not in'):
+                    values = []
+                    for v in eq:
+                        # For backwards compatibility and edge cases
+                        # where a column data type might have changed
+                        if isinstance(v, basestring):
+                            v = v.strip("'").strip('"')
+                            if col_obj.is_num:
+                                v = utils.string_to_num(v)
+                        # Removing empty strings and non numeric values
+                        # targeting numeric columns
+                        if v is not None:
+                            values.append(v)
+                    cond = col_obj.sqla_col.in_(values)
+                    acl_where_clause_and.append(cond)
+        return   acl_where_clause_and
 
     def get_from_clause(self, template_processor=None):
         # Supporting arbitrary SQL statements in place of tables
+
         if self.sql:
             from_sql = self.sql
             if template_processor:
                 from_sql = template_processor.process_template(from_sql)
-            return TextAsFrom(sa.text(from_sql), []).alias('expr_qry')
+            return TextAsFrom(sa.text(from_sql).where(and_(self.get_dim_acl_where())), []).alias('expr_qry')
         return self.get_sqla_table()
 
     def get_sqla_query(  # sqla
@@ -499,23 +545,7 @@ class SqlaTable(Model, BaseDatasource):
             qry = qry.group_by(*groupby_exprs)
         where_clause_and = []
         having_clause_and = []
-        # 添加维度过滤
-        dim_acslist = security.get_permission_view_by_permission("dim_access")
-        dim_acl_map = {}
         filters = copy.deepcopy(filter)
-        for ac in dim_acslist:
-           if sm.has_access('dim_access', ac) and len(ac.split('_')) > 1 and ac.split('_')[0] in self.filterable_column_names :
-               if dim_acl_map.has_key(ac.split('_')[0]):
-                   dim_acl_map[ac.split('_')[0]] += [ac.split('_')[1]]
-               else :
-                   dim_acl_map[ac.split('_')[0]] = [ac.split('_')[1]]
-
-        for  dim in dim_acl_map :
-            filters += [{
-                'col': dim,
-                'op': 'in',
-                'val': dim_acl_map[dim],
-            }]
         for flt in filters:
             if not all([flt.get(s) for s in ['col', 'op', 'val']]):
                 continue
@@ -610,9 +640,7 @@ class SqlaTable(Model, BaseDatasource):
             for i, gb in enumerate(groupby):
                 on_clause.append(
                     groupby_exprs[i] == column(gb + '__'))
-
             tbl = tbl.join(subq.alias(), and_(*on_clause))
-
         return qry.select_from(tbl)
 
     def query(self, query_obj):
