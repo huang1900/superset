@@ -437,7 +437,7 @@ class SqlaTable(Model, BaseDatasource):
             rs = TextAsFrom(sa.text(from_sql), []).alias('expr_qry')
         rs = self.get_sqla_table()
         if len(self.get_dim_acl_where)>0:
-            rs = sa.select(columns="*").select_from(rs).where(self.get_dim_acl_where)
+            rs = sa.select(columns="*").select_from(rs).where(and_(*self.get_dim_acl_where))
         return rs
 
     def get_sqla_query(  # sqla
