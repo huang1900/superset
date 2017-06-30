@@ -435,7 +435,8 @@ class SqlaTable(Model, BaseDatasource):
             if template_processor:
                 from_sql = template_processor.process_template(from_sql)
             rs = TextAsFrom(sa.text(from_sql), []).alias('expr_qry')
-        rs = self.get_sqla_table()
+        else :
+            rs = self.get_sqla_table()
         if len(self.get_dim_acl_where)>0:
             rs = sa.select(columns="*").select_from(rs).where(and_(*self.get_dim_acl_where))
         return rs
