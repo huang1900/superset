@@ -139,17 +139,6 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'expression': _("SQL Expression"),
         'table': _("Table"),
     }
-    @expose('/list/', methods=['GET', 'POST'])
-    @has_access
-    def list(self):
-        logging.info("跳转")
-        logging.info("title="+super(SqlMetricInlineView, self).list_title)
-        logging.info("list_template="+super(SqlMetricInlineView, self).list_template)
-        logging.info("_list="+super(SqlMetricInlineView, self)._list())
-        resp = super(SqlMetricInlineView, self).list()
-        logging.info("跳转1")
-        return resp
-
     def post_add(self, metric):
         if metric.is_restricted:
             security.merge_perm(sm, 'metric_access', metric.perm)
