@@ -143,9 +143,9 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     @has_access
     def list(self):
         logging.info("跳转")
-        logging.info(super(SqlMetricInlineView, self).list_title)
-        logging.info(super(SqlMetricInlineView, self)._list())
-        logging.info(super(SqlMetricInlineView, self).list_template)
+        logging.info("title="+super(SqlMetricInlineView, self).list_title)
+        logging.info("list_template="+super(SqlMetricInlineView, self).list_template)
+        logging.info("_list="+super(SqlMetricInlineView, self)._list())
         resp = super(SqlMetricInlineView, self).list()
         logging.info("跳转1")
         return resp
@@ -277,7 +277,6 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     @has_access
     def edit(self, pk):
         """Simple hack to redirect to explore view after saving"""
-        logging.info("跳转")
         resp = super(TableModelView, self).edit(pk)
         if isinstance(resp, basestring):
             return resp
