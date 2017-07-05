@@ -105,10 +105,10 @@ appbuilder.add_view_no_menu(TableColumnInlineView)
 
 class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     datamodel = SQLAInterface(models.SqlMetric)
-    list_title = "计算指标列表"
-    show_title = "显示计算指标"
-    add_title = "添加计算指标"
-    edit_title = "编辑计算指标"
+    # list_title = "计算指标列表"
+    # show_title = "显示计算指标"
+    # add_title = "添加计算指标"
+    # edit_title = "编辑计算指标"
     list_columns = ['metric_name', 'verbose_name', 'metric_type']
     edit_columns = [
         'metric_name', 'description', 'verbose_name', 'metric_type',
@@ -166,7 +166,7 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
         'description', 'owner',
         'main_dttm_col', 'default_endpoint', 'offset', 'cache_timeout']
     show_columns = edit_columns + ['perm']
-    related_views = [SqlMetricInlineView]
+    related_views = [SqlMetricInlineView,TableColumnInlineView]
     base_order = ('changed_on', 'desc')
     search_columns = (
         'description',
