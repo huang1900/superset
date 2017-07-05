@@ -105,10 +105,10 @@ appbuilder.add_view_no_menu(TableColumnInlineView)
 
 class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     datamodel = SQLAInterface(models.SqlMetric)
-    # list_title = "计算指标列表"
-    # show_title = "显示计算指标"
-    # add_title = "添加计算指标"
-    # edit_title = "编辑计算指标"
+    list_title = "计算指标列表"
+    show_title = "显示计算指标"
+    add_title = "添加计算指标"
+    edit_title = "编辑计算指标"
     list_columns = ['metric_name', 'verbose_name', 'metric_type']
     edit_columns = [
         'metric_name', 'description', 'verbose_name', 'metric_type',
@@ -269,7 +269,10 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     def edit(self, pk):
         """Simple hack to redirect to explore view after saving"""
         logging.info("跳转")
-        resp = super(TableModelView, self).edit(pk)
+        try :
+            resp = super(TableModelView, self).edit(pk)
+        except Exception as e:
+            logging.info(e)
         logging.info("编辑+"+resp)
         if isinstance(resp, basestring):
             logging.info("编辑跳转+"+resp)
