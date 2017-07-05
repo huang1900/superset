@@ -265,7 +265,7 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
         DeleteMixin._delete(self, pk)
 
     @expose('/edit/<pk>', methods=['GET', 'POST'])
-    # @has_access
+    @has_access
     def edit(self, pk):
         """Simple hack to redirect to explore view after saving"""
         logging.info("跳转")
