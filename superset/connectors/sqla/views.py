@@ -143,6 +143,9 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     @has_access
     def list(self):
         logging.info("跳转")
+        logging.info(super(SqlMetricInlineView, self)._list())
+        logging.info(super(SqlMetricInlineView, self).list_template)
+        logging.info(super(SqlMetricInlineView, self).list_title)
         resp = super(SqlMetricInlineView, self).list()
         logging.info("跳转1")
         return resp
