@@ -166,7 +166,7 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
         'description', 'owner',
         'main_dttm_col', 'default_endpoint', 'offset', 'cache_timeout']
     show_columns = edit_columns + ['perm']
-    related_views = [TableColumnInlineView, SqlMetricInlineView]
+    # related_views = [TableColumnInlineView, SqlMetricInlineView]
     # base_order = ('changed_on', 'desc')
     search_columns = (
         'description',
@@ -264,18 +264,18 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     def _delete(self, pk):
         DeleteMixin._delete(self, pk)
 
-    # @expose('/edit/<pk>', methods=['GET', 'POST'])
-    # @has_access
-    # def edit(self, pk):
-    #     """Simple hack to redirect to explore view after saving"""
-    #     logging.info("跳转")
-    #     resp = super(TableModelView, self).edit(pk)
-    #     logging.info("编辑+"+resp)
-    #     if isinstance(resp, basestring):
-    #         logging.info("编辑跳转+"+resp)
-    #         return resp
-    #     logging.info("跳转分析+"+resp)
-    #     return redirect('/superset/explore/table/{}/'.format(pk))
+    @expose('/edit/<pk>', methods=['GET', 'POST'])
+    @has_access
+    def edit(self, pk):
+        """Simple hack to redirect to explore view after saving"""
+        logging.info("跳转")
+        resp = super(TableModelView, self).edit(pk)
+        logging.info("编辑+"+resp)
+        if isinstance(resp, basestring):
+            logging.info("编辑跳转+"+resp)
+            return resp
+        logging.info("跳转分析+"+resp)
+        return redirect('/superset/explore/table/{}/'.format(pk))
 
 appbuilder.add_view(
     TableModelView,
