@@ -166,7 +166,7 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
         'description', 'owner',
         'main_dttm_col', 'default_endpoint', 'offset', 'cache_timeout']
     show_columns = edit_columns + ['perm']
-    related_views = [TableColumnInlineView]
+    related_views = [SqlMetricInlineView]
     base_order = ('changed_on', 'desc')
     search_columns = (
         'description',
