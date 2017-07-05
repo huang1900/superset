@@ -139,6 +139,13 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'expression': _("SQL Expression"),
         'table': _("Table"),
     }
+    @expose('/list/', methods=['GET', 'POST'])
+    @has_access
+    def list(self):
+        logging.info("跳转")
+        resp = super(SqlMetricInlineView, self).list()
+        logging.info("跳转1")
+        return resp
 
     def post_add(self, metric):
         if metric.is_restricted:
@@ -146,7 +153,6 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     def post_update(self, metric):
         if metric.is_restricted:
             security.merge_perm(sm, 'metric_access', metric.perm)
-
 appbuilder.add_view_no_menu(SqlMetricInlineView)
 
 
@@ -269,15 +275,9 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     def edit(self, pk):
         """Simple hack to redirect to explore view after saving"""
         logging.info("跳转")
-        try :
-            resp = super(TableModelView, self).edit(pk)
-        except Exception as e:
-            logging.info(e)
-        logging.info("编辑+"+resp)
+        resp = super(TableModelView, self).edit(pk)
         if isinstance(resp, basestring):
-            logging.info("编辑跳转+"+resp)
             return resp
-        logging.info("跳转分析+"+resp)
         return redirect('/superset/explore/table/{}/'.format(pk))
 
 appbuilder.add_view(
