@@ -268,9 +268,13 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
     @has_access
     def edit(self, pk):
         """Simple hack to redirect to explore view after saving"""
+        logging.info("跳转")
         resp = super(TableModelView, self).edit(pk)
+        logging.info("编辑+"+resp)
         if isinstance(resp, basestring):
+            logging.info("编辑跳转+"+resp)
             return resp
+        logging.info("跳转分析+"+resp)
         return redirect('/superset/explore/table/{}/'.format(pk))
 
 appbuilder.add_view(
