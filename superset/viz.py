@@ -9,7 +9,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
-
+import time
 import copy
 import hashlib
 import logging
@@ -146,7 +146,7 @@ class BaseViz(object):
         until = extra_filters.get('__to') or form_data.get("until", "now")
         to_dttm = utils.parse_human_datetime(until)
         if from_dttm > to_dttm:
-            raise Exception("From date cannot be larger than to date")
+            raise Exception("结束日在开始日期之前")
         ##截至当天结束
         if len(until.strip()) <= 10:
             to_dttm=to_dttm.replace(hour=23, minute=59,second=59)
@@ -208,16 +208,22 @@ class BaseViz(object):
 
     @property
     def cache_key(self):
-        s = str([(k, self.form_data[k]) for k in sorted(self.form_data.keys())])
+        query_obj = self.query_obj()
+        s = ""
+        try:
+          s = self.datasource.get_query_str(query_obj)
+        except Exception as e:
+            logging.error("查询错误:" +utils.error_msg_from_exception(e))
+        if len(s)==0:
+            s = str([(k, self.form_data[k]) for k in sorted(self.form_data.keys())])
         return hashlib.md5(s.encode('utf-8')).hexdigest()
 
     def is_timeout(self,payload):
          if payload and payload['cached_dttm']:
              try:
-                return datetime.utcnow().timestamp()-datetime.strptime(payload['cached_dttm'] ,'%Y-%m-%dT%H:%M:%S').timestamp()>=self.cache_timeout
+                return time.mktime(datetime.now().timetuple())-time.mktime(datetime.strptime(payload['cached_dttm'],'%Y-%m-%dT%H:%M:%S').timetuple())>=self.cache_timeout
              except Exception as e:
-                 logging.error("Error reading cache: " +
-                               utils.error_msg_from_exception(e))
+                 logging.error("get cache timeout : " +utils.error_msg_from_exception(e))
          return False
     def get_payload(self, force=False):
         """Handles caching around the json payload retrieval"""
@@ -425,7 +431,7 @@ class PivotTableViz(BaseViz):
         if not groupby:
             groupby = []
         if not groupby:
-            raise Exception("Please choose at least one \"Group by\" field ")
+            raise Exception("请至少选择一个分组")
         if not metrics:
             raise Exception("请至少选择一个列")
         if (

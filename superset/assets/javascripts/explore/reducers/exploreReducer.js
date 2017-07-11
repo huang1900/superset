@@ -114,7 +114,7 @@ export const exploreReducer = function (state, action) {
       return Object.assign({}, state, {
         chartStatus: 'failed',
         chartAlert: '<strong>查询超时</strong> - ' +
-        '查询超过${QUERY_TIMEOUT_THRESHOLD / 1000}秒.请调整参减少数据量，或联系管理员.',
+        "查询超过60秒.请调整参减少数据量，或联系管理员.",
       });
     },
     [actions.CHART_UPDATE_FAILED]() {

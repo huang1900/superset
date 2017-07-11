@@ -8,12 +8,8 @@ const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
 // input choices & options
 const D3_TIME_FORMAT_OPTIONS = [
-  ['.3s', '.3s | 12.3k'],
-  ['.3%', '.3% | 1234543.210%'],
-  ['.4r', '.4r | 12350'],
-  ['.3f', '.3f | 12345.432'],
-  ['+,', '+, | +12,345.4321'],
-  ['$,.2f', '$,.2f | $12,345.43'],
+  [',', '千位分隔'],
+  ['.2%', '百分比（保留2位）'],
 ];
 
 const ROW_LIMIT_OPTIONS = [10, 50, 100, 250, 500, 1000, 5000, 10000, 50000];
@@ -564,11 +560,11 @@ export const controls = {
   number_format: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Number format',
-    renderTrigger: true,
-    default: '.3s',
+    label: '数字格式化模式（d3）',
+    default: control =>
+          control.choices && control.choices.length > 0 ? control.choices[0][0] : null,
     choices: D3_TIME_FORMAT_OPTIONS,
-    description: D3_FORMAT_DOCS,
+    description: '输入d3格式化字符串，详见https://github.com/d3/d3-format',
   },
 
   row_limit: {
@@ -830,20 +826,19 @@ export const controls = {
 
   pandas_aggfunc: {
     type: 'SelectControl',
-    label: 'Aggregation function',
+    label: '汇总方法',
     clearable: false,
-    choices: formatSelectOptions([
-      'sum',
-      'mean',
-      'min',
-      'max',
-      'median',
-      'stdev',
-      'var',
-    ]),
+    choices: [
+     ['sum','求和'],
+     ['mean','平均'],
+      ['min','最小值'],
+      ['max','最小值'],
+      ['median','中位数'],
+      // 'stdev',
+      // 'var',
+    ],
     default: 'sum',
-    description: 'Aggregate function to apply when pivoting and ' +
-                 'computing the total rows and columns',
+    description: '分组指标汇总',
   },
 
   size_from: {
