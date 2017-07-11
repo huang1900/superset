@@ -1,3 +1,5 @@
+import { D3_TIME_FORMAT_OPTIONS } from './controls';
+
 export const sections = {
   druidTimeSeries: {
     label: '时间',
