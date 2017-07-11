@@ -1,9 +1,10 @@
 #-*-coding:utf8-*-
 from datetime import datetime
+import json
 import logging
 import sqlparse
 from past.builtins import basestring
-
+import copy
 import pandas as pd
 
 from sqlalchemy import (
@@ -21,7 +22,7 @@ from flask import escape, Markup
 from flask_appbuilder import Model
 from flask_babel import lazy_gettext as _
 
-from superset import db, utils, import_util, sm
+from superset import db, utils, import_util, sm,security
 from superset.connectors.base import BaseDatasource, BaseColumn, BaseMetric
 from superset.utils import DTTM_ALIAS, QueryStatus
 from superset.models.helpers import QueryResult
@@ -49,9 +50,14 @@ class TableColumn(Model, BaseColumn):
         'table_id', 'column_name', 'verbose_name', 'is_dttm', 'is_active',
         'type', 'groupby', 'count_distinct', 'sum', 'avg', 'max', 'min',
         'filterable', 'expression', 'description', 'python_date_format',
-        'database_expression'
+        'database_expression', 'is_restricted'
     )
-
+    @property
+    def perm(self):
+        return (
+            "{parent_name}.[{obj.column_name}](id:{obj.id})"
+        ).format(obj=self,
+                 parent_name=self.table.full_name) if self.table else None
     @property
     def sqla_col(self):
         name = self.column_name
@@ -199,6 +205,32 @@ class SqlaTable(Model, BaseDatasource):
     def __repr__(self):
         return self.name
 
+
+    @property
+    def metrics_combo(self):
+        return sorted(
+            [
+                (m.metric_name, m.verbose_name or m.metric_name)
+                for m in self.metrics if self.has_met_access(m)],
+            key=lambda x: x[1])
+    @staticmethod
+    def has_col_access(c):
+        return not c.is_restricted or (c.is_restricted and sm.has_access('columns_access', c.perm))
+    @staticmethod
+    def has_met_access(m):
+        return not m.is_restricted or (m.is_restricted and sm.has_access('metric_access', m.perm))
+    @property
+    def groupby_column_names(self):
+         return sorted([c.column_name for c in self.columns if c.groupby and self.has_col_access(c)])
+    @property
+    def filterable_column_names(self):
+        return sorted([c.column_name for c in self.columns if c.filterable and
+                       self.has_col_access(c)])
+    @property
+    def column_names(self):
+        return sorted([c.column_name for c in self.columns
+                       if self.has_col_access(c)])
+
     @property
     def description_markeddown(self):
         return utils.markdown(self.description)
@@ -239,7 +271,7 @@ class SqlaTable(Model, BaseDatasource):
 
     @property
     def num_cols(self):
-        return [c.column_name for c in self.columns if c.is_num]
+        return [c.column_name for c in self.columns if c.is_num and self.has_col_access(c)]
 
     @property
     def any_dttm_col(self):
@@ -249,7 +281,7 @@ class SqlaTable(Model, BaseDatasource):
 
     @property
     def html(self):
-        t = ((c.column_name, c.type) for c in self.columns)
+        t = ((c.column_name, c.type) for c in self.columns if self.has_col_access(c))
         df = pd.DataFrame(t)
         df.columns = ['field', 'type']
         return df.to_html(
@@ -284,6 +316,17 @@ class SqlaTable(Model, BaseDatasource):
                 grains = [(g.name, g.label) for g in grains]
             d['granularity_sqla'] = utils.choicify(self.dttm_cols)
             d['time_grain_sqla'] = grains
+        # d['metrics'] = [m.data for m in self.metrics if self.has_met_access(m)]
+        # d['columns'] = [c.data for c in self.columns if self.has_col_access(c)]
+        # verbose_map = {
+        #     o.metric_name: o.verbose_name or o.metric_name
+        #     for o in self.metrics if self.has_met_access(o)
+        #     }
+        # verbose_map.update({
+        #                    o.column_name: o.verbose_name or o.column_name
+        #                    for o in self.columns if self.has_col_access(o)
+        #                    })
+        # d['verbose_map'] = verbose_map
         return d
 
     def values_for_column(self, column_name, limit=10000):
@@ -337,15 +380,66 @@ class SqlaTable(Model, BaseDatasource):
         if self.schema:
             tbl.schema = self.schema
         return tbl
+    @property
+    def get_dim_acl_where(self):
+        #维度验证
+        cols = {col.column_name: col for col in self.columns if self.has_col_access(col)}
+        dim_acslist = security.get_permission_view_by_permission("dim_access")
+        dim_acl_map = {}
+        acl_where_clause_and = []
+        for ac in dim_acslist:
+            if sm.has_access('dim_access', ac) and len(ac.split('_')) > 1 and ac.split('_')[0] in self.filterable_column_names :
+                if dim_acl_map.has_key(ac.split('_')[0]):
+                    dim_acl_map[ac.split('_')[0]] += [ac.split('_')[1]]
+                else :
+                    dim_acl_map[ac.split('_')[0]] = [ac.split('_')[1]]
+        acl_filter=[]
+        for  dim in dim_acl_map :
+            acl_filter += [{
+                'col': dim,
+                'op': 'in',
+                'val': dim_acl_map[dim],
+            }]
+        for flt in acl_filter:
+            if not all([flt.get(s) for s in ['col', 'op', 'val']]):
+                continue
+            col = flt['col']
+            op = flt['op']
+            eq = flt['val']
+            if col not in cols:
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(col)))
+            col_obj = cols.get(col)
+            if col_obj:
+                if op in ('in', 'not in'):
+                    values = []
+                    for v in eq:
+                        # For backwards compatibility and edge cases
+                        # where a column data type might have changed
+                        if isinstance(v, basestring):
+                            v = v.strip("'").strip('"')
+                            if col_obj.is_num:
+                                v = utils.string_to_num(v)
+                        # Removing empty strings and non numeric values
+                        # targeting numeric columns
+                        if v is not None:
+                            values.append(v)
+                    cond = col_obj.sqla_col.in_(values)
+                    acl_where_clause_and.append(cond)
+        return   acl_where_clause_and
 
     def get_from_clause(self, template_processor=None):
         # Supporting arbitrary SQL statements in place of tables
+        rs = None
         if self.sql:
             from_sql = self.sql
             if template_processor:
                 from_sql = template_processor.process_template(from_sql)
-            return TextAsFrom(sa.text(from_sql), []).alias('expr_qry')
-        return self.get_sqla_table()
+            rs = TextAsFrom(sa.text(from_sql), []).alias('expr_qry')
+        else :
+            rs = self.get_sqla_table()
+        if len(self.get_dim_acl_where)>0:
+            rs = sa.select(columns="*").select_from(rs).where(and_(*self.get_dim_acl_where))
+        return rs
 
     def get_sqla_query(  # sqla
             self,
@@ -382,15 +476,23 @@ class SqlaTable(Model, BaseDatasource):
         # Database spec supports join-free timeslot grouping
         time_groupby_inline = self.database.db_engine_spec.time_groupby_inline
 
-        cols = {col.column_name: col for col in self.columns}
-        metrics_dict = {m.metric_name: m for m in self.metrics}
-
+        cols = {col.column_name: col for col in self.columns if self.has_col_access(col)}
+        metrics_dict = {m.metric_name: m for m in self.metrics if self.has_met_access(m)}
         if not granularity and is_timeseries:
             raise Exception((
                 "缺少时间字段"))
-        for m in metrics:
+        if metrics:
+         for m in metrics:
             if m not in metrics_dict:
-                raise Exception(("字段 '{}' 不存在".format(m)))
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(m)))
+        if groupby:
+            for s in groupby:
+                if s not in cols:
+                    raise Exception(("字段 '{}' 不存在,或没有权限访问".format(s)))
+        if columns:
+            for s in columns:
+                if s not in cols:
+                    raise Exception(("字段 '{}' 不存在,或没有权限访问".format(s)))
         metrics_exprs = [metrics_dict.get(m).sqla_col for m in metrics]
         timeseries_limit_metric = metrics_dict.get(timeseries_limit_metric)
         timeseries_limit_metric_expr = None
@@ -443,20 +545,20 @@ class SqlaTable(Model, BaseDatasource):
 
         select_exprs += metrics_exprs
         qry = sa.select(select_exprs)
-
         tbl = self.get_from_clause(template_processor)
-
         if not columns:
             qry = qry.group_by(*groupby_exprs)
-
         where_clause_and = []
         having_clause_and = []
-        for flt in filter:
+        filters = copy.deepcopy(filter)
+        for flt in filters:
             if not all([flt.get(s) for s in ['col', 'op', 'val']]):
                 continue
             col = flt['col']
             op = flt['op']
             eq = flt['val']
+            if col not in cols:
+                raise Exception(("字段 '{}' 不存在,或没有权限访问".format(col)))
             col_obj = cols.get(col)
             if col_obj:
                 if op in ('in', 'not in'):
@@ -543,9 +645,7 @@ class SqlaTable(Model, BaseDatasource):
             for i, gb in enumerate(groupby):
                 on_clause.append(
                     groupby_exprs[i] == column(gb + '__'))
-
             tbl = tbl.join(subq.alias(), and_(*on_clause))
-
         return qry.select_from(tbl)
 
     def query(self, query_obj):

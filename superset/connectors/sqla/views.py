@@ -24,12 +24,16 @@ from . import models
 class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     datamodel = SQLAInterface(models.TableColumn)
     can_delete = False
+    list_title = "字段列表"
+    show_title = "显示字段"
+    add_title = "添加字段"
+    edit_title = "编辑字段"
     list_widget = ListWidgetWithCheckboxes
     edit_columns = [
         'column_name', 'verbose_name', 'description',
         'type', 'groupby', 'filterable',
         'table', 'count_distinct', 'sum', 'min', 'max', 'expression',
-        'is_dttm', 'python_date_format', 'database_expression']
+        'is_dttm', 'python_date_format', 'database_expression','is_restricted']
     add_columns = edit_columns
     list_columns = [
         'column_name', 'type', 'groupby', 'filterable', 'count_distinct',
@@ -43,6 +47,10 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'filterable': _(
             "Whether this column is exposed in the `Filters` section "
             "of the explore view."),
+        'is_restricted': _("Whether the access to this metric is restricted "
+                           "to certain roles. Only roles with the permission "
+                           "'metric access on XXX (the name of this metric)' "
+                           "are allowed to access this metric"),
         'type': _(
             "The data type that was inferred by the database. "
             "It may be necessary to input a type manually for "
@@ -86,11 +94,21 @@ class TableColumnInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'python_date_format': _("Datetime Format"),
         'database_expression': _("Database Expression")
     }
+    def post_add(self, columns):
+        if columns.is_restricted:
+            security.merge_perm(sm, 'columns_access', columns.perm)
+    def post_update(self, columns):
+        if columns.is_restricted:
+            security.merge_perm(sm, 'columns_access', columns.perm)
 appbuilder.add_view_no_menu(TableColumnInlineView)
 
 
 class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
     datamodel = SQLAInterface(models.SqlMetric)
+    list_title = "计算指标列表"
+    show_title = "显示计算指标"
+    add_title = "添加计算指标"
+    edit_title = "编辑计算指标"
     list_columns = ['metric_name', 'verbose_name', 'metric_type']
     edit_columns = [
         'metric_name', 'description', 'verbose_name', 'metric_type',
@@ -121,15 +139,12 @@ class SqlMetricInlineView(CompactCRUDMixin, SupersetModelView):  # noqa
         'expression': _("SQL Expression"),
         'table': _("Table"),
     }
-
     def post_add(self, metric):
         if metric.is_restricted:
-            security.merge_perm(sm, 'metric_access', metric.get_perm())
-
+            security.merge_perm(sm, 'metric_access', metric.perm)
     def post_update(self, metric):
         if metric.is_restricted:
-            security.merge_perm(sm, 'metric_access', metric.get_perm())
-
+            security.merge_perm(sm, 'metric_access', metric.perm)
 appbuilder.add_view_no_menu(SqlMetricInlineView)
 
 
@@ -149,7 +164,7 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
         'description', 'owner',
         'main_dttm_col', 'default_endpoint', 'offset', 'cache_timeout']
     show_columns = edit_columns + ['perm']
-    related_views = [TableColumnInlineView, SqlMetricInlineView]
+    related_views = [SqlMetricInlineView,TableColumnInlineView]
     base_order = ('changed_on', 'desc')
     search_columns = (
         'description',
@@ -234,7 +249,6 @@ class TableModelView(SupersetModelView, DeleteMixin):  # noqa
         security.merge_perm(sm, 'datasource_access', table.get_perm())
         if table.schema:
             security.merge_perm(sm, 'schema_access', table.schema_perm)
-
         if flash_message:
             flash(_(
                 "The table was created. "
