@@ -47,7 +47,7 @@ export default function QueryAndSaveBtns(
   );
 
   return (
-    <div style={{margin-bottom: '-15'}}>
+      <div style={{margin:'0px,0px,-15px,0px'}}>
       <ButtonGroup className="query-and-save">
         {qryOrStopButton}
         <Button
