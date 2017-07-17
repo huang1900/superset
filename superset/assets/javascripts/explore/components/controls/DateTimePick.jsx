@@ -1,4 +1,4 @@
-import 'flatpickr/dist/themes/material_green.min.css'
+import 'flatpickr/dist/themes/airbnb.css'
 import Flatpickr from 'react-flatpickr'
 import { Component } from 'react'
 
