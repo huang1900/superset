@@ -912,8 +912,8 @@ export const controls = {
   include_search: {
     type: 'CheckboxControl',
     label: '查询框',
-    // renderTrigger: true,
-    default: false,
+    renderTrigger: true,
+    default: true,
     description: '是否有查询框',
   },
 
