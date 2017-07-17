@@ -11,12 +11,18 @@ const defaultProps = {
 
 export default class DatetimeControl extends React.Component {
 
+
+
     render() {
+        const start_props={
+            label: "开始时间",};
+        const end_props={
+            label: "结束时间",};
         return (
             <div>
-            <i className="fa fa-plus" /> &nbsp; 开始
+                <ControlHeader {...start_props} />
             < DateTimePick  ></DateTimePick>
-            <i className="fa fa-plus" /> &nbsp; 结束
+                <ControlHeader {...end_props} />
             < DateTimePick  ></DateTimePick>
             </div>
                 );
