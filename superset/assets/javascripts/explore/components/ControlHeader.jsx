@@ -56,7 +56,7 @@ export default function ControlHeader({
                 placement="right"
                 overlay={
                   <Tooltip id={'rendertrigger-tooltip'}>
-                    即可生效
+                    即刻生效
                   </Tooltip>
                 }
               >

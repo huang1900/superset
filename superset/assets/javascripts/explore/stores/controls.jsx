@@ -27,7 +27,7 @@ export const D3_TIME_FORMAT_OPTIONS = [
 export const controls = {
   datasource: {
     type: 'SelectControl',
-    label: '数据域',
+    label: '数据指标分类',
     isLoading: true,
     clearable: false,
     default: null,
@@ -46,7 +46,7 @@ export const controls = {
 
   viz_type: {
     type: 'VizTypeControl',
-    label: '分析模式',
+    label: '报表类型',
     default: 'table',
     description: '选择一种分析模式',
   },
@@ -527,6 +527,11 @@ export const controls = {
       '1 day ago',
     ]),
   },
+    date_timepick: {
+        type: 'DatetimeControl',
+        label: '开始时间',
+        description: '输入时间描述或者直接输入时间字符串如：20170302',
+    },
 
   max_bubble_size: {
     type: 'SelectControl',

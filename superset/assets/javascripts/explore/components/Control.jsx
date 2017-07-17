@@ -19,6 +19,7 @@ const controlMap = {
   TextControl,
   VizTypeControl,
   BoundsControl,
+  DatetimeControl,
 };
 const controlTypes = Object.keys(controlMap);
 

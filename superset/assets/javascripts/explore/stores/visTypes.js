@@ -12,7 +12,7 @@ export const sections = {
     ],
   },
   datasourceAndVizType: {
-    label: '数据表 & 报表类型',
+    label: '数据指标分类&报表类型',
     controlSetRows: [
       ['datasource'],
       ['viz_type'],
@@ -27,7 +27,25 @@ export const sections = {
       ['since', 'until'],
     ],
   },
-
+    TableTimeSeries: {
+        label: '时间',
+        description: '时间类型范围',
+        controlSetRows: [
+            ['granularity_sqla','time_grain_sqla']
+        ],
+    },
+    TableTimePick: {
+        label: '时间范围',
+        controlSetRows: [
+            ['date_timepick']
+        ],
+    },
+    TableTimeText: {
+        label: '报表更新时间（如果需要将查询生成自动更新报表，请配置报表更新时间）',
+        controlSetRows: [
+            ['since','until']
+        ],
+    },
   NVD3TimeSeries: [
     {
       label: null,
@@ -799,9 +817,10 @@ export function sectionsToRender(vizType, datasourceType) {
   return [].concat(
     sections.datasourceAndVizType,
     datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
+    datasourceType === 'table' ? sections.TableTimeSeries : sections.druidTimeSeries,
+    datasourceType === 'table' ? sections.TableTimePick : sections.druidTimeSeries,
+    datasourceType === 'table' ? sections.TableTimeText : sections.druidTimeSeries,
     viz.controlPanelSections,
     datasourceType === 'table' ? sections.filters[0] : sections.filters,
-   // datasourceType === 'table' ? sections.sqlClause : [],
-
   );
 }
