@@ -9,6 +9,7 @@ import TextAreaControl from './controls/TextAreaControl';
 import TextControl from './controls/TextControl';
 import VizTypeControl from './controls/VizTypeControl';
 import BoundsControl from './controls/BoundsControl';
+import DatetimeControl from "./controls/DatetimeControl";
 
 const controlMap = {
   CheckboxControl,
