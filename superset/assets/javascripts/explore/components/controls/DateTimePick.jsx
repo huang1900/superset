@@ -3,13 +3,11 @@ import Flatpickr from 'react-flatpickr'
 import { Component } from 'react'
 
 const propTypes = {
-  changeFilter: PropTypes.func,
-  removeFilter: PropTypes.func,
+
 };
 
 const defaultProps = {
-  changeFilter: () => {},
-  removeFilter: () => {},
+
 };
 
 export default class DateTimePick extends React.Component {
@@ -28,5 +26,5 @@ export default class DateTimePick extends React.Component {
   }
 }
 
-Filter.propTypes = propTypes;
-Filter.defaultProps = defaultProps;
+DateTimePick.propTypes = propTypes;
+DateTimePick.defaultProps = defaultProps;
