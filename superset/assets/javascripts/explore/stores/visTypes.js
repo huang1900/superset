@@ -1,5 +1,7 @@
 import { D3_TIME_FORMAT_OPTIONS } from './controls';
 
+import * as v from '../validators';
+
 export const sections = {
   druidTimeSeries: {
     label: '时间',
@@ -757,6 +759,37 @@ const visTypes = {
   //     },
   //   },
   // },
+  //   chord: {
+  //       label: 'Chord Diagram',
+  //       controlPanelSections: [
+  //           {
+  //               label: null,
+  //               controlSetRows: [
+  //                   ['groupby', 'columns'],
+  //                   ['metric'],
+  //                   ['row_limit', 'y_axis_format'],
+  //               ],
+  //           },
+  //       ],
+  //       controlOverrides: {
+  //           y_axis_format: {
+  //               label: 'Number format',
+  //               description: 'Choose a number format',
+  //           },
+  //           groupby: {
+  //               label: 'Source',
+  //               multi: false,
+  //               validators: [v.nonEmpty],
+  //               description: 'Choose a source',
+  //           },
+  //           columns: {
+  //               label: 'Target',
+  //               multi: false,
+  //               validators: [v.nonEmpty],
+  //               description: 'Choose a target',
+  //           },
+  //       },
+  //   },
 };
 
 export default visTypes;

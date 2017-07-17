@@ -11,6 +11,11 @@ const D3_FORMAT_OPTIONS = [
   [',', '千位分隔'],
   ['.2%', '百分比（保留2位）'],
 ];
+
+const ROW_LIMIT_OPTIONS = [10, 50, 100, 250, 500, 1000, 5000, 10000, 50000];
+
+const SERIES_LIMITS = [0, 5, 10, 25, 50, 100, 500];
+
 export const D3_TIME_FORMAT_OPTIONS = [
     ['smart_date', '自动匹配'],
     ['%m/%d/%Y', '%m/%d/%Y | 01/14/2019'],
@@ -18,9 +23,6 @@ export const D3_TIME_FORMAT_OPTIONS = [
     ['%Y-%m-%d %H:%M:%S', '%Y-%m-%d %H:%M:%S | 2019-01-14 01:32:10'],
     ['%H:%M:%S', '%H:%M:%S | 01:32:10'],
 ];
-const ROW_LIMIT_OPTIONS = [10, 50, 100, 250, 500, 1000, 5000, 10000, 50000];
-
-const SERIES_LIMITS = [0, 5, 10, 25, 50, 100, 500];
 
 export const controls = {
   datasource: {
@@ -327,11 +329,14 @@ export const controls = {
   columns: {
     type: 'SelectControl',
     multi: true,
-    label: '列分组',
-    mapStateToProps: state => ({
-      choices: (state.datasource) ? state.datasource.gb_cols : [],
-    }),
+    label: 'Columns',
     default: [],
+    optionRenderer: c => <ColumnOption column={c} />,
+    valueRenderer: c => <ColumnOption column={c} />,
+    valueKey: 'column_name',
+    mapStateToProps: state => ({
+      options: (state.datasource) ? state.datasource.columns : [],
+    }),
     description: '选择分组列',
   },
 
@@ -833,7 +838,7 @@ export const controls = {
     label: 'Code',
     description: 'Put your code here',
     mapStateToProps: state => ({
-      language: state.controls ? state.controls.markup_type.value : null,
+      language: state.controls && state.controls.markup_type ? state.controls.markup_type.value : 'markdown',
     }),
     default: '',
   },
