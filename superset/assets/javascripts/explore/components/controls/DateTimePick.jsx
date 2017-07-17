@@ -1,6 +1,8 @@
 import 'flatpickr/dist/themes/airbnb.css'
 import Flatpickr from 'react-flatpickr'
 import { Component } from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const propTypes = {
 
