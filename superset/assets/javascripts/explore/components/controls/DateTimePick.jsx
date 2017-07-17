@@ -10,7 +10,7 @@ const defaultProps = {
 
 };
 
-export default class DateTimePick extends React.Component {
+export default class DateTimePick extends Component {
   constructor(props) {
     super(props);
   }
