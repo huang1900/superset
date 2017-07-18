@@ -3,7 +3,8 @@ import Flatpickr from 'react-flatpickr'
 import { Component } from 'react'
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'flatpickr/dist/l10n/zh.js'
+
+const zh=require('flatpickr/dist/l10n/zh.js').zh;
 const propTypes = {
     time_24hr:PropTypes.bool,
     weekNumbers:PropTypes.bool,
@@ -44,7 +45,7 @@ export default class DateTimePick extends Component {
           enableSeconds:this.props.enableSeconds,
           defaultHour:this.props.defaultHour,
           defaultMinute:this.props.defaultMinute,
-          locale:"zh",
+          locale:zh,
       }
      return (
         <Flatpickr
