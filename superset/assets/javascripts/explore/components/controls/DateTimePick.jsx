@@ -38,7 +38,6 @@ export default class DateTimePick extends Component {
   }
 
   render() {
-      console.log("props="+this.props)
      return (
         <Flatpickr
             {...this.props}
