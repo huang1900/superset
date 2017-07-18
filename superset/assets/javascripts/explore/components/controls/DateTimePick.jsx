@@ -13,6 +13,7 @@ const propTypes = {
     defaultHour:PropTypes.number,
     onChange: PropTypes.func,
     defaultMinute:PropTypes.number,
+    value: PropTypes.string,
 };
 
 const defaultProps = {
@@ -46,6 +47,7 @@ export default class DateTimePick extends Component {
           defaultHour:this.props.defaultHour,
           defaultMinute:this.props.defaultMinute,
           locale:zh,
+          wrap: true,
       }
      return (
         <Flatpickr

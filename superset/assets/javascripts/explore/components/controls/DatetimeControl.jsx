@@ -14,6 +14,7 @@ const propTypes = {
     defaultHour:PropTypes.number,
     onChange: PropTypes.func,
     defaultMinute:PropTypes.number,
+    value: PropTypes.string,
 
 
 };
