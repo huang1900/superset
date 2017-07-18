@@ -529,7 +529,7 @@ export const controls = {
   },
     date_timepick_st: {
         type: 'DatetimeControl',
-        label: '开始时间 ',
+        label: '开始时间.',
         time_24hr:true,
         enableTime:true,
         defaultHour:0,
@@ -539,7 +539,7 @@ export const controls = {
     },
     date_timepick_end: {
         type: 'DatetimeControl',
-        label: '结束时间 ',
+        label: '结束时间.',
         time_24hr:true,
         enableTime:true,
         defaultHour:23,
