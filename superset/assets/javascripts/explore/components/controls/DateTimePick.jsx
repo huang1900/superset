@@ -51,6 +51,7 @@ export default class DateTimePick extends Component {
         <Flatpickr
             onChange={this.onChange}
             className="Select-control"
+            locale= "zh"
             options={option}
         />
       )
