@@ -33,7 +33,7 @@ export default class DateTimePick extends Component {
   render() {
      return (
         <Flatpickr
-            {...this.this.props}
+            {...this.props}
         />
       )
   }
