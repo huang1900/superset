@@ -37,7 +37,8 @@ export default class DatetimeControl extends React.Component {
                 {this.props.showHeader &&
                 <ControlHeader {...this.props} />
                 }
-            < DateTimePick {...this.props} ></DateTimePick>
+            < DateTimePick className="Select-control"
+                               {...this.props} ></DateTimePick>
             </div>
                 );
 
