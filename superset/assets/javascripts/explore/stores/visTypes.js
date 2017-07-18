@@ -37,7 +37,7 @@ export const sections = {
     TableTimePick: {
         label: '时间范围',
         controlSetRows: [
-            ['date_timepick']
+            ['date_timepick_st','date_timepick_end']
         ],
     },
     TableTimeText: {
