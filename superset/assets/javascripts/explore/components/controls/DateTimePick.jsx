@@ -40,6 +40,8 @@ export default class DateTimePick extends Component {
   render() {
      return (
         <Flatpickr
+            onChange={this.onChange}
+            className="Select-control"
             time_24hr={this.props.time_24hr}
             enableTime={this.props.enableTime}
             weekNumbers={this.weekNumbers}
