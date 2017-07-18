@@ -16,7 +16,7 @@ const propTypes = {
 const defaultProps = {
     time_24hr:true,
     weekNumbers:false,
-    enableTime:false,
+    enableTime:true,
     enableSeconds:false,
     defaultHour:12,
     defaultMinute:0
@@ -31,6 +31,7 @@ export default class DateTimePick extends Component {
   }
 
   render() {
+      console.log("props="+this.props)
      return (
         <Flatpickr
             {...this.props}
