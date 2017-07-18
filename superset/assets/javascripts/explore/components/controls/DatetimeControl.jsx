@@ -17,6 +17,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+    showHeader: true,
     time_24hr:true,
     weekNumbers:false,
     enableTime:false,

@@ -32,8 +32,9 @@ export default class DateTimePick extends Component {
 
   render() {
      return (
-        <Flatpickr data-enable-time
-                   onChange={v => console.info(v)} />
+        <Flatpickr
+            {...this.this.props}
+        />
       )
   }
 }
