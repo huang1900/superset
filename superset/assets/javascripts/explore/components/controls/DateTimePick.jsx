@@ -30,7 +30,7 @@ export default class DateTimePick extends Component {
     this.onChange = this.onChange.bind(this);
   }
   onChange(event) {
-
+      console.log(event)
       this.props.onChange(event, []);
     }
   componentDidMount() {
@@ -40,7 +40,12 @@ export default class DateTimePick extends Component {
   render() {
      return (
         <Flatpickr
-            {...this.props}
+            time_24hr={this.props.time_24hr}
+            enableTime={this.props.enableTime}
+            weekNumbers={this.weekNumbers}
+            enableSeconds={this.props.enableSeconds}
+            defaultHour={this.props.defaultHour}
+            defaultMinute={this.props.defaultMinute}
         />
       )
   }
