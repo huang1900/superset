@@ -2,6 +2,7 @@ import React from 'react';
 import { FormControl } from 'react-bootstrap';
 import DateTimePick from './DateTimePick';
 import ControlHeader from '../ControlHeader';
+import PropTypes from 'prop-types';
 const propTypes = {
     showHeader: PropTypes.bool,
     label: PropTypes.string,
