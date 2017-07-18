@@ -17,7 +17,7 @@ const propTypes = {
 const defaultProps = {
     time_24hr:true,
     weekNumbers:false,
-    enableTime:true,
+    enableTime:false,
     onChange: () => {},
     enableSeconds:false,
     defaultHour:12,
@@ -39,19 +39,18 @@ export default class DateTimePick extends Component {
 
 
   render() {
-
       const option={
           time_24hr:this.props.time_24hr,
           enableTime:this.props.enableTime,
           enableSeconds:this.props.enableSeconds,
           defaultHour:this.props.defaultHour,
           defaultMinute:this.props.defaultMinute,
+          locale:"zh",
       }
      return (
         <Flatpickr
             onChange={this.onChange}
             className="Select-control"
-            locale= "zh"
             options={option}
         />
       )

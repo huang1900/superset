@@ -530,21 +530,11 @@ export const controls = {
     date_timepick_st: {
         type: 'DatetimeControl',
         label: '开始时间.',
-        time_24hr:true,
-        enableTime:true,
-        defaultHour:0,
-        defaultMinute:0,
-        enableSeconds:true,
         description: '输入时间描述或者直接输入时间字符串如：20170302',
     },
     date_timepick_end: {
         type: 'DatetimeControl',
         label: '结束时间.',
-        time_24hr:true,
-        enableTime:true,
-        defaultHour:23,
-        defaultMinute:59,
-        enableSeconds:true,
         description: '输入时间描述或者直接输入时间字符串如：20170302',
     },
 
