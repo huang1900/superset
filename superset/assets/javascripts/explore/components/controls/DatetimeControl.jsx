@@ -12,11 +12,14 @@ const propTypes = {
     enableTime:PropTypes.bool,
     enableSeconds:PropTypes.bool,
     defaultHour:PropTypes.number,
-    defaultMinute:PropTypes.number
+    onChange: PropTypes.func,
+    defaultMinute:PropTypes.number,
+
 
 };
 
 const defaultProps = {
+    onChange: () => {},
     showHeader: true,
     time_24hr:true,
     weekNumbers:false,

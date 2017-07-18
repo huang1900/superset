@@ -10,6 +10,7 @@ const propTypes = {
     enableTime:PropTypes.bool,
     enableSeconds:PropTypes.bool,
     defaultHour:PropTypes.number,
+    onChange: PropTypes.func,
     defaultMinute:PropTypes.number
 };
 
@@ -17,6 +18,7 @@ const defaultProps = {
     time_24hr:true,
     weekNumbers:false,
     enableTime:true,
+    onChange: () => {},
     enableSeconds:false,
     defaultHour:12,
     defaultMinute:0
