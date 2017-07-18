@@ -29,6 +29,10 @@ export default class DateTimePick extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
   }
+  onChange(event) {
+
+      this.props.onChange(event, []);
+    }
   componentDidMount() {
 
   }
