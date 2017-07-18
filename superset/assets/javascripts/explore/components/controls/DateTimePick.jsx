@@ -27,6 +27,7 @@ const defaultProps = {
 export default class DateTimePick extends Component {
   constructor(props) {
     super(props);
+    this.onChange = this.onChange.bind(this);
   }
   componentDidMount() {
 
