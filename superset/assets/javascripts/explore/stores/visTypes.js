@@ -816,7 +816,7 @@ export function sectionsToRender(vizType, datasourceType) {
   const viz = visTypes[vizType];
   return [].concat(
     sections.datasourceAndVizType,
-    datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
+    // datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
     datasourceType === 'table' ? sections.TableTimeSeries : sections.druidTimeSeries,
     datasourceType === 'table' ? sections.TableTimePick : sections.druidTimeSeries,
     datasourceType === 'table' ? sections.TableTimeText : sections.druidTimeSeries,
