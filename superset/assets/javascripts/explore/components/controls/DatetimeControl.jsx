@@ -37,9 +37,14 @@ const defaultProps = {
 };
 
 export default class DatetimeControl extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+    }
 
     onChange(event) {
         this.props.onChange(event, []);
+
     }
 
     render() {
@@ -51,23 +56,16 @@ export default class DatetimeControl extends React.Component {
          defaultHour:this.props.defaultHour,
          defaultMinute:this.props.defaultMinute,
          locale: zh,
-         wrap: true,
      }
         return (
             <div>
                 {this.props.showHeader &&
                 <ControlHeader {...this.props} />
                 }
-                <Flatpickr classname="Select-control"
+                <Flatpickr className="Select-control"
+                           placeholder="选择时间"
                            options={options}
                            value={this.props.value}>
-                    <input type='text' data-input />
-                    <button type='button' data-toggle>
-                        <i class="icon-calendar"></i>
-                    </button>
-                    <button type='button' data-clear>
-                        <i class="icon-close"></i>
-                    </button>
                 </Flatpickr>
             </div>
                 );
