@@ -43,6 +43,7 @@ export default class DatetimeControl extends React.Component {
     }
 
     onChange(event) {
+        console.log(event)
         this.props.onChange(event, []);
 
     }
