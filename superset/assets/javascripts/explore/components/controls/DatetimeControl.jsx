@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import Flatpickr from 'react-flatpickr'
 import ControlHeader from '../ControlHeader';
 import PropTypes from 'prop-types';
+import 'flatpickr/dist/themes/airbnb.css'
 const propTypes = {
     showHeader: PropTypes.bool,
     label: PropTypes.string,
