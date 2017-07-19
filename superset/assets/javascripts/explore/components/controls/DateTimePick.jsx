@@ -51,6 +51,13 @@ export default class DateTimePick extends Component {
       }
      return (
         <Flatpickr
+        <input type="text" placeholder="Select Date.." data-input>
+            <a class="input-button" title="toggle" data-toggle>
+                <i class="icon-calendar"></i>
+            </a>
+            <a class="input-button" title="clear" data-clear>
+                <i class="icon-close"></i>
+            </a>
             onChange={this.onChange}
             className="Select-control"
             options={option}
