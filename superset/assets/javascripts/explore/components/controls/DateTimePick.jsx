@@ -23,15 +23,17 @@ const defaultProps = {
     onChange: () => {},
     enableSeconds:false,
     defaultHour:12,
-    defaultMinute:0
+    defaultMinute:0,
+    value:"",
 };
 export default class DateTimePick extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
   }
-  onChange(event) {
+  onChange(event,value) {
       console.log(event)
+      console.log(value)
       this.props.onChange(event, []);
     }
   componentDidMount() {
