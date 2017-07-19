@@ -36,10 +36,9 @@ const propTypes = {
 const defaultProps = {
     options: {}
 }
-class DateTimePicker extends Component {
+class DateTimePick extends Component {
 
     constructor(props) {
-        console.log(props)
         super(props);
 
     }
@@ -121,6 +120,6 @@ class DateTimePicker extends Component {
 }
 
 
-DateTimePicker.propTypes = propTypes;
-DateTimePicker.defaultProps = defaultProps;
-export default DateTimePicker
+DateTimePick.propTypes = propTypes;
+DateTimePick.defaultProps = defaultProps;
+export default DateTimePick

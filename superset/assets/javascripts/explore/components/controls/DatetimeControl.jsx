@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormControl } from 'react-bootstrap';
-import DateTimePick from './DateTimePick';
+import { render } from 'react-dom';
+import Flatpickr from 'react-flatpickr'
 import ControlHeader from '../ControlHeader';
 import PropTypes from 'prop-types';
 const propTypes = {
@@ -44,8 +45,13 @@ export default class DatetimeControl extends React.Component {
                 {this.props.showHeader &&
                 <ControlHeader {...this.props} />
                 }
-            < DateTimePick className="Select-control"
-                               {...this.props} ></DateTimePick>
+                <Flatpickr  options={{...this.props}+{wrap: true}}
+
+                >
+                    <input type='text' data-input />
+                    <button type='button' data-toggle>Toggle</button>
+                    <button type='button' data-clear>Clear</button>
+                </Flatpickr>
             </div>
                 );
 
