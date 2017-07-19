@@ -38,7 +38,11 @@ const defaultProps = {
 }
 class DateTimePicker extends Component {
 
+    constructor(props) {
+        console.log(props)
+        super(props);
 
+    }
     componentWillReceiveProps(props) {
         const { options } = props
 
@@ -82,7 +86,7 @@ class DateTimePicker extends Component {
                 options[hook] = this.props[hook]
             }
         }
-
+        debugger
         this.flatpickr = new Flatpickr(this.node, options)
 
         if (this.props.hasOwnProperty('value')) {
