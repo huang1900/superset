@@ -43,8 +43,11 @@ export default class DatetimeControl extends React.Component {
     }
 
     onChange(event) {
-        console.log(event)
-        this.props.onChange(event, []);
+        if(event[0] && event[0] instanceof Date ){
+            this.props.onChange(event.Format("yyyy-MM-dd"), []);
+        }else{
+            this.props.onChange(event, []);
+        }
 
     }
 
@@ -67,7 +70,7 @@ export default class DatetimeControl extends React.Component {
                            placeholder="选择时间"
                            options={options}
                            onChange={this.onChange}
-                           value={this.props.value}>
+                           value={this.props.value instanceof Date?this.props.value:new Date(this.props.value)}>
                 </Flatpickr>
             </div>
                 );
