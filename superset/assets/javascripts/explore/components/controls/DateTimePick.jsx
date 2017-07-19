@@ -13,7 +13,6 @@ const propTypes = {
     defaultHour:PropTypes.number,
     onChange: PropTypes.func,
     defaultMinute:PropTypes.number,
-    value: PropTypes.string,
 };
 
 const defaultProps = {
@@ -24,7 +23,6 @@ const defaultProps = {
     enableSeconds:false,
     defaultHour:12,
     defaultMinute:0,
-    value:"",
 };
 export default class DateTimePick extends Component {
   constructor(props) {
