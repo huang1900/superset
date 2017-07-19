@@ -14,6 +14,12 @@ const propTypes = {
     defaultHour:PropTypes.number,
     onChange: PropTypes.func,
     defaultMinute:PropTypes.number,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array,
+        PropTypes.object,
+        PropTypes.number
+    ]),
 };
 
 const defaultProps = {

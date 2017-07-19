@@ -13,31 +13,31 @@ const hooks = [
     'onValueUpdate',
     'onDayCreate'
 ]
+const propTypes = {
+    defaultValue: PropTypes.string,
+    options: PropTypes.object,
+    onChange: PropTypes.func,
+    onOpen: PropTypes.func,
+    onClose: PropTypes.func,
+    onMonthChange: PropTypes.func,
+    onYearChange: PropTypes.func,
+    onReady: PropTypes.func,
+    onValueUpdate: PropTypes.func,
+    onDayCreate: PropTypes.func,
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array,
+        PropTypes.object,
+        PropTypes.number
+    ]),
+    children: PropTypes.node
+}
 
+const defaultProps = {
+    options: {}
+}
 class DateTimePicker extends Component {
-    static propTypes = {
-        defaultValue: PropTypes.string,
-        options: PropTypes.object,
-        onChange: PropTypes.func,
-        onOpen: PropTypes.func,
-        onClose: PropTypes.func,
-        onMonthChange: PropTypes.func,
-        onYearChange: PropTypes.func,
-        onReady: PropTypes.func,
-        onValueUpdate: PropTypes.func,
-        onDayCreate: PropTypes.func,
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.array,
-            PropTypes.object,
-            PropTypes.number
-        ]),
-        children: PropTypes.node
-    }
 
-    static defaultProps = {
-        options: {}
-    }
 
     componentWillReceiveProps(props) {
         const { options } = props
@@ -116,4 +116,7 @@ class DateTimePicker extends Component {
     }
 }
 
+
+DateTimePicker.propTypes = propTypes;
+DateTimePicker.defaultProps = defaultProps;
 export default DateTimePicker
