@@ -66,6 +66,7 @@ export default class DatetimeControl extends React.Component {
                 <Flatpickr className="Select-control"
                            placeholder="选择时间"
                            options={options}
+                           onChange={this.onChange}
                            value={this.props.value}>
                 </Flatpickr>
             </div>
