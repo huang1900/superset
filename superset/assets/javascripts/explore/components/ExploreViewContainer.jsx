@@ -187,6 +187,7 @@ ExploreViewContainer.propTypes = propTypes;
 
 function mapStateToProps(state) {
   const form_data = getFormDataFromControls(state.controls);
+  console.log(state.controls)
   return {
     chartStatus: state.chartStatus,
     datasource_type: state.datasource.type,

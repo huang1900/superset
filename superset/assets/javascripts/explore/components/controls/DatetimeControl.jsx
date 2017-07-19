@@ -38,7 +38,9 @@ const defaultProps = {
 
 export default class DatetimeControl extends React.Component {
 
-
+    onChange(event) {
+        this.props.onChange(event, []);
+    }
 
     render() {
      const options={
@@ -56,11 +58,16 @@ export default class DatetimeControl extends React.Component {
                 {this.props.showHeader &&
                 <ControlHeader {...this.props} />
                 }
-                <Flatpickr  options={options}
-                            value={this.props.value}>
+                <Flatpickr classname="Select-control"
+                           options={options}
+                           value={this.props.value}>
                     <input type='text' data-input />
-                    <button type='button' data-toggle>Toggle</button>
-                    <button type='button' data-clear>Clear</button>
+                    <button type='button' data-toggle>
+                        <i class="icon-calendar"></i>
+                    </button>
+                    <button type='button' data-clear>
+                        <i class="icon-close"></i>
+                    </button>
                 </Flatpickr>
             </div>
                 );
