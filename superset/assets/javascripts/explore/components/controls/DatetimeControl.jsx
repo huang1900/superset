@@ -5,6 +5,7 @@ import Flatpickr from 'react-flatpickr'
 import ControlHeader from '../ControlHeader';
 import PropTypes from 'prop-types';
 import 'flatpickr/dist/themes/airbnb.css'
+const zh = require("flatpickr/dist/l10n/zh.js").zh;
 const propTypes = {
     showHeader: PropTypes.bool,
     label: PropTypes.string,
@@ -40,15 +41,23 @@ export default class DatetimeControl extends React.Component {
 
 
     render() {
-
+     const options={
+         time_24hr:this.props.time_24hr,
+         weekNumbers:this.props.weekNumbers,
+         enableTime:this.props.enableTime,
+         enableSeconds:this.props.enableSeconds,
+         defaultHour:this.props.defaultHour,
+         defaultMinute:this.props.defaultMinute,
+         locale: zh,
+         wrap: true,
+     }
         return (
             <div>
                 {this.props.showHeader &&
                 <ControlHeader {...this.props} />
                 }
-                <Flatpickr  options={{...this.props}+{wrap: true}}
-
-                >
+                <Flatpickr  options={options}
+                            value={this.props.value}>
                     <input type='text' data-input />
                     <button type='button' data-toggle>Toggle</button>
                     <button type='button' data-clear>Clear</button>
