@@ -6,6 +6,7 @@ import ControlHeader from '../ControlHeader';
 import PropTypes from 'prop-types';
 import 'flatpickr/dist/themes/airbnb.css'
 const zh = require("flatpickr/dist/l10n/zh.js").zh;
+require("../../exploreUtils.js")
 const propTypes = {
     showHeader: PropTypes.bool,
     label: PropTypes.string,
