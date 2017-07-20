@@ -61,6 +61,7 @@ export default class DatetimeControl extends React.Component {
          defaultHour:this.props.defaultHour,
          defaultMinute:this.props.defaultMinute,
          locale: zh,
+         wrap: true,
      }
         return (
             <div>
@@ -72,6 +73,13 @@ export default class DatetimeControl extends React.Component {
                            options={options}
                            onChange={this.onChange}
                            value={this.props.value instanceof Date?this.props.value:new Date(this.props.value)}>
+                    <input type='text' data-input />
+                    <span class="Select-clear-zone" title="清除" aria-label="Clear value" data-clear>
+                        <span class="Select-clear">×</span>
+                    </span>
+                    <span class="input-group-addon" data-toggle>
+                        <i class="fa fa-calendar cursor-hand"></i>
+                    </span>
                 </Flatpickr>
             </div>
                 );

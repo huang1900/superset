@@ -304,7 +304,7 @@ const visTypes = {
     label: '透视图',
     controlPanelSections: [
       {
-        label: null,
+        label:  '选项',
         controlSetRows: [
           ['groupby', 'columns'],
           ['metrics', 'pandas_aggfunc'],
