@@ -324,7 +324,7 @@ function mapStateToProps(state) {
   const formData = getFormDataFromControls(state.controls);
   return {
     alert: state.chartAlert,
-    can_overwrite: state.can_overwrite,
+    can_overwrite: state.can_overwrite==null?false:state.can_overwrite,
     can_download: state.can_download,
     chartStatus: state.chartStatus,
     chartUpdateEndTime: state.chartUpdateEndTime,

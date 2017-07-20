@@ -1,4 +1,4 @@
-#-*-coding:utf8-*-
+# -*-coding:utf8-*-
 """This module contains the "Viz" objects
 
 These objects represent the backend of all the visualizations that
@@ -38,7 +38,6 @@ stats_logger = config.get('STATS_LOGGER')
 
 
 class BaseViz(object):
-
     """All visualizations derive this base class"""
 
     viz_type = None
@@ -133,9 +132,14 @@ class BaseViz(object):
         # boundaries. The rest of extra_filters are simple
         # [column_name in list_of_values]. `__` prefix is there to avoid
         # potential conflicts with column that would be named `from` or `to`
+        if (form_data.get("since") or form_data.get("until")) and (
+                    form_data.get("date_timepick_st") or form_data.get("date_timepick_end")):
+            raise Exception("请在时间范围或报表更新时间中选一种")
+
         since = (
             extra_filters.get('__from') or
             form_data.get("since") or
+            form_data.get("date_timepick_st") or
             config.get("SUPERSET_DEFAULT_SINCE", "1 year ago")
         )
 
@@ -144,13 +148,17 @@ class BaseViz(object):
         if from_dttm > now:
             from_dttm = now - (from_dttm - now)
 
-        until = extra_filters.get('__to') or form_data.get("until", "now")
+        until = (extra_filters.get('__to') or
+                 form_data.get("until") or
+                 form_data.get("date_timepick_end") or
+                 "now"
+                 )
         to_dttm = utils.parse_human_datetime(until)
         if from_dttm > to_dttm:
             raise Exception("结束日在开始日期之前")
         ##截至当天结束
         if len(until.strip()) <= 10:
-            to_dttm=to_dttm.replace(hour=23, minute=59,second=59)
+            to_dttm = to_dttm.replace(hour=23, minute=59, second=59)
 
         # extras are used to query elements specific to a datasource type
         # for instance the extra where clause that applies only to Tables
@@ -163,7 +171,7 @@ class BaseViz(object):
             'druid_time_origin': form_data.get("druid_time_origin", ''),
         }
         filters = form_data['filters'] if 'filters' in form_data \
-                else []
+            else []
         for col, vals in self.get_extra_filters().items():
             if not (col and vals) or col.startswith('__'):
                 continue
@@ -197,8 +205,8 @@ class BaseViz(object):
         if self.datasource.cache_timeout:
             return self.datasource.cache_timeout
         if (
-                hasattr(self.datasource, 'database') and
-                self.datasource.database.cache_timeout):
+                    hasattr(self.datasource, 'database') and
+                    self.datasource.database.cache_timeout):
             return self.datasource.database.cache_timeout
         return config.get("CACHE_DEFAULT_TIMEOUT")
 
@@ -212,20 +220,22 @@ class BaseViz(object):
         query_obj = self.query_obj()
         s = ""
         try:
-          s = self.datasource.get_query_str(query_obj)
+            s = self.datasource.get_query_str(query_obj)
         except Exception as e:
-            logging.error("查询错误:" +utils.error_msg_from_exception(e))
-        if len(s)==0:
+            logging.error("查询错误:" + utils.error_msg_from_exception(e))
+        if len(s) == 0:
             s = str([(k, self.form_data[k]) for k in sorted(self.form_data.keys())])
         return hashlib.md5(s.encode('utf-8')).hexdigest()
 
-    def is_timeout(self,payload):
-         if payload and payload['cached_dttm']:
-             try:
-                return time.mktime(datetime.now().timetuple())-time.mktime(datetime.strptime(payload['cached_dttm'],'%Y-%m-%dT%H:%M:%S').timetuple())>=self.cache_timeout
-             except Exception as e:
-                 logging.error("get cache timeout : " +utils.error_msg_from_exception(e))
-         return False
+    def is_timeout(self, payload):
+        if payload and payload['cached_dttm']:
+            try:
+                return time.mktime(datetime.now().timetuple()) - time.mktime(
+                    datetime.strptime(payload['cached_dttm'], '%Y-%m-%dT%H:%M:%S').timetuple()) >= self.cache_timeout
+            except Exception as e:
+                logging.error("get cache timeout : " + utils.error_msg_from_exception(e))
+        return False
+
     def get_payload(self, force=False):
         """Handles caching around the json payload retrieval"""
         cache_key = self.cache_key
@@ -324,13 +334,13 @@ class BaseViz(object):
 
 
 class TableViz(BaseViz):
-
     """A basic html table that is sortable and searchable"""
 
     viz_type = "table"
     verbose_name = _("Table View")
     credits = 'a <a href="https://github.com/airbnb/superset">Superset</a> original'
     is_timeseries = True
+
     def get_df(self, query_obj=None):
         """Returns a pandas dataframe based on the query object"""
         if not query_obj:
@@ -368,6 +378,7 @@ class TableViz(BaseViz):
             df.replace([np.inf, -np.inf], np.nan)
             df = df.fillna(0)
         return df
+
     def should_be_timeseries(self):
         fd = self.form_data
         # TODO handle datasource-type-specific code in datasource
@@ -411,7 +422,6 @@ class TableViz(BaseViz):
 
 
 class PivotTableViz(BaseViz):
-
     """A pivot table view, define your rows, columns and metrics"""
 
     viz_type = "pivot_table"
@@ -433,8 +443,8 @@ class PivotTableViz(BaseViz):
         if not metrics:
             raise Exception("请至少选择一个列")
         if (
-                any(v in groupby for v in columns) or
-                any(v in columns for v in groupby)):
+                    any(v in groupby for v in columns) or
+                    any(v in columns for v in groupby)):
             raise Exception("分组字段和列不能重复")
 
         d['groupby'] = list(set(groupby) | set(columns))
@@ -442,8 +452,8 @@ class PivotTableViz(BaseViz):
 
     def get_data(self, df):
         if (
-                self.form_data.get("granularity") == "all" and
-                DTTM_ALIAS in df):
+                        self.form_data.get("granularity") == "all" and
+                        DTTM_ALIAS in df):
             del df[DTTM_ALIAS]
         df = df.pivot_table(
             index=self.form_data.get('groupby'),
@@ -463,7 +473,6 @@ class PivotTableViz(BaseViz):
 
 
 class MarkupViz(BaseViz):
-
     """Use html or markdown to create a free form widget"""
 
     viz_type = "markup"
@@ -482,7 +491,6 @@ class MarkupViz(BaseViz):
 
 
 class SeparatorViz(MarkupViz):
-
     """Use to create section headers in a dashboard, similar to `Markup`"""
 
     viz_type = "separator"
@@ -494,7 +502,6 @@ class SeparatorViz(MarkupViz):
 
 
 class WordCloudViz(BaseViz):
-
     """Build a colorful word cloud
 
     Uses the nice library at:
@@ -521,7 +528,6 @@ class WordCloudViz(BaseViz):
 
 
 class TreemapViz(BaseViz):
-
     """Tree map visualisation for hierarchical data."""
 
     viz_type = "treemap"
@@ -547,7 +553,6 @@ class TreemapViz(BaseViz):
 
 
 class CalHeatmapViz(BaseViz):
-
     """Calendar heatmap."""
 
     viz_type = "cal_heatmap"
@@ -560,8 +565,8 @@ class CalHeatmapViz(BaseViz):
         form_data = self.form_data
 
         df.columns = ["timestamp", "metric"]
-        timestamps = {str(obj["timestamp"].value / 10**9):
-                      obj.get("metric") for obj in df.to_dict("records")}
+        timestamps = {str(obj["timestamp"].value / 10 ** 9):
+                          obj.get("metric") for obj in df.to_dict("records")}
 
         start = utils.parse_human_datetime(form_data.get("since"))
         end = utils.parse_human_datetime(form_data.get("until"))
@@ -576,9 +581,9 @@ class CalHeatmapViz(BaseViz):
         elif domain == "week":
             range_ = diff_delta.years * 53 + diff_delta.weeks + 1
         elif domain == "day":
-            range_ = diff_secs // (24*60*60) + 1
+            range_ = diff_secs // (24 * 60 * 60) + 1
         else:
-            range_ = diff_secs // (60*60) + 1
+            range_ = diff_secs // (60 * 60) + 1
 
         return {
             "timestamps": timestamps,
@@ -595,7 +600,6 @@ class CalHeatmapViz(BaseViz):
 
 
 class NVD3Viz(BaseViz):
-
     """Base class for all nvd3 vizs"""
 
     credits = '<a href="http://nvd3.org/">NVD3.org</a>'
@@ -605,7 +609,6 @@ class NVD3Viz(BaseViz):
 
 
 class BoxPlotViz(NVD3Viz):
-
     """Box plot viz from ND3"""
 
     viz_type = "box_plot"
@@ -694,7 +697,6 @@ class BoxPlotViz(NVD3Viz):
 
 
 class BubbleViz(NVD3Viz):
-
     """Based on the NVD3 bubble chart"""
 
     viz_type = "bubble"
@@ -744,7 +746,6 @@ class BubbleViz(NVD3Viz):
 
 
 class BulletViz(NVD3Viz):
-
     """Based on the NVD3 bullet chart"""
 
     viz_type = "bullet"
@@ -793,7 +794,6 @@ class BulletViz(NVD3Viz):
 
 
 class BigNumberViz(BaseViz):
-
     """Put emphasis on a single metric with this big number viz"""
 
     viz_type = "big_number"
@@ -822,7 +822,6 @@ class BigNumberViz(BaseViz):
 
 
 class BigNumberTotalViz(BaseViz):
-
     """Put emphasis on a single metric with this big number viz"""
 
     viz_type = "big_number_total"
@@ -849,7 +848,6 @@ class BigNumberTotalViz(BaseViz):
 
 
 class NVD3TimeSeriesViz(NVD3Viz):
-
     """A rich line chart component with tons of options"""
 
     viz_type = "line"
@@ -891,7 +889,7 @@ class NVD3TimeSeriesViz(NVD3Viz):
                 "values": [
                     {'x': ds, 'y': ys[ds] if ds in ys else None}
                     for ds in df.index
-                ],
+                    ],
             }
             chart_data.append(d)
         return chart_data
@@ -976,7 +974,6 @@ class NVD3TimeSeriesViz(NVD3Viz):
 
 
 class NVD3DualLineViz(NVD3Viz):
-
     """A rich line chart with dual axis"""
 
     viz_type = "dual_line"
@@ -1025,8 +1022,8 @@ class NVD3DualLineViz(NVD3Viz):
                 "values": [
                     {'x': ds, 'y': ys[ds] if ds in ys else None}
                     for ds in df.index
-                ],
-                "yAxis": i+1,
+                    ],
+                "yAxis": i + 1,
                 "type": "line"
             }
             chart_data.append(d)
@@ -1050,7 +1047,6 @@ class NVD3DualLineViz(NVD3Viz):
 
 
 class NVD3TimeSeriesBarViz(NVD3TimeSeriesViz):
-
     """A bar chart where the x axis is time"""
 
     viz_type = "bar"
@@ -1059,7 +1055,6 @@ class NVD3TimeSeriesBarViz(NVD3TimeSeriesViz):
 
 
 class NVD3CompareTimeSeriesViz(NVD3TimeSeriesViz):
-
     """A line chart component where you can compare the % change over time"""
 
     viz_type = 'compare'
@@ -1067,7 +1062,6 @@ class NVD3CompareTimeSeriesViz(NVD3TimeSeriesViz):
 
 
 class NVD3TimeSeriesStackedViz(NVD3TimeSeriesViz):
-
     """A rich stack area chart"""
 
     viz_type = "area"
@@ -1076,7 +1070,6 @@ class NVD3TimeSeriesStackedViz(NVD3TimeSeriesViz):
 
 
 class DistributionPieViz(NVD3Viz):
-
     """Annoy visualization snobs with this controversial pie chart"""
 
     viz_type = "pie"
@@ -1094,7 +1087,6 @@ class DistributionPieViz(NVD3Viz):
 
 
 class HistogramViz(BaseViz):
-
     """Histogram"""
 
     viz_type = "histogram"
@@ -1119,7 +1111,6 @@ class HistogramViz(BaseViz):
 
 
 class DistributionBarViz(DistributionPieViz):
-
     """A good old bar chart"""
 
     viz_type = "dist_bar"
@@ -1186,7 +1177,6 @@ class DistributionBarViz(DistributionPieViz):
 
 
 class SunburstViz(BaseViz):
-
     """A multi level sunburst chart"""
 
     viz_type = "sunburst"
@@ -1219,7 +1209,6 @@ class SunburstViz(BaseViz):
 
 
 class SankeyViz(BaseViz):
-
     """A Sankey diagram that requires a parent-child dataset"""
 
     viz_type = "sankey"
@@ -1268,7 +1257,6 @@ class SankeyViz(BaseViz):
 
 
 class DirectedForceViz(BaseViz):
-
     """An animated directed force layout graph visualization"""
 
     viz_type = "directed_force"
@@ -1289,7 +1277,6 @@ class DirectedForceViz(BaseViz):
 
 
 class ChordViz(BaseViz):
-
     """A Chord diagram"""
 
     viz_type = "chord"
@@ -1322,7 +1309,6 @@ class ChordViz(BaseViz):
 
 
 class CountryMapViz(BaseViz):
-
     """A country centric"""
 
     viz_type = "country_map"
@@ -1351,7 +1337,6 @@ class CountryMapViz(BaseViz):
 
 
 class WorldMapViz(BaseViz):
-
     """A country centric world map"""
 
     viz_type = "world_map"
@@ -1401,7 +1386,6 @@ class WorldMapViz(BaseViz):
 
 
 class FilterBoxViz(BaseViz):
-
     """A multi filter, multi-choice filter box to make dashboards interactive"""
 
     viz_type = "filter_box"
@@ -1426,17 +1410,16 @@ class FilterBoxViz(BaseViz):
             qry['groupby'] = [flt]
             df = super(FilterBoxViz, self).get_df(qry)
             d[flt] = [{
-                'id': row[0],
-                'text': row[0],
-                'filter': flt,
-                'metric': row[1]}
-                for row in df.itertuples(index=False)
-            ]
+                          'id': row[0],
+                          'text': row[0],
+                          'filter': flt,
+                          'metric': row[1]}
+                      for row in df.itertuples(index=False)
+                      ]
         return d
 
 
 class IFrameViz(BaseViz):
-
     """You can squeeze just about anything in this iFrame component"""
 
     viz_type = "iframe"
@@ -1445,11 +1428,10 @@ class IFrameViz(BaseViz):
     is_timeseries = False
 
     def get_df(self):
-       return None
+        return None
 
 
 class ParallelCoordinatesViz(BaseViz):
-
     """Interactive parallel coordinate implementation
 
     Uses this amazing javascript library
@@ -1478,7 +1460,6 @@ class ParallelCoordinatesViz(BaseViz):
 
 
 class HeatmapViz(BaseViz):
-
     """A nice heatmap visualization that support high density through canvas"""
 
     viz_type = "heatmap"
@@ -1526,7 +1507,6 @@ class HeatmapViz(BaseViz):
 
 
 class HorizonViz(NVD3TimeSeriesViz):
-
     """Horizon chart
 
     https://www.npmjs.com/package/d3-horizon-chart
@@ -1540,7 +1520,6 @@ class HorizonViz(NVD3TimeSeriesViz):
 
 
 class MapboxViz(BaseViz):
-
     """Rich maps made with Mapbox"""
 
     viz_type = "mapbox"
@@ -1570,18 +1549,18 @@ class MapboxViz(BaseViz):
         else:
             # Ensuring columns chosen are all in group by
             if (label_col and len(label_col) >= 1 and
-                    label_col[0] != "count" and
-                    label_col[0] not in fd.get('groupby')):
+                        label_col[0] != "count" and
+                        label_col[0] not in fd.get('groupby')):
                 raise Exception(
                     "Choice of [Label] must be present in [Group By]")
 
             if (fd.get("point_radius") != "Auto" and
-                    fd.get("point_radius") not in fd.get('groupby')):
+                        fd.get("point_radius") not in fd.get('groupby')):
                 raise Exception(
                     "Choice of [Point Radius] must be present in [Group By]")
 
             if (fd.get('all_columns_x') not in fd.get('groupby') or
-                    fd.get('all_columns_y') not in fd.get('groupby')):
+                        fd.get('all_columns_y') not in fd.get('groupby')):
                 raise Exception(
                     "[Longitude] and [Latitude] columns must be present in [Group By]")
         return d
@@ -1623,7 +1602,7 @@ class MapboxViz(BaseViz):
                     df[fd.get('all_columns_x')],
                     df[fd.get('all_columns_y')],
                     metric_col, point_radius_col)
-            ]
+                ]
         }
 
         return {
