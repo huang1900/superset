@@ -65,7 +65,12 @@ export default class DatetimeControl extends React.Component {
      }
      var val=null
      if(this.props.value){
-         val=this.props.value instanceof Date?this.props.value:new Date(this.props.value)
+         if(this.props.value instanceof Date){
+             val=this.props.value
+         }else if(isNaN(this.props.value)){
+             val=new Date(this.props.value)
+         }
+
      }
         return (
             <div>
@@ -78,11 +83,8 @@ export default class DatetimeControl extends React.Component {
                            onChange={this.onChange}
                            value={val}>
                     <input type='text' data-input />
-                    <span class="Select-clear-zone" title="清除" aria-label="Clear value" data-clear>
-                        <span class="Select-clear">×</span>
-                    </span>
-                    <span class="input-group-addon" data-toggle>
-                        <i class="fa fa-calendar cursor-hand"></i>
+                    <span className="Select-clear-zone" title="清除" aria-label="Clear value" data-clear>
+                        <span className="Select-clear">×</span>
                     </span>
                 </Flatpickr>
             </div>
