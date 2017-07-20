@@ -86,6 +86,9 @@ export default class DatetimeControl extends React.Component {
                     <span className="Select-clear-zone" title="清除" aria-label="Clear value" data-clear>
                         <span className="Select-clear">×</span>
                     </span>
+                    <span className="Select-arrow-zone">
+                        <span className="fa fa-calendar cursor-hand"></span>
+                    </span>
                 </Flatpickr>
             </div>
                 );
