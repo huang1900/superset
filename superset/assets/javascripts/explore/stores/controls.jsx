@@ -530,12 +530,12 @@ export const controls = {
     date_timepick_st: {
         type: 'DatetimeControl',
         label: '开始时间.',
-        description: '输入时间描述或者直接输入时间字符串如：20170302',
+        description: '选择开始时间',
     },
     date_timepick_end: {
         type: 'DatetimeControl',
         label: '结束时间.',
-        description: '输入时间描述或者直接输入时间字符串如：20170302',
+        description: '选择结束时间',
     },
 
   max_bubble_size: {

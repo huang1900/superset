@@ -63,6 +63,10 @@ export default class DatetimeControl extends React.Component {
          locale: zh,
          wrap: true,
      }
+     var val=null
+     if(this.props.value){
+         val=this.props.value instanceof Date?this.props.value:new Date(this.props.value)
+     }
         return (
             <div>
                 {this.props.showHeader &&
@@ -72,7 +76,7 @@ export default class DatetimeControl extends React.Component {
                            placeholder="选择时间"
                            options={options}
                            onChange={this.onChange}
-                           value={this.props.value instanceof Date?this.props.value:new Date(this.props.value)}>
+                           value={val}>
                     <input type='text' data-input />
                     <span class="Select-clear-zone" title="清除" aria-label="Clear value" data-clear>
                         <span class="Select-clear">×</span>
