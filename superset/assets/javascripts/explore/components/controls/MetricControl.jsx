@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Label, Row, Col, FormControl, Modal } from 'react-bootstrap';
 import visTypes from '../../stores/visTypes';
 import ControlHeader from '../ControlHeader';
-import MetricCheck from '。。/../../components/MetricCheck';
+import MetricCheck from '../../../components/MetricCheck';
 
 
 const propTypes = {
@@ -54,9 +54,11 @@ export default class MetricControl extends React.PureComponent {
   }
   render() {
     const filter = this.state.filter;
-    const filteredVizTypes = this.props.metrics
+    const filteredVizTypes = Object.assign({},this.props.metrics)
       .filter(vt => filter.length === 0 || vt.label.toLowerCase().includes(filter));
-
+      filteredVizTypes.map(x=>{
+        x["name"]=x[PropTypes.string]
+      })
     const imgPerRow = 4;
     const rows = [];
     for (let i = 0; i <= filteredVizTypes.length; i += imgPerRow) {
