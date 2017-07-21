@@ -101,7 +101,17 @@ export const controls = {
       options: (state.datasource) ? state.datasource.metrics : [],
     }),
   },
-
+  metric_check: {
+        type: 'MetricControl',
+        label: '字段',
+        clearable: false,
+        validators: [v.nonEmpty],
+        valueKey: 'metric_name',
+        description: '选择字段',
+        mapStateToProps: state => ({
+            metrics: (state.datasource) ? state.datasource.metrics : [],
+        }),
+    },
   metric_2: {
     type: 'SelectControl',
     label: 'Right Axis Metric',

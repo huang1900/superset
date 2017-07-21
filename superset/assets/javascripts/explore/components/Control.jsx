@@ -10,6 +10,8 @@ import TextControl from './controls/TextControl';
 import VizTypeControl from './controls/VizTypeControl';
 import BoundsControl from './controls/BoundsControl';
 import DatetimeControl from "./controls/DatetimeControl";
+import MetricControl from "./controls/MetricControl";
+
 
 const controlMap = {
   CheckboxControl,
@@ -21,6 +23,7 @@ const controlMap = {
   VizTypeControl,
   BoundsControl,
   DatetimeControl,
+  MetricControl
 };
 const controlTypes = Object.keys(controlMap);
 

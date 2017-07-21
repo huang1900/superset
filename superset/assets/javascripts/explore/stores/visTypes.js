@@ -259,7 +259,8 @@ const visTypes = {
         label: '汇总查询',
         description: '选择分组维度，以及计算指标',
         controlSetRows: [
-          ['groupby', 'metrics']
+          ['groupby', 'metrics'],
+          ['metric_check']
         ],
       },
       {
