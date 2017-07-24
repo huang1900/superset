@@ -58,14 +58,14 @@ export default class MetricControl extends React.PureComponent {
   render() {
     const filter = this.state.filter;
     const filteredVizTypes = this.props.metrics
-      .filter(vt => filter.length === 0 || vt.label.toLowerCase().includes(filter));
+      .filter(vt => filter.length === 0 || vt[this.props.valueKey].toLowerCase().includes(filter));
     const imgPerRow = 4;
     const rows = [];
     for (let i = 0; i <= filteredVizTypes.length; i += imgPerRow) {
       rows.push(
         <Row key={`row-${i}`}>
           {filteredVizTypes.slice(i, i + imgPerRow).map(vt => (
-            <Col md={3} key={`grid-col-${vt}`}>
+            <Col md={3} key={`grid-col-${vt[this.props.valueKey]}`}>
               {this.renderMetric(vt)}
             </Col>
           ))}

@@ -27,7 +27,7 @@ export default class MetricCheck extends React.PureComponent{
                     tooltip={this.props.metric.description}
                     label={`descr-${this.props.metric[this.props.value_name]}`}
                 />
-                }}
+                }
             </div>);
     }
 }
