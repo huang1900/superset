@@ -57,7 +57,7 @@ export default class MetricControl extends React.PureComponent {
   }
   render() {
     const filter = this.state.filter;
-    const filteredVizTypes = Object.assign({},this.props.metrics)
+    const filteredVizTypes = this.props.metrics
       .filter(vt => filter.length === 0 || vt.label.toLowerCase().includes(filter));
     const imgPerRow = 4;
     const rows = [];
