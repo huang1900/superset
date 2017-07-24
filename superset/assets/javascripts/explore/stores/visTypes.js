@@ -709,75 +709,75 @@ const visTypes = {
   //   ],
   // },
   //
-  // mapbox: {
-  //   label: 'Mapbox',
-  //   controlPanelSections: [
-  //     {
-  //       label: null,
-  //       controlSetRows: [
-  //         ['all_columns_x', 'all_columns_y'],
-  //         ['clustering_radius'],
-  //         ['row_limit'],
-  //         ['groupby'],
-  //         ['render_while_dragging'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Points',
-  //       controlSetRows: [
-  //         ['point_radius'],
-  //         ['point_radius_unit'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Labelling',
-  //       controlSetRows: [
-  //         ['mapbox_label'],
-  //         ['pandas_aggfunc'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Visual Tweaks',
-  //       controlSetRows: [
-  //         ['mapbox_style'],
-  //         ['global_opacity'],
-  //         ['mapbox_color'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Viewport',
-  //       controlSetRows: [
-  //         ['viewport_longitude'],
-  //         ['viewport_latitude'],
-  //         ['viewport_zoom'],
-  //       ],
-  //     },
-  //   ],
-  //   controlOverrides: {
-  //     all_columns_x: {
-  //       label: 'Longitude',
-  //       description: 'Column containing longitude data',
-  //     },
-  //     all_columns_y: {
-  //       label: 'Latitude',
-  //       description: 'Column containing latitude data',
-  //     },
-  //     pandas_aggfunc: {
-  //       label: 'Cluster label aggregator',
-  //       description: 'Aggregate function applied to the list of points ' +
-  //                    'in each cluster to produce the cluster label.',
-  //     },
-  //     rich_tooltip: {
-  //       label: 'Tooltip',
-  //       description: 'Show a tooltip when hovering over points and clusters ' +
-  //                    'describing the label',
-  //     },
-  //     groupby: {
-  //       description: 'One or many controls to group by. If grouping, latitude ' +
-  //                    'and longitude columns must be present.',
-  //     },
-  //   },
-  // },
+  mapbox: {
+    label: 'Mapbox',
+    controlPanelSections: [
+      {
+        label: null,
+        controlSetRows: [
+          ['all_columns_x', 'all_columns_y'],
+          ['clustering_radius'],
+          ['row_limit'],
+          ['groupby'],
+          ['render_while_dragging'],
+        ],
+      },
+      {
+        label: 'Points',
+        controlSetRows: [
+          ['point_radius'],
+          ['point_radius_unit'],
+        ],
+      },
+      {
+        label: 'Labelling',
+        controlSetRows: [
+          ['mapbox_label'],
+          ['pandas_aggfunc'],
+        ],
+      },
+      {
+        label: 'Visual Tweaks',
+        controlSetRows: [
+          ['mapbox_style'],
+          ['global_opacity'],
+          ['mapbox_color'],
+        ],
+      },
+      {
+        label: 'Viewport',
+        controlSetRows: [
+          ['viewport_longitude'],
+          ['viewport_latitude'],
+          ['viewport_zoom'],
+        ],
+      },
+    ],
+    controlOverrides: {
+      all_columns_x: {
+        label: 'Longitude',
+        description: 'Column containing longitude data',
+      },
+      all_columns_y: {
+        label: 'Latitude',
+        description: 'Column containing latitude data',
+      },
+      pandas_aggfunc: {
+        label: 'Cluster label aggregator',
+        description: 'Aggregate function applied to the list of points ' +
+                     'in each cluster to produce the cluster label.',
+      },
+      rich_tooltip: {
+        label: 'Tooltip',
+        description: 'Show a tooltip when hovering over points and clusters ' +
+                     'describing the label',
+      },
+      groupby: {
+        description: 'One or many controls to group by. If grouping, latitude ' +
+                     'and longitude columns must be present.',
+      },
+    },
+  },
   //   chord: {
   //       label: 'Chord Diagram',
   //       controlPanelSections: [
