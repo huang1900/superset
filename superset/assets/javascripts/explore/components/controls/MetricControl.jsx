@@ -9,6 +9,7 @@ import MetricCheck from '../../../components/MetricCheck';
 const propTypes = {
   metrics:PropTypes.array,
   valueKey: PropTypes.string,
+  onChange: PropTypes.func,
   value: PropTypes.array,
 };
 
@@ -28,7 +29,7 @@ export default class MetricControl extends React.PureComponent {
   }
   onChange(vizType) {
     this.props.onChange(vizType);
-    this.setState({ showModal: false });
+   // this.setState({ showModal: false });
   }
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
@@ -45,10 +46,12 @@ export default class MetricControl extends React.PureComponent {
               break;
           }
       }
-    const mt=Object.assign({}, Metric, { isck:isck,name:Metric[this.props.valueKey],onChange:this.onChange })
+    const mt=Object.assign({}, Metric, { isck:isck,name:Metric[this.props.valueKey] })
     return (
         <MetricCheck
             metric={mt}
+            value_name={this.props.valueKey}
+            onChange={this.onChange}
         />
     )
   }
@@ -56,9 +59,6 @@ export default class MetricControl extends React.PureComponent {
     const filter = this.state.filter;
     const filteredVizTypes = Object.assign({},this.props.metrics)
       .filter(vt => filter.length === 0 || vt.label.toLowerCase().includes(filter));
-      filteredVizTypes.map(x=>{
-        x["name"]=x[PropTypes.string]
-      })
     const imgPerRow = 4;
     const rows = [];
     for (let i = 0; i <= filteredVizTypes.length; i += imgPerRow) {

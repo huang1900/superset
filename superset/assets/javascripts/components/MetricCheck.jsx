@@ -1,36 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InfoTooltipWithTrigger from './InfoTooltipWithTrigger';
-import CheckBox from 'react-native-check-box'
+import { Checkbox } from 'react-bootstrap';
 const propTypes = {
   metric: PropTypes.object.isRequired,
+  onChange: PropTypes.func,
+  value_name:PropTypes.string,
+  isck:PropTypes.bool,
 };
 
-export default function MetricCheck({ metric }) {
-  return (
-    <div>
-        <CheckBox
-            checked={metric.isck}
-            onChange={metric.onChange}
-            rightText={metric.name}
-        />
-      <span className="m-r-5 option-label">
-        {metric.verbose_name || metric.name}
+export default class MetricCheck extends React.PureComponent{
+    render() {
+        return (
+            <div>
+                <CheckBox
+                    checked={this.props.isck}
+                    onChange={this.props.onChange.bind(this)}
+                />
+                <span className="m-r-5 option-label">
+        {this.prop.smetric.verbose_name || this.props.metric[this.props.value_name]}
       </span>
-      {metric.description &&
-        <InfoTooltipWithTrigger
-          className="m-r-5 text-muted"
-          icon="question-circle-o"
-          tooltip={metric.description}
-          label={`descr-${metric.name}`}
-        />
-      }
-      {/*<InfoTooltipWithTrigger*/}
-        {/*className="m-r-5 text-muted"*/}
-        {/*icon="question-circle-o"*/}
-        {/*tooltip={metric.expression}*/}
-        {/*label={`expr-${metric.metric_name}`}*/}
-      {/*/>*/}
-    </div>);
+                {this.props.metric.description &&
+                <InfoTooltipWithTrigger
+                    className="m-r-5 text-muted"
+                    icon="question-circle-o"
+                    tooltip=this.props{this.props.metric.description}
+                    label={`descr-${this.props.metric[this.props.value_name]}`}
+                />
+                }}
+            </div>);
+    }
 }
 MetricCheck.jsx.propTypes = propTypes;
