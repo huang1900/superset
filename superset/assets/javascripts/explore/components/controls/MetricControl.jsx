@@ -79,9 +79,9 @@ export default class MetricControl extends React.PureComponent {
             <a onClick={this.toggleModal}>编辑</a>
           }
         />
-        <Label onClick={this.toggleModal} style={{ cursor: 'pointer' }}>
-          {visTypes[this.props.value].label}
-        </Label>
+        {/*<Label onClick={this.toggleModal} style={{ cursor: 'pointer' }}>*/}
+          {/*{visTypes[this.props.value].label}*/}
+        {/*</Label>*/}
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
