@@ -588,41 +588,41 @@ const visTypes = {
   //   },
   // },
   //
-  // world_map: {
-  //   label: 'World Map',
-  //   controlPanelSections: [
-  //     {
-  //       label: null,
-  //       controlSetRows: [
-  //         ['entity'],
-  //         ['country_fieldtype'],
-  //         ['metric'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Bubbles',
-  //       controlSetRows: [
-  //         ['show_bubbles'],
-  //         ['secondary_metric'],
-  //         ['max_bubble_size'],
-  //       ],
-  //     },
-  //   ],
-  //   controlOverrides: {
-  //     entity: {
-  //       label: 'Country Control',
-  //       description: '3 letter code of the country',
-  //     },
-  //     metric: {
-  //       label: 'Metric for color',
-  //       description: 'Metric that defines the color of the country',
-  //     },
-  //     secondary_metric: {
-  //       label: 'Bubble size',
-  //       description: 'Metric that defines the size of the bubble',
-  //     },
-  //   },
-  // },
+  world_map: {
+    label: 'World Map',
+    controlPanelSections: [
+      {
+        label: null,
+        controlSetRows: [
+          ['entity'],
+          ['country_fieldtype'],
+          ['metric'],
+        ],
+      },
+      {
+        label: 'Bubbles',
+        controlSetRows: [
+          ['show_bubbles'],
+          ['secondary_metric'],
+          ['max_bubble_size'],
+        ],
+      },
+    ],
+    controlOverrides: {
+      entity: {
+        label: 'Country Control',
+        description: '3 letter code of the country',
+      },
+      metric: {
+        label: 'Metric for color',
+        description: 'Metric that defines the color of the country',
+      },
+      secondary_metric: {
+        label: 'Bubble size',
+        description: 'Metric that defines the size of the bubble',
+      },
+    },
+  },
   //
   // filter_box: {
   //   label: 'Filter Box',

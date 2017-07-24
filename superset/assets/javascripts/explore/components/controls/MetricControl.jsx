@@ -15,6 +15,7 @@ const propTypes = {
 
 const defaultProps = {
   onChange: () => {},
+  value: [],
 };
 
 export default class MetricControl extends React.PureComponent {
@@ -30,6 +31,12 @@ export default class MetricControl extends React.PureComponent {
   onChange(vizType) {
     this.props.onChange(vizType);
    // this.setState({ showModal: false });
+  }
+  ChangeCheck(name,value){
+    if(name.length>0){
+        this.props.value.indexOf(name)
+
+    }
   }
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
