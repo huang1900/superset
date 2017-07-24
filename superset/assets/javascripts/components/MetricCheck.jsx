@@ -13,7 +13,7 @@ export default class MetricCheck extends React.PureComponent{
     render() {
         return (
             <div>
-                <CheckBox
+                <Checkbox
                     checked={this.props.isck}
                     onChange={this.props.onChange.bind(this)}
                 />
