@@ -18,13 +18,13 @@ export default class MetricCheck extends React.PureComponent{
                     onChange={this.props.onChange.bind(this)}
                 />
                 <span className="m-r-5 option-label">
-        {this.prop.smetric.verbose_name || this.props.metric[this.props.value_name]}
+        {this.props.metric.verbose_name || this.props.metric[this.props.value_name]}
       </span>
                 {this.props.metric.description &&
                 <InfoTooltipWithTrigger
                     className="m-r-5 text-muted"
                     icon="question-circle-o"
-                    tooltip=this.props{this.props.metric.description}
+                    tooltip={this.props.metric.description}
                     label={`descr-${this.props.metric[this.props.value_name]}`}
                 />
                 }}
