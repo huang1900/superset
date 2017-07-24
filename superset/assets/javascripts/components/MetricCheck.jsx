@@ -31,4 +31,5 @@ export default class MetricCheck extends React.PureComponent{
             </div>);
     }
 }
-MetricCheck.jsx.propTypes = propTypes;
+
+MetricCheck.propTypes = propTypes;
