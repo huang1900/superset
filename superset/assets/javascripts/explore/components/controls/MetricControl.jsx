@@ -32,6 +32,12 @@ export default class MetricControl extends React.PureComponent {
     this.props.onChange(vizType);
    // this.setState({ showModal: false });
   }
+  onChangeSelect(value) {
+      var  opts=[]
+      value.map(x=>opts.push(x.value))
+      this.props.onChange(opts);
+        // this.setState({ showModal: false });
+    }
   ChangeCheck(name,value){
     if(name.length>0){
          if(value){
@@ -70,7 +76,7 @@ export default class MetricControl extends React.PureComponent {
 
    getOptions(value){
        var options =[]
-       value.map(x=>options.push({"value":x,"lable":x}))
+       value.map(x=>options.push({"value":x,"label":x}))
        return options
    }
    arrowRenderer (){
@@ -102,7 +108,7 @@ export default class MetricControl extends React.PureComponent {
         autosize: true,
         clearable: true,
         isLoading: false,
-        onChange:this.onChange.bind(this),
+        onChange:this.onChangeSelect.bind(this),
         options: this.getOptions(this.props.value),
         value: this.props.value,
         placeholder:'已选择' ,
