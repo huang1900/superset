@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Label, Row, Col, FormControl, Modal } from 'react-bootstrap';
-import visTypes from '../../stores/visTypes';
+import Select, { Creatable } from 'react-select';
 import ControlHeader from '../ControlHeader';
 import MetricCheck from '../../../components/MetricCheck';
-
+import { formatSelectOptions } from '../../modules/utils';
 
 const propTypes = {
   metrics:PropTypes.array,
@@ -24,6 +24,7 @@ export default class MetricControl extends React.PureComponent {
     this.state = {
       showModal: false,
       filter: '',
+      options:formatSelectOptions(this.props.value)
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.changeSearch = this.changeSearch.bind(this);
@@ -35,7 +36,7 @@ export default class MetricControl extends React.PureComponent {
   ChangeCheck(name,value){
     if(name.length>0){
          if(value){
-             if(this.props.value.indexOf(name)!=-1)this.onChange(this.props.value.concat([name]))
+             if(this.props.value.indexOf(name)==-1)this.onChange(this.props.value.concat([name]))
          }else{
             this.onChange(this.props.value.filter(x => x !==name ));
          }
@@ -82,6 +83,18 @@ export default class MetricControl extends React.PureComponent {
           ))}
         </Row>);
     }
+    const selectwarp={
+        lable:"已选择",
+        multi: true,
+        freeForm: false,
+        autosize: false,
+        clearable: true,
+        isLoading: false,
+        isLoading: false,
+        options: this.state.options,
+        value: this.props.value,
+        placeholder:'已选择' ,
+    }
     return (
       <div>
         <ControlHeader
@@ -98,17 +111,26 @@ export default class MetricControl extends React.PureComponent {
             <Modal.Title>选择需要的内容</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div>
-              <FormControl
-                id="formControlsText"
-                type="text"
-                bsSize="sm"
-                value={this.state.filter}
-                placeholder="过滤"
-                onChange={this.changeSearch}
-              />
-            </div>
-            {rows}
+              <div className="row space-1">
+                  <div className="col-lg-9">
+                    <div>
+                         <FormControl
+                            id="formControlsText"
+                            type="text"
+                            bsSize="sm"
+                            value={this.state.filter}
+                            placeholder="过滤"
+                            onChange={this.changeSearch}
+                          />
+                    </div>
+                    {rows}
+                  </div>
+                  <div className="col-lg-3">
+                      <Select
+                          {...selectwarp}
+                      />
+                  </div>
+              </div>
           </Modal.Body>
         </Modal>
       </div>);
