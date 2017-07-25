@@ -1133,7 +1133,7 @@ export const controls = {
   },
   viewport_latitude: {
     type: 'TextControl',
-    label: '维度',
+    label: '纬度',
     default: 39.915378,
     isFloat: true,
     description: '默认视角维度',

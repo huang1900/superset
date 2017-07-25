@@ -34,7 +34,11 @@ export default class MetricControl extends React.PureComponent {
   }
   ChangeCheck(name,value){
     if(name.length>0){
-        this.props.value.indexOf(name)
+         if(value){
+             if(this.props.value.indexOf(name)!=-1)this.onChange(this.props.value.concat([name]))
+         }else{
+            this.onChange(this.props.value.filter(x => x !==name ));
+         }
 
     }
   }
@@ -58,7 +62,7 @@ export default class MetricControl extends React.PureComponent {
         <MetricCheck
             metric={mt}
             value_name={this.props.valueKey}
-            onChange={this.onChange}
+            onChange={this.ChangeCheck.bind(this)}
         />
     )
   }
