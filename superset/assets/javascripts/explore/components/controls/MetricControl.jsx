@@ -94,13 +94,12 @@ export default class MetricControl extends React.PureComponent {
         lable:"已选择",
         multi: true,
         freeForm: false,
-        autosize: false,
+        autosize: true,
         clearable: true,
         isLoading: false,
-        isLoading: false,
-        onChange:this.onChange,
-        options: this.state.options,
-        value: this.getOptions(this.props.value),
+        onChange:this.onChange.bind(this),
+        options: this.getOptions(this.props.value),
+        value: this.props.value,
         placeholder:'已选择' ,
     }
     return (
