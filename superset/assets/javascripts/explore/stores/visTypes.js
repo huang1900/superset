@@ -588,41 +588,41 @@ const visTypes = {
   //   },
   // },
   //
-  world_map: {
-    label: 'World Map',
-    controlPanelSections: [
-      {
-        label: null,
-        controlSetRows: [
-          ['entity'],
-          ['country_fieldtype'],
-          ['metric'],
-        ],
-      },
-      {
-        label: 'Bubbles',
-        controlSetRows: [
-          ['show_bubbles'],
-          ['secondary_metric'],
-          ['max_bubble_size'],
-        ],
-      },
-    ],
-    controlOverrides: {
-      entity: {
-        label: 'Country Control',
-        description: '3 letter code of the country',
-      },
-      metric: {
-        label: 'Metric for color',
-        description: 'Metric that defines the color of the country',
-      },
-      secondary_metric: {
-        label: 'Bubble size',
-        description: 'Metric that defines the size of the bubble',
-      },
-    },
-  },
+  // world_map: {
+  //         label: 'World Map',
+  //         controlPanelSections: [
+  //             {
+  //                 label: null,
+  //                 controlSetRows: [
+  //                     ['entity'],
+  //                     ['country_fieldtype'],
+  //                     ['metric'],
+  //                 ],
+  //             },
+  //             {
+  //                 label: 'Bubbles',
+  //                 controlSetRows: [
+  //                     ['show_bubbles'],
+  //                     ['secondary_metric'],
+  //                     ['max_bubble_size'],
+  //                 ],
+  //             },
+  //         ],
+  //         controlOverrides: {
+  //             entity: {
+  //                 label: 'Country Control',
+  //                 description: '3 letter code of the country',
+  //             },
+  //             metric: {
+  //                 label: 'Metric for color',
+  //                 description: 'Metric that defines the color of the country',
+  //             },
+  //             secondary_metric: {
+  //                 label: 'Bubble size',
+  //                 description: 'Metric that defines the size of the bubble',
+  //             },
+  //         },
+  // },
   //
   // filter_box: {
   //   label: 'Filter Box',
@@ -710,7 +710,7 @@ const visTypes = {
   // },
   //
   mapbox: {
-    label: 'Mapbox',
+    label: '地图',
     controlPanelSections: [
       {
         label: null,
@@ -723,21 +723,21 @@ const visTypes = {
         ],
       },
       {
-        label: 'Points',
+        label: '单点',
         controlSetRows: [
           ['point_radius'],
           ['point_radius_unit'],
         ],
       },
       {
-        label: 'Labelling',
+        label: '汽包点',
         controlSetRows: [
           ['mapbox_label'],
           ['pandas_aggfunc'],
         ],
       },
       {
-        label: 'Visual Tweaks',
+        label: '地图选项',
         controlSetRows: [
           ['mapbox_style'],
           ['global_opacity'],
@@ -745,7 +745,7 @@ const visTypes = {
         ],
       },
       {
-        label: 'Viewport',
+        label: '视角',
         controlSetRows: [
           ['viewport_longitude'],
           ['viewport_latitude'],
@@ -755,26 +755,24 @@ const visTypes = {
     ],
     controlOverrides: {
       all_columns_x: {
-        label: 'Longitude',
-        description: 'Column containing longitude data',
+        label: '经度',
+        description: '经度字段',
       },
       all_columns_y: {
-        label: 'Latitude',
-        description: 'Column containing latitude data',
+        label: '维度',
+        description: '维度字段',
       },
       pandas_aggfunc: {
-        label: 'Cluster label aggregator',
-        description: 'Aggregate function applied to the list of points ' +
-                     'in each cluster to produce the cluster label.',
+        label: '气泡点汇总方法',
+        description: '气泡点数值汇总方法',
       },
       rich_tooltip: {
-        label: 'Tooltip',
+        label: '工具',
         description: 'Show a tooltip when hovering over points and clusters ' +
                      'describing the label',
       },
       groupby: {
-        description: 'One or many controls to group by. If grouping, latitude ' +
-                     'and longitude columns must be present.',
+        description: '按数据分组，经纬度字段必须包括',
       },
     },
   },

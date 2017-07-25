@@ -871,10 +871,12 @@ export const controls = {
      ['sum','求和'],
      ['mean','平均'],
       ['min','最小值'],
-      ['max','最小值'],
+      ['max','最大值'],
       ['median','中位数'],
-      // 'stdev',
-      // 'var',
+      ['median','中位数'],
+      ['median','中位数'],
+      ['stdev','标准差'] ,
+      ['var','方差'],
     ],
     default: 'sum',
     description: '分组指标汇总',
@@ -1053,12 +1055,9 @@ export const controls = {
   mapbox_label: {
     type: 'SelectControl',
     multi: true,
-    label: 'label',
+    label: '气泡点',
     default: [],
-    description: '`count` is COUNT(*) if a group by is used. ' +
-    'Numerical columns will be aggregated with the aggregator. ' +
-    'Non-numerical columns will be used to label points. ' +
-    'Leave empty to get a count of points in each cluster.',
+    description: '气泡点汇总字段',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.all_cols : [],
     }),
@@ -1066,23 +1065,23 @@ export const controls = {
 
   mapbox_style: {
     type: 'SelectControl',
-    label: 'Map Style',
+    label: '地图样式',
     choices: [
-      ['mapbox://styles/mapbox/streets-v9', 'Streets'],
-      ['mapbox://styles/mapbox/dark-v9', 'Dark'],
-      ['mapbox://styles/mapbox/light-v9', 'Light'],
-      ['mapbox://styles/mapbox/satellite-streets-v9', 'Satellite Streets'],
-      ['mapbox://styles/mapbox/satellite-v9', 'Satellite'],
-      ['mapbox://styles/mapbox/outdoors-v9', 'Outdoors'],
+      ['mapbox://styles/mapbox/streets-v9', '街道'],
+      ['mapbox://styles/mapbox/dark-v9', '黑色'],
+      ['mapbox://styles/mapbox/light-v9', '光亮'],
+      ['mapbox://styles/mapbox/satellite-streets-v9', '卫星街道'],
+      ['mapbox://styles/mapbox/satellite-v9', '卫星'],
+      // ['mapbox://styles/mapbox/outdoors-v9', '户外'],
     ],
     default: 'mapbox://styles/mapbox/streets-v9',
-    description: 'Base layer map style',
+    description: '地图的布局样式',
   },
 
   clustering_radius: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Clustering Radius',
+    label: '气泡点聚合半径',
     default: '60',
     choices: formatSelectOptions([
       '0',
@@ -1095,88 +1094,81 @@ export const controls = {
       '500',
       '1000',
     ]),
-    description: 'The radius (in pixels) the algorithm uses to define a cluster. ' +
-    'Choose 0 to turn off clustering, but beware that a large ' +
-    'number of points (>1000) will cause lag.',
+    description: '将半径内的单点聚合为气泡点，过大的半径可能导致延迟',
   },
 
   point_radius: {
     type: 'SelectControl',
-    label: 'Point Radius',
+    label: '单点半径',
     default: 'Auto',
-    description: 'The radius of individual points (ones that are not in a cluster). ' +
-    'Either a numerical column or `Auto`, which scales the point based ' +
-    'on the largest cluster',
+    description: '单点半径大小',
     mapStateToProps: state => ({
-      choices: [].concat([['Auto', 'Auto']], state.datasource.all_cols),
+      choices: [].concat([['Auto', '自动']], state.datasource.all_cols),
     }),
   },
 
   point_radius_unit: {
     type: 'SelectControl',
-    label: 'Point Radius Unit',
+    label: '单点半径大小',
     default: 'Pixels',
-    choices: formatSelectOptions(['Pixels', 'Miles', 'Kilometers']),
-    description: 'The unit of measure for the specified point radius',
+    choices: [['Pixels','像素'],['Miles','米'],['Kilometers','千米']],
+    description: '单点半径大小',
   },
 
   global_opacity: {
     type: 'TextControl',
-    label: 'Opacity',
+    label: '透明度',
     default: 1,
     isFloat: true,
-    description: 'Opacity of all clusters, points, and labels. ' +
-    'Between 0 and 1.',
+    description: '单点和气泡点的透明度',
   },
 
   viewport_zoom: {
     type: 'TextControl',
-    label: 'Zoom',
+    label: '缩放比例',
     isFloat: true,
     default: 11,
-    description: 'Zoom level of the map',
+    description: '地图缩放比例（1~20）',
     places: 8,
   },
-
   viewport_latitude: {
     type: 'TextControl',
-    label: 'Default latitude',
-    default: 37.772123,
+    label: '维度',
+    default: 39.915378,
     isFloat: true,
-    description: 'Latitude of default viewport',
+    description: '默认视角维度',
     places: 8,
   },
-
   viewport_longitude: {
     type: 'TextControl',
-    label: 'Default longitude',
-    default: -122.405293,
+    label: '经度',
+    default:   116.404844,
     isFloat: true,
-    description: 'Longitude of default viewport',
+    description: '默认视角经度',
     places: 8,
   },
 
   render_while_dragging: {
     type: 'CheckboxControl',
-    label: 'Live render',
+    label: '自动渲染',
     default: true,
-    description: 'Points and clusters will update as viewport is being changed',
+    description: '图像将会随着视角变动自动变化',
   },
 
   mapbox_color: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'RGB Color',
+    label: '配色',
     default: 'rgb(0, 122, 135)',
     choices: [
-      ['rgb(0, 139, 139)', 'Dark Cyan'],
-      ['rgb(128, 0, 128)', 'Purple'],
-      ['rgb(255, 215, 0)', 'Gold'],
-      ['rgb(69, 69, 69)', 'Dim Gray'],
-      ['rgb(220, 20, 60)', 'Crimson'],
-      ['rgb(34, 139, 34)', 'Forest Green'],
+      ['rgb(0, 139, 139)', '深青色'],
+      ['rgb(128, 0, 128)', '紫色'],
+      ['rgb(255, 215, 0)', '金色'],
+      ['rgb(69, 69, 69)', '灰色'],
+      ['rgb(220, 20, 60)', '深红色'],
+      ['rgb(34, 139, 34)', '绿色'],
     ],
-    description: 'The color for points and clusters in RGB',
+    description: '单点和坐标点的颜色',
   },
 
   ranges: {
