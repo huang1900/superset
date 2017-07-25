@@ -62,7 +62,7 @@ export default class MetricControl extends React.PureComponent {
         <MetricCheck
             metric={mt}
             value_name={this.props.valueKey}
-            onChange={this.ChangeCheck.bind(this)}
+            onChange={this.ChangeCheck.bind(this,Metric[this.props.valueKey])}
         />
     )
   }

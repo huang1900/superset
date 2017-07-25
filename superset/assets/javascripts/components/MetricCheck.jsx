@@ -10,12 +10,15 @@ const propTypes = {
 };
 
 export default class MetricCheck extends React.PureComponent{
+    onChange(){
+        this.props.onChange(!this.props.isck)
+    }
     render() {
         return (
             <div>
                 <Checkbox
                     checked={this.props.isck}
-                    onChange={this.props.onChange.bind(this)}
+                    onChange={this.onChange.bind(this)}
                 />
                 <span className="m-r-5 option-label">
         {this.props.metric.verbose_name || this.props.metric[this.props.value_name]}
