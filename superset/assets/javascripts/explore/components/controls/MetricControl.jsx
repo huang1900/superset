@@ -4,7 +4,6 @@ import { Label, Row, Col, FormControl, Modal } from 'react-bootstrap';
 import Select, { Creatable } from 'react-select';
 import ControlHeader from '../ControlHeader';
 import MetricCheck from '../../../components/MetricCheck';
-import { formatSelectOptions } from '../../../modules/utils';
 
 const propTypes = {
   metrics:PropTypes.array,
@@ -68,6 +67,13 @@ export default class MetricControl extends React.PureComponent {
         />
     )
   }
+
+   getOptions(value){
+       var options =[]
+       value.map(x=>options.push({"value":x,"lable":x}))
+       return options
+   }
+
   render() {
     const filter = this.state.filter;
     const filteredVizTypes = this.props.metrics
@@ -93,7 +99,7 @@ export default class MetricControl extends React.PureComponent {
         isLoading: false,
         isLoading: false,
         options: this.state.options,
-        value: this.props.value,
+        value: getOptions(this.props.value),
         placeholder:'已选择' ,
     }
     return (
