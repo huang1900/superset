@@ -73,7 +73,11 @@ export default class MetricControl extends React.PureComponent {
        value.map(x=>options.push({"value":x,"lable":x}))
        return options
    }
-
+   arrowRenderer (){
+        return (
+            <span type="hidden"></span>
+        );
+    }
   render() {
     const filter = this.state.filter;
     const filteredVizTypes = this.props.metrics
@@ -90,6 +94,7 @@ export default class MetricControl extends React.PureComponent {
           ))}
         </Row>);
     }
+
     const selectwarp={
         lable:"已选择",
         multi: true,
@@ -101,6 +106,7 @@ export default class MetricControl extends React.PureComponent {
         options: this.getOptions(this.props.value),
         value: this.props.value,
         placeholder:'已选择' ,
+        arrowRenderer:this.arrowRenderer,
     }
     return (
       <div>
