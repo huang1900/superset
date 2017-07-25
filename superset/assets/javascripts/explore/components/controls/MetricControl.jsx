@@ -42,6 +42,7 @@ export default class MetricControl extends React.PureComponent {
          }
 
     }
+     // this.setState({ options:formatSelectOptions(this.props.value) });
   }
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
@@ -52,7 +53,7 @@ export default class MetricControl extends React.PureComponent {
   renderMetric(Metric) {
       let isck=false;
       for(let i in this.props.value){
-          if(this.props.value[i]=Metric[this.props.valueKey])
+          if(this.props.value[i]==Metric[this.props.valueKey])
           {
               isck=true
               break;
