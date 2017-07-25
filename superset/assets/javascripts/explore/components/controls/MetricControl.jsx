@@ -98,8 +98,9 @@ export default class MetricControl extends React.PureComponent {
         clearable: true,
         isLoading: false,
         isLoading: false,
+        onChange:this.onChange,
         options: this.state.options,
-        value: getOptions(this.props.value),
+        value: this.getOptions(this.props.value),
         placeholder:'已选择' ,
     }
     return (
