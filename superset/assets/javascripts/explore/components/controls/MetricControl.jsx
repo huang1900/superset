@@ -24,7 +24,7 @@ export default class MetricControl extends React.PureComponent {
     this.state = {
       showModal: false,
       filter: '',
-      options:formatSelectOptions(this.props.value)
+      options:this.props.value,
     };
     this.toggleModal = this.toggleModal.bind(this);
     this.changeSearch = this.changeSearch.bind(this);
@@ -42,7 +42,7 @@ export default class MetricControl extends React.PureComponent {
          }
 
     }
-     // this.setState({ options:formatSelectOptions(this.props.value) });
+   // this.setState({ options:this.props.value});
   }
   toggleModal() {
     this.setState({ showModal: !this.state.showModal });
