@@ -108,6 +108,7 @@ export default class MetricControl extends React.PureComponent {
         autosize: true,
         clearable: true,
         isLoading: false,
+        searchable:false,
         onChange:this.onChangeSelect.bind(this),
         options: this.getOptions(this.props.value),
         value: this.props.value,
