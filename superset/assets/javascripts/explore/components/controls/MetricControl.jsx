@@ -4,7 +4,7 @@ import { Label, Row, Col, FormControl, Modal } from 'react-bootstrap';
 import Select, { Creatable } from 'react-select';
 import ControlHeader from '../ControlHeader';
 import MetricCheck from '../../../components/MetricCheck';
-import { formatSelectOptions } from '../../modules/utils';
+import { formatSelectOptions } from '../../../modules/utils';
 
 const propTypes = {
   metrics:PropTypes.array,
