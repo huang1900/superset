@@ -134,7 +134,7 @@ export default class MetricControl extends React.PureComponent {
           <Modal.Body>
               <div className="row space-1">
                   <div className="col-lg-8 col-lg-offset-1">
-                    <div style={{ margin-bottom: '20px' }}>
+                    <div style={{ margin: '0px,0px,20px,0px' }}>
                          <FormControl
                             id="formControlsText"
                             type="text"
