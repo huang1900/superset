@@ -135,9 +135,8 @@ export default class MetricControl extends React.PureComponent {
         onChange:this.onChangeSelect.bind(this),
         options: this.getOptions(this.props.value),
         value: this.props.value,
-        valueRenderer:this.MetricOption,
+        //valueRenderer:this.MetricOption,
         placeholder:'已选择' ,
-        arrowRenderer:this.arrowRenderer,
     }
     return (
       <div>
@@ -162,6 +161,7 @@ export default class MetricControl extends React.PureComponent {
                             id="formControlsText"
                             type="text"
                             bsSize="sm"
+
                             value={this.state.filter}
                             placeholder="过滤"
                             onChange={this.changeSearch}
@@ -171,9 +171,10 @@ export default class MetricControl extends React.PureComponent {
                   </div>
                   <div className="col-lg-3 col-lg-offset-1">
                       <style>{
-                          `.Select-arrow-zone {width: 5px}`
+                          `.Select-arrow-zone {display: none}`
                       }</style>
                       <Select
+                          arrowRenderer={() => {}}
                           {...selectwarp}
                       />
                   </div>
