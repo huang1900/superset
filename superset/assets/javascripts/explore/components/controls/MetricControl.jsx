@@ -79,27 +79,30 @@ export default class MetricControl extends React.PureComponent {
        value.map(x=>options.push({"value":x,"label":x}))
        return options
    }
-   arrowRenderer (){
-        return (
-            <span type="hidden"></span>
-        );
-    }
     selectedarrowRenderer (){
         return (
             <span className="fa fa-plus-circle"></span>
         );
     }
+    MetricOption({ metric }) {
+        return (
+            <div>
+      <span className="m-r-5 option-label">
+        {metric.label}
+      </span>
+            </div>);
+    }
   render() {
     const filter = this.state.filter;
     const filteredVizTypes = this.props.metrics
       .filter(vt => filter.length === 0 || vt[this.props.valueKey].toLowerCase().includes(filter));
-    const imgPerRow = 4;
+    const imgPerRow = 3;
     const rows = [];
     for (let i = 0; i <= filteredVizTypes.length; i += imgPerRow) {
       rows.push(
         <Row key={`row-${i}`}>
           {filteredVizTypes.slice(i, i + imgPerRow).map(vt => (
-            <Col md={3} key={`grid-col-${vt[this.props.valueKey]}`}>
+            <Col md={4} key={`grid-col-${vt[this.props.valueKey]}`}>
               {this.renderMetric(vt)}
             </Col>
           ))}
@@ -132,6 +135,7 @@ export default class MetricControl extends React.PureComponent {
         onChange:this.onChangeSelect.bind(this),
         options: this.getOptions(this.props.value),
         value: this.props.value,
+        valueRenderer:this.MetricOption,
         placeholder:'已选择' ,
         arrowRenderer:this.arrowRenderer,
     }
@@ -166,6 +170,9 @@ export default class MetricControl extends React.PureComponent {
                     {rows}
                   </div>
                   <div className="col-lg-3 col-lg-offset-1">
+                      <style>{
+                          `.Select-arrow-zone {width: 5px}`
+                      }</style>
                       <Select
                           {...selectwarp}
                       />
