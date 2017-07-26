@@ -84,6 +84,11 @@ export default class MetricControl extends React.PureComponent {
             <span type="hidden"></span>
         );
     }
+    selectedarrowRenderer (){
+        return (
+            <span className="fa fa-plus-circle"></span>
+        );
+    }
   render() {
     const filter = this.state.filter;
     const filteredVizTypes = this.props.metrics
@@ -100,7 +105,21 @@ export default class MetricControl extends React.PureComponent {
           ))}
         </Row>);
     }
-
+    const selectedwarp={
+        multi: true,
+        description:"已选择的内容",
+        freeForm: false,
+        autosize: true,
+        clearable: true,
+        isLoading: false,
+        searchable:false,
+        clearable:false,
+        options: this.getOptions(this.props.value),
+        value: this.props.value,
+        placeholder:'已选择' ,
+        onOpen:this.toggleModal,
+        arrowRenderer:this.selectedarrowRenderer,
+    }
     const selectwarp={
         lable:"已选择",
         multi: true,
@@ -124,9 +143,9 @@ export default class MetricControl extends React.PureComponent {
             <a onClick={this.toggleModal}>编辑</a>
           }
         />
-        {/*<Label onClick={this.toggleModal} style={{ cursor: 'pointer' }}>*/}
-          {/*{visTypes[this.props.value].label}*/}
-        {/*</Label>*/}
+          <Select
+              {...selectedwarp}
+          />
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg" style={{ height: '20px' }}>
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
@@ -147,7 +166,6 @@ export default class MetricControl extends React.PureComponent {
                     {rows}
                   </div>
                   <div className="col-lg-3 col-lg-offset-1">
-                      <ControlHeader {...selectwarp} />
                       <Select
                           {...selectwarp}
                       />
