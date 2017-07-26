@@ -132,6 +132,7 @@ export default class MetricControl extends React.PureComponent {
         clearable: true,
         isLoading: false,
         searchable:false,
+        onOpen:() => {},
         onChange:this.onChangeSelect.bind(this),
         options: this.getOptions(this.props.value),
         value: this.props.value,
@@ -155,13 +156,12 @@ export default class MetricControl extends React.PureComponent {
           </Modal.Header>
           <Modal.Body>
               <div className="row space-1">
-                  <div className="col-lg-8 ">
+                  <div className="col-lg-7 ">
                     <div style={{ margin: '0px,0px,20px,0px' }}>
                          <FormControl
                             id="formControlsText"
                             type="text"
                             bsSize="sm"
-
                             value={this.state.filter}
                             placeholder="过滤"
                             onChange={this.changeSearch}
@@ -169,9 +169,19 @@ export default class MetricControl extends React.PureComponent {
                     </div>
                     {rows}
                   </div>
-                  <div className="col-lg-3 col-lg-offset-1">
+                  <div className="col-lg-4 col-lg-offset-1">
+                      <div class="pull-left">
+                          <label class="control-label"><span>已选择</span><span>
+                              <i class="fa fa-question-circle-o undefined"></i></span>
+                          </label>
+                      </div>
                       <style>{
-                          `.Select-arrow-zone {display: none}`
+                          `.Select-arrow-zone {display: none};
+                           .Select-value {width:90%};
+                           .Select-value-label {font-size: 1.2em};
+                           .Select-multi-value-wrapper {min-height:400px}
+                           .modal-content {min-height:600px}`
+
                       }</style>
                       <Select
                           arrowRenderer={() => {}}
