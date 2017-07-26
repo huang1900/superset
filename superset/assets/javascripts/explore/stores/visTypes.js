@@ -260,7 +260,6 @@ const visTypes = {
         description: '选择分组维度，以及计算指标',
         controlSetRows: [
           ['groupby', 'metrics'],
-          ['metric_check']
         ],
       },
       {

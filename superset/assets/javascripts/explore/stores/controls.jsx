@@ -87,21 +87,22 @@ export const controls = {
     }),
   },
 
-  metric: {
-    type: 'SelectControl',
-    label: '字段',
-    clearable: false,
-    validators: [v.nonEmpty],
-    optionRenderer: m => <MetricOption metric={m} />,
-    valueRenderer: m => <MetricOption metric={m} />,
-    default: c => c.options && c.options.length > 0 ? c.options[0].metric_name : null,
-    valueKey: 'metric_name',
-    description: '选择字段',
-    mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.metrics : [],
-    }),
-  },
-  metric_check: {
+  // metric: {
+  //   type: 'SelectControl',
+  //   label: '字段',
+  //   clearable: false,
+  //   validators: [v.nonEmpty],
+  //   optionRenderer: m => <MetricOption metric={m} />,
+  //   valueRenderer: m => <MetricOption metric={m} />,
+  //   default: c => c.options && c.options.length > 0 ? c.options[0].metric_name : null,
+  //   valueKey: 'metric_name',
+  //   description: '选择字段',
+  //   mapStateToProps: state => ({
+  //     options: (state.datasource) ? state.datasource.metrics : [],
+  //   }),
+  // },
+
+    metric: {
         type: 'MetricControl',
         label: '字段',
         clearable: false,
@@ -112,6 +113,17 @@ export const controls = {
             metrics: (state.datasource) ? state.datasource.metrics : [],
         }),
     },
+  // metric_check: {
+  //       type: 'MetricControl',
+  //       label: '字段',
+  //       clearable: false,
+  //       validators: [v.nonEmpty],
+  //       valueKey: 'metric_name',
+  //       description: '选择字段',
+  //       mapStateToProps: state => ({
+  //           metrics: (state.datasource) ? state.datasource.metrics : [],
+  //       }),
+  //   },
   metric_2: {
     type: 'SelectControl',
     label: 'Right Axis Metric',
@@ -322,47 +334,81 @@ export const controls = {
     'to find in the [country] column',
   },
 
-  groupby: {
-    type: 'SelectControl',
-    multi: true,
-    label: '分组',
-    default: [],
-    description: '选择指标分组',
-    optionRenderer: c => <ColumnOption column={c} />,
-    valueRenderer: c => <ColumnOption column={c} />,
-    valueKey: 'column_name',
-    mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.columns : [],
-    }),
-  },
-
-  columns: {
-    type: 'SelectControl',
-    multi: true,
-    label: 'Columns',
-    default: [],
-    optionRenderer: c => <ColumnOption column={c} />,
-    valueRenderer: c => <ColumnOption column={c} />,
-    valueKey: 'column_name',
-    mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.columns : [],
-    }),
-    description: '选择分组列',
-  },
-
+  // groupby: {
+  //   type: 'SelectControl',
+  //   multi: true,
+  //   label: '分组',
+  //   default: [],
+  //   description: '选择指标分组',
+  //   optionRenderer: c => <ColumnOption column={c} />,
+  //   valueRenderer: c => <ColumnOption column={c} />,
+  //   valueKey: 'column_name',
+  //   mapStateToProps: state => ({
+  //     options: (state.datasource) ? state.datasource.columns : [],
+  //   }),
+  // },
+    groupby: {
+        type: 'SelectControl',
+        multi: true,
+        label: '分组',
+        default: [],
+        description: '选择指标分组',
+        valueKey: 'column_name',
+        type: 'MetricControl',
+        mapStateToProps: state => ({
+            options: (state.datasource) ? state.datasource.gb_cols : [],
+        }),
+    },
+  // columns: {
+  //       type: 'SelectControl',
+  //       multi: true,
+  //       label: 'Columns',
+  //       default: [],
+  //       optionRenderer: c => <ColumnOption column={c} />,
+  //       valueRenderer: c => <ColumnOption column={c} />,
+  //       valueKey: 'column_name',
+  //       mapStateToProps: state => ({
+  //           options: (state.datasource) ? state.datasource.columns : [],
+  //       }),
+  //       description: '选择分组列',
+  //   },
+    columns: {
+        multi: true,
+        label: '分组列',
+        valueKey: 'column_name',
+        type: 'MetricControl',
+        default: [],
+        valueKey: 'column_name',
+        mapStateToProps: state => ({
+            options: (state.datasource) ? state.datasource.columns : [],
+        }),
+        description: '选择分组列',
+    },
   all_columns: {
-    type: 'SelectControl',
     multi: true,
     label: '列',
     default: [],
     description: '显示列',
     valueKey: 'column_name',
-    optionRenderer: c => <ColumnOption column={c} />,
-    valueRenderer: c => <ColumnOption column={c} />,
+    type: 'MetricControl',
+    clearable: false,
     mapStateToProps: state => ({
       options: (state.datasource) ? state.datasource.columns : [],
     }),
   },
+  // all_columns: {
+  //       type: 'SelectControl',
+  //       multi: true,
+  //       label: '列',
+  //       default: [],
+  //       description: '显示列',
+  //       valueKey: 'column_name',
+  //       optionRenderer: c => <ColumnOption column={c} />,
+  //       valueRenderer: c => <ColumnOption column={c} />,
+  //       mapStateToProps: state => ({
+  //           options: (state.datasource) ? state.datasource.columns : [],
+  //       }),
+  //   },
 
   all_columns_x: {
     type: 'SelectControl',

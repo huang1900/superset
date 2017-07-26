@@ -55,7 +55,23 @@ export default class MetricControl extends React.PureComponent {
   changeSearch(event) {
     this.setState({ filter: event.target.value });
   }
+
+  getMetric(value){
+      if( Array.isArray(value))
+      {
+          return{
+              column_name:value[0],
+              verbose_name:value[0],
+          }
+                    }
+
+      else{
+          return value
+      }
+
+  }
   renderMetric(Metric) {
+      Metric=this.getMetric(Metric)
       let isck=false;
       for(let i in this.props.value){
           if(this.props.value[i]==Metric[this.props.valueKey])
