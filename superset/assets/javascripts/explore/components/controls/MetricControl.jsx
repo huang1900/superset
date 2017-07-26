@@ -104,6 +104,7 @@ export default class MetricControl extends React.PureComponent {
     const selectwarp={
         lable:"已选择",
         multi: true,
+        description:"已选择的内容",
         freeForm: false,
         autosize: true,
         clearable: true,
@@ -126,14 +127,14 @@ export default class MetricControl extends React.PureComponent {
         {/*<Label onClick={this.toggleModal} style={{ cursor: 'pointer' }}>*/}
           {/*{visTypes[this.props.value].label}*/}
         {/*</Label>*/}
-        <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
+        <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg" style={{ height: '20px' }}>
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
           </Modal.Header>
           <Modal.Body>
               <div className="row space-1">
-                  <div className="col-lg-9">
-                    <div>
+                  <div className="col-lg-8 col-lg-offset-1">
+                    <div style={{ margin-bottom: '20px' }}>
                          <FormControl
                             id="formControlsText"
                             type="text"
@@ -146,6 +147,7 @@ export default class MetricControl extends React.PureComponent {
                     {rows}
                   </div>
                   <div className="col-lg-3">
+                      <ControlHeader {...selectwarp} />
                       <Select
                           {...selectwarp}
                       />
