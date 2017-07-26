@@ -356,7 +356,7 @@ export const controls = {
         valueKey: 'column_name',
         type: 'MetricControl',
         mapStateToProps: state => ({
-            options: (state.datasource) ? state.datasource.gb_cols : [],
+            metrics: (state.datasource) ? state.datasource.gb_cols : [],
         }),
     },
   // columns: {
@@ -380,7 +380,7 @@ export const controls = {
         default: [],
         valueKey: 'column_name',
         mapStateToProps: state => ({
-            options: (state.datasource) ? state.datasource.columns : [],
+            metrics: (state.datasource) ? state.datasource.columns : [],
         }),
         description: '选择分组列',
     },
@@ -393,7 +393,7 @@ export const controls = {
     type: 'MetricControl',
     clearable: false,
     mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.columns : [],
+        metrics: (state.datasource) ? state.datasource.columns : [],
     }),
   },
   // all_columns: {
