@@ -133,7 +133,7 @@ export default class MetricControl extends React.PureComponent {
           </Modal.Header>
           <Modal.Body>
               <div className="row space-1">
-                  <div className="col-lg-8 col-lg-offset-1">
+                  <div className="col-lg-8 ">
                     <div style={{ margin: '0px,0px,20px,0px' }}>
                          <FormControl
                             id="formControlsText"
@@ -146,7 +146,7 @@ export default class MetricControl extends React.PureComponent {
                     </div>
                     {rows}
                   </div>
-                  <div className="col-lg-3">
+                  <div className="col-lg-3 col-lg-offset-1">
                       <ControlHeader {...selectwarp} />
                       <Select
                           {...selectwarp}
