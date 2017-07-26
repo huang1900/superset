@@ -175,12 +175,13 @@ export default class MetricControl extends React.PureComponent {
                   </div>
                   <div className="col-lg-4 col-lg-offset-1">
                       <style>{
-                          `.Select-arrow-zone {display: none};
-                           .Select-value {width:90%};
-                           .Select-value-label {font-size: 1.2em};
-                           .Select-multi-value-wrapper {min-height:400px};
-                           .modal-content {min-height:600px};`
-
+                          `.Select-arrow-zone {display: none};`
+                      }</style>
+                      <style>{
+                      '.Select-value {width:90%};'
+                      }</style>
+                      <style>{
+                          '.Select-multi-value-wrapper {min-height:400px};'
                       }</style>
                       <Select
                           arrowRenderer={() => {}}
