@@ -146,7 +146,7 @@ export default class MetricControl extends React.PureComponent {
           <Select
               {...selectedwarp}
           />
-        <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg" style={{ height: '20px' }}>
+        <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg" style={{ height: '400px' }}>
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
           </Modal.Header>
