@@ -150,6 +150,9 @@ export default class MetricControl extends React.PureComponent {
           <Select
               {...selectedwarp}
           />
+          <style>{
+              `.modal-content {min-height:600px};`
+          }</style>
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg" style={{ height: '400px' }}>
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
@@ -170,17 +173,12 @@ export default class MetricControl extends React.PureComponent {
                     {rows}
                   </div>
                   <div className="col-lg-4 col-lg-offset-1">
-                      <div class="pull-left">
-                          <label class="control-label"><span>已选择</span><span>
-                              <i class="fa fa-question-circle-o undefined"></i></span>
-                          </label>
-                      </div>
                       <style>{
                           `.Select-arrow-zone {display: none};
                            .Select-value {width:90%};
                            .Select-value-label {font-size: 1.2em};
-                           .Select-multi-value-wrapper {min-height:400px}
-                           .modal-content {min-height:600px}`
+                           .Select-multi-value-wrapper {min-height:400px};
+                           .modal-content {min-height:600px};`
 
                       }</style>
                       <Select
