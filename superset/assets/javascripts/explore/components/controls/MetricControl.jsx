@@ -154,7 +154,7 @@ export default class MetricControl extends React.PureComponent {
           <style>{
               `.modal-content {min-height:600px};`
           }</style>
-        <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg" style={{ height: '400px' }}>
+        <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
           </Modal.Header>
