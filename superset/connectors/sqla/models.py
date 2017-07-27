@@ -334,7 +334,7 @@ class SqlaTable(Model, BaseDatasource):
             return [];
         tp = self.get_template_processor()
         qry = (
-             select(column("dimension_value").label(column_name))
+             select([column("dimension_value").label(column_name)])
                  .select_from(self.fetch_values_predicate)
                  .where(tp.process_template(" dimension_name='{}' and module_cd='{}'".format(target_col,table_name)))
         )
