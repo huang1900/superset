@@ -336,7 +336,7 @@ class SqlaTable(Model, BaseDatasource):
         qry = (
              select(column("dimension_value").label(column_name))
                  .select_from(self.fetch_values_predicate)
-                 .where(where)
+                 .where(and_(where))
         )
         if limit:
             qry = qry.limit(limit)
