@@ -174,6 +174,9 @@ export default class MetricControl extends React.PureComponent {
           <style>{
               `.form-control.input-sm {margin-bottom: 20px;};`
           }</style>
+          <style>{
+              `.modal-dialog {width: 1000px;};`
+          }</style>
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>

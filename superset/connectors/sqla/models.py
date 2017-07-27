@@ -324,7 +324,30 @@ class SqlaTable(Model, BaseDatasource):
         # d['verbose_map'] = verbose_map
         return d
 
-    def values_for_column(self, column_name, limit=10000):
+    def values_for_column(self, column_name,table_name, limit=10000):
+        """Runs query against sqla to retrieve some
+        sample values for the given column.
+        """
+        cols = {col.column_name: col for col in self.columns}
+        target_col = cols[column_name]
+        if not self.fetch_values_predicate:
+            return [];
+        where=[column("dimension_value") == target_col,column("module_cd") == table_name]
+        qry = (
+             select(columns="dimension_value")
+                 .select_from(self.fetch_values_predicate)
+                 .where(where)
+        )
+        if limit:
+            qry = qry.limit(limit)
+        engine = self.database.get_sqla_engine()
+        sql = "{}".format(
+            qry.compile(engine, compile_kwargs={"literal_binds": True}, ),
+        )
+        df = pd.read_sql_query(sql=sql, con=engine)
+        return [row[0] for row in df.to_records(index=False)]
+
+    def values_for_dim(self, column_name, limit=10000):
         """Runs query against sqla to retrieve some
         sample values for the given column.
         """
@@ -333,8 +356,8 @@ class SqlaTable(Model, BaseDatasource):
 
         qry = (
             select([target_col.sqla_col])
-            .select_from(self.get_from_clause())
-            .distinct(column_name)
+                .select_from(self.get_from_clause())
+                .distinct(column_name)
         )
         if limit:
             qry = qry.limit(limit)

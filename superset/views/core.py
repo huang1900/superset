@@ -1124,7 +1124,7 @@ class Superset(BaseSupersetView):
             return json_error_response(DATASOURCE_ACCESS_ERR)
 
         payload = json.dumps(
-            datasource.values_for_column(column),
+            datasource.values_for_column(column,datasource),
             default=utils.json_int_dttm_ser)
         return json_success(payload)
 
