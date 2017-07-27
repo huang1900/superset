@@ -332,7 +332,7 @@ class SqlaTable(Model, BaseDatasource):
         target_col = cols[column_name]
         if not self.fetch_values_predicate:
             return [];
-        where=[column("dimension_name") == target_col,column("module_cd") == table_name]
+        where=[ literal_column("dimension_name") == target_col , literal_column("module_cd") == table_name]
         qry = (
              select(column("dimension_value").label(column_name))
                  .select_from(self.fetch_values_predicate)
