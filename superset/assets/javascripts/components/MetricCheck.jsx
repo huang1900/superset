@@ -20,9 +20,9 @@ export default class MetricCheck extends React.PureComponent{
                     checked={this.props.isck}
                     onChange={this.onChange.bind(this)}
                 />
-                <span className="m-r-5 option-label" onClick={this.onChange.bind(this)}>
+                <label className="m-r-5 option-label" onClick={this.onChange.bind(this)}>
         {this.props.metric.verbose_name || this.props.metric[this.props.value_name]}
-      </span>
+      </label>
                 {this.props.metric.description &&
                 <InfoTooltipWithTrigger
                     className="m-r-5 text-muted"

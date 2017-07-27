@@ -198,10 +198,10 @@ export default class MetricControl extends React.PureComponent {
                           `.Select-arrow-zone {display: none};`
                       }</style>
                       <style>{
-                      '.modal-content .Select-value {width:90%};'
+                      '.modal-content .Select-value {width:90%;};'
                       }</style>
                       <style>{
-                          '.modal-content .Select-multi-value-wrapper {min-height:400px};'
+                          '.modal-content .Select-multi-value-wrapper {min-height:400px;width: 90%;};'
                       }</style>
                       <Select
                           arrowRenderer={() => {}}
