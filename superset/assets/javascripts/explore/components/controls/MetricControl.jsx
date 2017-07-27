@@ -171,6 +171,9 @@ export default class MetricControl extends React.PureComponent {
           <style>{
               `.modal-content {min-height:600px};`
           }</style>
+          <style>{
+              `.form-control.input-sm {margin-bottom: 20px;};`
+          }</style>
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
@@ -178,7 +181,7 @@ export default class MetricControl extends React.PureComponent {
           <Modal.Body>
               <div className="row space-1">
                   <div className="col-lg-7 ">
-                    <div style={{ margin: '0px,0px,20px,0px' }}>
+                    <div>
                          <FormControl
                             id="formControlsText"
                             type="text"
@@ -198,7 +201,7 @@ export default class MetricControl extends React.PureComponent {
                       '.Select-value {width:90%};'
                       }</style>
                       <style>{
-                          '.Select-multi-value-wrapper {min-height:400px};'
+                          '.modal-content .Select-multi-value-wrapper {min-height:400px};'
                       }</style>
                       <Select
                           arrowRenderer={() => {}}
