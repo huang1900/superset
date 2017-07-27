@@ -332,11 +332,11 @@ class SqlaTable(Model, BaseDatasource):
         target_col = cols[column_name]
         if not self.fetch_values_predicate:
             return [];
-        where=[ literal_column("dimension_name") == target_col , literal_column("module_cd") == table_name]
+        tp = self.get_template_processor()
         qry = (
              select(column("dimension_value").label(column_name))
                  .select_from(self.fetch_values_predicate)
-                 .where(and_(where))
+                 .where(tp.process_template(" dimension_name='{}' and module_cd='{}'".format(target_col,table_name)))
         )
         if limit:
             qry = qry.limit(limit)
