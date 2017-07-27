@@ -2,7 +2,6 @@ import React from 'react';
 import { formatSelectOptionsForRange, formatSelectOptions } from '../../modules/utils';
 import * as v from '../validators';
 import MetricOption from '../../components/MetricOption';
-import ColumnOption from '../../components/ColumnOption';
 
 const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
@@ -356,7 +355,11 @@ export const controls = {
         valueKey: 'column_name',
         type: 'MetricControl',
         mapStateToProps: state => ({
-            metrics: (state.datasource) ? state.datasource.gb_cols : [],
+            metrics: (state.datasource) ?
+                state.datasource.gb_cols.map((x)=> {
+                return {column_name:x[0],verbose_name:x[0]}
+                })
+                : [],
         }),
     },
   // columns: {
