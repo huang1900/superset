@@ -653,7 +653,7 @@ export const controls = {
     freeForm: true,
     label: '数据条数上限',
     default:500 ,
-    choices: formatSelectOptions(ROW_LIMIT_OPTIONS),
+    choices: [[0,"不设限制（慎重)"],[10,10], [50,50], [100.100], [250,250], [500,500], [1000,1000], [5000,5000], [10000,10000], [50000,50000]],
   },
 
   limit: {
