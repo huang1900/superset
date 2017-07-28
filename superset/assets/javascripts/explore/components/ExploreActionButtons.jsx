@@ -38,7 +38,7 @@ export default function ExploreActionButtons({
         <a
           href={slice.data.csv_endpoint}
           className={exportToCSVClasses}
-          title="导出为csv"
+          title="导出csv"
           target="_blank"
           rel="noopener noreferrer"
         >
