@@ -734,7 +734,7 @@ class Log(Model):
     referrer = Column(String(1024))
 
     @classmethod
-    def log_this(cls, f):
+    def log_this(cls, f, actionname):
         """Decorator to log user actions"""
         @functools.wraps(f)
         def wrapper(*args, **kwargs):
@@ -745,7 +745,6 @@ class Log(Model):
             if request.args.get("form_data"):
                  form_data = request.args.get("form_data")
             elif request.form.get("form_data"):
-            # Supporting POST as well as get
                  form_data = request.form.get("form_data")
             else:
                  form_data = '{}'
@@ -772,7 +771,7 @@ class Log(Model):
 
             sesh = db.session()
             log = cls(
-                action=f.__name__,
+                action=actionname if actionname else f.__name__ ,
                 json=params,
                 dashboard_id=d.get('dashboard_id') or None,
                 slice_id=slice_id,
