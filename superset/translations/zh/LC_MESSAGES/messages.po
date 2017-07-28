@@ -632,7 +632,7 @@ msgstr "参数"
 
 #: superset/views/core.py:350 superset/views/core.py:386
 msgid "Slice"
-msgstr "切片"
+msgstr "历史提数"
 
 
 #: superset/views/core.py:271
@@ -677,7 +677,7 @@ msgstr "“所有者”是一组可以修改看板的用户列表"
 
 #: superset/views/core.py:433 superset/views/core.py:498
 msgid "Dashboard"
-msgstr "看板"
+msgstr "数据看板"
 
 #: superset/views/core.py:434 superset/views/core.py:499
 msgid "Title"
