@@ -92,7 +92,9 @@ export default class MetricControl extends React.PureComponent {
 
    getOptions(value){
        var options =[]
-       value.map(x=>options.push({"value":x,"label":x}))
+       if(value){
+           value.map(x=>options.push({"value":x,"label":x}))
+       }
        return options
    }
     selectedarrowRenderer (){

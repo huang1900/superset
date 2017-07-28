@@ -70,6 +70,7 @@ export const controls = {
         label: '计算指标',
         validators: [v.nonEmpty],
         valueKey: 'metric_name',
+        default:[],
         mapStateToProps: state => ({
             metrics: (state.datasource) ? state.datasource.metrics : [],
         }),
