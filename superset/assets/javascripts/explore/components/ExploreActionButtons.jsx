@@ -42,7 +42,7 @@ export default function ExploreActionButtons({
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i className="fa fa-file-text-o" /> .csv
+          <i className="fa fa-file-text-o" /> 导出csv
         </a>
 
         <DisplayQueryButton
