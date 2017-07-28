@@ -637,7 +637,7 @@ msgstr "历史提数"
 
 #: superset/views/core.py:271
 msgid "Sources"
-msgstr "数据中心"
+msgstr "自定义提数"
 
 #: superset/views/core.py:351
 msgid "Name"
@@ -689,7 +689,7 @@ msgstr ""
 
 #: superset/views/core.py:436
 msgid "Slices"
-msgstr "切片"
+msgstr "历史提数"
 
 msgid "Tables"
 msgstr "数据域"
