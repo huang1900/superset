@@ -175,7 +175,7 @@ export default class MetricControl extends React.PureComponent {
               `.form-control.input-sm {margin-bottom: 20px;};`
           }</style>
           <style>{
-              `.modal-dialog {width: 1000px;};`
+              `.modal-dialog {width: 1100px;};`
           }</style>
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
           <Modal.Header closeButton>

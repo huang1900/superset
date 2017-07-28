@@ -42,7 +42,7 @@ export default function QueryAndSaveBtns(
       bsStyle={qryButtonStyle}
       disabled={!!errorMessage}
     >
-      <i className="fa fa-bolt" /> 开始提数
+      <i className="fa fa fa-toggle-right" /> 开始提数
     </Button>
   );
 
