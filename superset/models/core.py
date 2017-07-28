@@ -35,7 +35,7 @@ from sqlalchemy.pool import NullPool
 from sqlalchemy.sql import text
 from sqlalchemy.sql.expression import TextAsFrom
 from sqlalchemy_utils import EncryptedType
-
+from superset.legacy import cast_form_data
 from superset import app, db, db_engine_specs, utils, sm
 from superset.connectors.connector_registry import ConnectorRegistry
 from superset.viz import viz_types
@@ -742,7 +742,18 @@ class Log(Model):
             user_id = None
             if g.user:
                 user_id = g.user.get_id()
-            d = request.args.to_dict()
+            if request.args.get("form_data"):
+                 form_data = request.args.get("form_data")
+            elif request.form.get("form_data"):
+            # Supporting POST as well as get
+                 form_data = request.form.get("form_data")
+            else:
+                 form_data = '{}'
+            d = json.loads(form_data)
+            if request.args.get("viz_type"):
+                d = cast_form_data(request.args)
+            if not d    :
+                d = request.args.to_dict()
             post_data = request.form or {}
             d.update(post_data)
             d.update(kwargs)
