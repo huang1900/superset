@@ -932,11 +932,10 @@ class Superset(BaseSupersetView):
             endpoint += '&standalone=true'
         return redirect(endpoint)
 
-    @log_this(actionname="自助查询")
+    @log_this(name="自助查询")
     @has_access_api
     @expose("/explore_json/<datasource_type>/<datasource_id>/")
     def explore_json(self, datasource_type, datasource_id):
-        logname="自助查询"
         try:
             viz_obj = self.get_viz(
                 datasource_type=datasource_type,
@@ -990,7 +989,7 @@ class Superset(BaseSupersetView):
         return json_success(viz_obj.json_dumps(payload), status=status)
 
     @expose("/import_dashboards", methods=['GET', 'POST'])
-    @log_this(actionname="添加看板")
+    @log_this(name="添加看板")
     def import_dashboards(self):
         """Overrides the dashboards using pickled instances from the file."""
         f = request.files.get('file')
@@ -1695,7 +1694,7 @@ class Superset(BaseSupersetView):
                     'dashboard_id={dash.id}&'.format(**locals()))
 
         # Hack to log the dashboard_id properly, even when getting a slug
-        @log_this(actionname="查看看板")
+        @log_this(name="查看看板")
         def dashboard(**kwargs):  # noqa
             pass
         dashboard(dashboard_id=dash.id)
@@ -2075,7 +2074,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/csv/<client_id>")
-    @log_this(actionname="导出csv")
+    @log_this(name="导出csv")
     def csv(self, client_id):
         """Download the query results as csv."""
         query = (

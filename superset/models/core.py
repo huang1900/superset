@@ -734,7 +734,7 @@ class Log(Model):
     referrer = Column(String(1024))
 
     @classmethod
-    def log_this(cls, f, actionname=None):
+    def log_this(cls, f, name=None):
         """Decorator to log user actions"""
         @functools.wraps(f)
         def wrapper(*args, **kwargs):
@@ -771,7 +771,7 @@ class Log(Model):
 
             sesh = db.session()
             log = cls(
-                action=actionname if actionname else f.__name__ ,
+                action=name if name else f.__name__ ,
                 json=params,
                 dashboard_id=d.get('dashboard_id') or None,
                 slice_id=slice_id,
