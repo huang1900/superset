@@ -170,16 +170,17 @@ export default class MetricControl extends React.PureComponent {
           <Select
               {...selectedwarp}
           />
-          <style>{
-              `.modal-content {min-height:600px};`
-          }</style>
-          <style>{
-              `.form-control.input-sm {margin-bottom: 20px;};`
-          }</style>
-          <style>{
-              `.modal-dialog {width: 1100px;};`
-          }</style>
+
         <Modal show={this.state.showModal} onHide={this.toggleModal} bsSize="lg">
+            <style>{
+                `.modal-content {min-height:600px};`
+            }</style>
+            <style>{
+                `.form-control.input-sm {margin-bottom: 20px;};`
+            }</style>
+            <style>{
+                `.modal-dialog {width: 1100px;};`
+            }</style>
           <Modal.Header closeButton>
             <Modal.Title>选择需要的内容</Modal.Title>
           </Modal.Header>
