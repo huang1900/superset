@@ -19,8 +19,8 @@ class CreatedContent extends React.PureComponent {
   }
   renderSliceTable() {
     const mutator = data => data.map(slice => ({
-      slice: <a href={slice.url}>{slice.title}</a>,
-      favorited: moment.utc(slice.dttm).fromNow(),
+        '历史查询': <a href={slice.url}>{slice.title}</a>,
+        '创建时间': moment.utc(slice.dttm).fromNow(),
       _favorited: slice.dttm,
     }));
     return (
@@ -36,8 +36,8 @@ class CreatedContent extends React.PureComponent {
   }
   renderDashboardTable() {
     const mutator = data => data.map(dash => ({
-      dashboard: <a href={dash.url}>{dash.title}</a>,
-      favorited: moment.utc(dash.dttm).fromNow(),
+        '看板': <a href={dash.url}>{dash.title}</a>,
+        '创建时间': moment.utc(dash.dttm).fromNow(),
       _favorited: dash.dttm,
     }));
     return (
