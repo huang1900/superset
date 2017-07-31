@@ -19,9 +19,9 @@ export default class Favorites extends React.PureComponent {
   }
   renderSliceTable() {
     const mutator = data => data.map(slice => ({
-      slice: <a href={slice.url}>{slice.title}</a>,
-      creator: <a href={slice.creator_url}>{slice.creator}</a>,
-      favorited: moment.utc(slice.dttm).fromNow(),
+        '历史查询': <a href={slice.url}>{slice.title}</a>,
+        '创建者': <a href={slice.creator_url}>{slice.creator}</a>,
+        '关注时间': moment.utc(slice.dttm).fromNow(),
       _favorited: slice.dttm,
     }));
     return (
