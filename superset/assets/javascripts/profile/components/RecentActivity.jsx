@@ -12,9 +12,9 @@ export default class RecentActivity extends React.PureComponent {
   render() {
     const mutator = function (data) {
       return data.map(row => ({
-        action: row.action,
-        item: <a href={row.item_url}>{row.item_title}</a>,
-        time: moment.utc(row.time).fromNow(),
+          '操作': row.action,
+          '详情': <a href={row.item_url}>{row.item_title}</a>,
+          '时间': moment.utc(row.time).fromNow(),
         _time: row.time,
       }));
     };
@@ -24,7 +24,7 @@ export default class RecentActivity extends React.PureComponent {
           className="table table-condensed"
           mutator={mutator}
           sortable
-          columns={['动作', '详情', '时间']}
+          columns={['操作', '详情', '时间']}
           dataEndpoint={`/superset/recent_activity/${this.props.user.userId}/`}
         />
       </div>
