@@ -734,55 +734,57 @@ class Log(Model):
     referrer = Column(String(1024))
 
     @classmethod
-    def log_this(cls, f, name=None):
+    def log_this(cls,name=None):
         """Decorator to log user actions"""
-        @functools.wraps(f)
-        def wrapper(*args, **kwargs):
-            start_dttm = datetime.now()
-            user_id = None
-            if g.user:
-                user_id = g.user.get_id()
-            if request.args.get("form_data"):
-                 form_data = request.args.get("form_data")
-            elif request.form.get("form_data"):
-                 form_data = request.form.get("form_data")
-            else:
-                 form_data = '{}'
-            d = json.loads(form_data)
-            if request.args.get("viz_type"):
-                d = cast_form_data(request.args)
-            if not d    :
-                d = request.args.to_dict()
-            post_data = request.form or {}
-            d.update(post_data)
-            d.update(kwargs)
-            slice_id = d.get('slice_id', 0)
-            try:
-                slice_id = int(slice_id) if slice_id else 0
-            except ValueError:
-                slice_id = 0
-            params = ""
-            try:
-                params = json.dumps(d)
-            except:
-                pass
-            stats_logger.incr(f.__name__)
-            value = f(*args, **kwargs)
+        def log(f):
+            @functools.wraps(f)
+            def wrapper(*args, **kwargs):
+                start_dttm = datetime.now()
+                user_id = None
+                if g.user:
+                    user_id = g.user.get_id()
+                if request.args.get("form_data"):
+                     form_data = request.args.get("form_data")
+                elif request.form.get("form_data"):
+                     form_data = request.form.get("form_data")
+                else:
+                     form_data = '{}'
+                d = json.loads(form_data)
+                if request.args.get("viz_type"):
+                    d = cast_form_data(request.args)
+                if not d:
+                    d = request.args.to_dict()
+                post_data = request.form or {}
+                d.update(post_data)
+                d.update(kwargs)
+                slice_id = d.get('slice_id', 0)
+                try:
+                    slice_id = int(slice_id) if slice_id else 0
+                except ValueError:
+                    slice_id = 0
+                params = ""
+                try:
+                    params = json.dumps(d)
+                except:
+                    pass
+                stats_logger.incr(f.__name__)
+                value = f(*args, **kwargs)
 
-            sesh = db.session()
-            log = cls(
-                action=name if name else f.__name__ ,
-                json=params,
-                dashboard_id=d.get('dashboard_id') or None,
-                slice_id=slice_id,
-                duration_ms=(
-                    datetime.now() - start_dttm).total_seconds() * 1000,
-                referrer=request.referrer[:1000] if request.referrer else None,
-                user_id=user_id)
-            sesh.add(log)
-            sesh.commit()
-            return value
-        return wrapper
+                sesh = db.session()
+                log = cls(
+                    action=name if name else f.__name__ ,
+                    json=params,
+                    dashboard_id=d.get('dashboard_id') or None,
+                    slice_id=slice_id,
+                    duration_ms=(
+                        datetime.now() - start_dttm).total_seconds() * 1000,
+                    referrer=request.referrer[:1000] if request.referrer else None,
+                    user_id=user_id)
+                sesh.add(log)
+                sesh.commit()
+                return value
+            return wrapper
+        return log
 
 
 class FavStar(Model):
