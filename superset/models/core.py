@@ -734,7 +734,7 @@ class Log(Model):
     referrer = Column(String(1024))
 
     @classmethod
-    def log_this(cls, f, actionname):
+    def log_this(cls, f, actionname=None):
         """Decorator to log user actions"""
         @functools.wraps(f)
         def wrapper(*args, **kwargs):
