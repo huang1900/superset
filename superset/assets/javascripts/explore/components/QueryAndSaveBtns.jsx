@@ -60,7 +60,7 @@ export default function QueryAndSaveBtns(
           <i className="fa fa-plus-circle" /> 保存
         </Button>
       </ButtonGroup>
-          保存提数后，提数条件将存储在您的历史提数模中
+          保存提数后，提数条件将存储在您的历史提数模块中
       {errorMessage &&
         <span>
           {' '}
