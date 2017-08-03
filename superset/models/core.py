@@ -14,7 +14,7 @@ import textwrap
 from future.standard_library import install_aliases
 from copy import copy
 from datetime import datetime, date
-
+import pytz
 import pandas as pd
 import sqlalchemy as sqla
 from sqlalchemy.engine.url import make_url
@@ -46,7 +46,7 @@ from urllib import parse  # noqa
 config = app.config
 stats_logger = config.get('STATS_LOGGER')
 metadata = Model.metadata  # pylint: disable=no-member
-
+tz = pytz.timezone('Asia/Shanghai')
 
 def set_related_perm(mapper, connection, target):  # noqa
     src_class = target.cls_model
@@ -728,7 +728,7 @@ class Log(Model):
     slice_id = Column(Integer)
     json = Column(Text)
     user = relationship(sm.user_model, backref='logs', foreign_keys=[user_id])
-    dttm = Column(DateTime, default=datetime.utcnow)
+    dttm = Column(DateTime, default=datetime.now(tz))
     dt = Column(Date, default=date.today())
     duration_ms = Column(Integer)
     referrer = Column(String(1024))
