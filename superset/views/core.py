@@ -1972,10 +1972,9 @@ class Superset(BaseSupersetView):
         except Exception as e:
             pass
         return self.json_response('OK')
-
+    @log_this
     @has_access_api
     @expose("/sql_json/", methods=['POST', 'GET'])
-    @log_this
     def sql_json(self):
         """Runs arbitrary sql and returns and json"""
         async = request.form.get('runAsync') == 'true'
