@@ -1972,7 +1972,8 @@ class Superset(BaseSupersetView):
         except Exception as e:
             pass
         return self.json_response('OK')
-    @log_this
+
+    @log_this(name="sql查询")
     @has_access_api
     @expose("/sql_json/", methods=['POST', 'GET'])
     def sql_json(self):
