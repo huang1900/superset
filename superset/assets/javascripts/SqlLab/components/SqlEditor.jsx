@@ -108,9 +108,7 @@ class SqlEditor extends React.PureComponent {
     if (this.props.latestQuery && this.props.latestQuery.limit_reached) {
       const tooltip = (
         <Tooltip id="tooltip">
-          It appears that the number of rows in the query results displayed
-          was limited on the server side to
-          the {this.props.latestQuery.rows} limit.
+        结果数量限制为 {this.props.latestQuery.rows}行 .
         </Tooltip>
       );
       limitWarning = (
@@ -121,7 +119,7 @@ class SqlEditor extends React.PureComponent {
     }
     let ctasControls;
     if (this.props.database && this.props.database.allow_ctas) {
-      const ctasToolTip = 'Create table as with query results';
+      const ctasToolTip = '根据查询结果创建表';
       ctasControls = (
         <FormGroup>
           <InputGroup>
@@ -129,7 +127,7 @@ class SqlEditor extends React.PureComponent {
               type="text"
               bsSize="small"
               className="input-sm"
-              placeholder="new table name"
+              placeholder="表名"
               onChange={this.ctasChanged.bind(this)}
             />
             <InputGroup.Button>
@@ -139,7 +137,7 @@ class SqlEditor extends React.PureComponent {
                 onClick={this.createTableAs.bind(this)}
                 tooltip={ctasToolTip}
               >
-                <i className="fa fa-table" /> CTAS
+                <i className="fa fa-table" /> 保存为表
               </Button>
             </InputGroup.Button>
           </InputGroup>

@@ -21,7 +21,7 @@ const propTypes = {
   onDbClicked: PropTypes.func,
 };
 const defaultProps = {
-  columns: ['started', 'duration', 'rows'],
+  columns: [{key:'started',label:'开始'}, {key:'duration',label:"用时"}, {key:'rows',label:"数据量"}],
   queries: [],
   onUserClicked: () => {},
   onDbClicked: () => {},
@@ -45,7 +45,7 @@ class QueryTable extends React.PureComponent {
   openQuery(dbId, schema, sql) {
     const newQuery = {
       dbId,
-      title: 'Untitled Query',
+      title: '未命名查询',
       schema,
       sql,
     };
@@ -110,7 +110,7 @@ class QueryTable extends React.PureComponent {
             className="btn btn-link btn-xs"
             onClick={this.openQuery.bind(this, q.dbId, q.schema, q.sql)}
           >
-            <i className="fa fa-external-link" />Open in SQL Editor
+            <i className="fa fa-external-link" />在sql编辑器里打开
           </button>
         </div>
       );
@@ -129,7 +129,7 @@ class QueryTable extends React.PureComponent {
                 bsStyle="info"
                 style={{ cursor: 'pointer' }}
               >
-                view results
+                结果
               </Label>
             )}
             modalTitle={'Data preview'}
@@ -172,24 +172,24 @@ class QueryTable extends React.PureComponent {
         <div style={{ width: '75px' }}>
           <Link
             className="fa fa-line-chart m-r-3"
-            tooltip="Visualize the data out of this query"
+            tooltip="图形化数据"
             onClick={this.showVisualizeModal.bind(this, query)}
           />
           <Link
             className="fa fa-pencil m-r-3"
             onClick={this.restoreSql.bind(this, query)}
-            tooltip="Overwrite text in editor with a query on this table"
+            tooltip="重新编辑"
             placement="top"
           />
           <Link
             className="fa fa-plus-circle m-r-3"
             onClick={this.openQueryInNewTab.bind(this, query)}
-            tooltip="Run query in a new tab"
+            tooltip="在新窗口中打开"
             placement="top"
           />
           <Link
             className="fa fa-trash m-r-3"
-            tooltip="Remove query from log"
+            tooltip="删除记录"
             onClick={this.removeQuery.bind(this, query)}
           />
         </div>

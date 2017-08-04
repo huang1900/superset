@@ -24,8 +24,8 @@ export const TIME_OPTIONS = [
 ];
 
 export const VISUALIZE_VALIDATION_ERRORS = {
-  REQUIRE_CHART_TYPE: 'Pick a chart type!',
-  REQUIRE_TIME: 'To use this chart type you need at least one column flagged as a date',
-  REQUIRE_DIMENSION: 'To use this chart type you need at least one dimension',
-  REQUIRE_AGGREGATION_FUNCTION: 'To use this chart type you need at least one aggregation function',
+  REQUIRE_CHART_TYPE: '请选则一种图表类型!',
+  REQUIRE_TIME: '请至设置一个字段为时间类型',
+  REQUIRE_DIMENSION: '请至少设置一个维度',
+  REQUIRE_AGGREGATION_FUNCTION: '请至少设置一个汇总函数',
 };

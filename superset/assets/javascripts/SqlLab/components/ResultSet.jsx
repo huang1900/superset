@@ -75,7 +75,7 @@ export default class ResultSet extends React.PureComponent {
             bsSize="small"
             onClick={this.showModal.bind(this)}
           >
-            <i className="fa fa-line-chart m-l-1" /> Visualize
+            <i className="fa fa-line-chart m-l-1" /> 图形化
           </Button>
         );
       }
@@ -176,14 +176,13 @@ export default class ResultSet extends React.PureComponent {
       return (
         <div>
           <Alert bsStyle="info">
-            Table [<strong>{query.tempTable}</strong>] was
-            created &nbsp;
+            表 [<strong>{query.tempTable}</strong>] 已经创建&nbsp;
             <Button
               bsSize="small"
               className="m-r-5"
               onClick={this.popSelectStar.bind(this)}
             >
-              Query in a new tab
+              在新选项卡中打开
             </Button>
           </Alert>
         </div>);
@@ -222,7 +221,7 @@ export default class ResultSet extends React.PureComponent {
           bsStyle="primary"
           onClick={this.reFetchQueryResults.bind(this, query)}
         >
-          Fetch data preview
+          预览
         </Button>
       );
     }
