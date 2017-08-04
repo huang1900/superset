@@ -1774,9 +1774,9 @@ class Superset(BaseSupersetView):
             return json_error_response(utils.error_msg_from_exception(e))
         return Response(status=201)
 
-    @log_this
-    @has_access
     @expose("/sqllab_viz/", methods=['POST'])
+    @has_access
+    @log_this
     def sqllab_viz(self):
         SqlaTable = ConnectorRegistry.sources['table']
         data = json.loads(request.form.get('data'))
