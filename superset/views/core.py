@@ -1838,7 +1838,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/table/<database_id>/<table_name>/<schema>/")
-    @log_this
+    #@log_this
     def table(self, database_id, table_name, schema):
         schema = utils.js_string_to_python(schema)
         mydb = db.session.query(models.Database).filter_by(id=database_id).one()
