@@ -150,7 +150,7 @@ class QuerySearch extends React.PureComponent {
               type="text"
               onChange={this.changeSearch.bind(this)}
               className="form-control input-sm"
-              placeholder="Search Results"
+              placeholder="在结果中查询"
             />
           </div>
           <div className="col-sm-1">
@@ -176,8 +176,8 @@ class QuerySearch extends React.PureComponent {
           </div>
           <div className="col-sm-1">
             <Select
-              name="select-status"
-              placeholder="[Query Status]"
+              name="查询状态s"
+              placeholder="[查询状态]"
               options={STATUS_OPTIONS.map(s => ({ value: s, label: s }))}
               value={this.state.status}
               isLoading={false}
@@ -200,8 +200,8 @@ class QuerySearch extends React.PureComponent {
               >
                 <QueryTable
                   columns={[
-                    'state', 'db', 'user', 'time',
-                    'progress', 'rows', 'sql', 'querylink',
+                      {key:'state',label:"状态"}, {key:'db',label:"数据源"}, {key:'user',label:"用户"}, {key:'time',label:"时间"},
+                      {key:'progress',label:"进度"}, {key:'rows',label:"数据量"}, {key:'sql',label:"sql"}, {key:'querylink',label:"查询链接"},
                   ]}
                   onUserClicked={this.onUserClicked.bind(this)}
                   onDbClicked={this.onDbClicked.bind(this)}

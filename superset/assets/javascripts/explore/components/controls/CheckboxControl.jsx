@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Checkbox } from 'react-bootstrap';
 import ControlHeader from '../ControlHeader';
 
+
 const propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.bool,

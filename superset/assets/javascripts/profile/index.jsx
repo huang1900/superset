@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import { Badge, Col, Label, Row, Tabs, Tab, Panel } from 'react-bootstrap';
 import App from './components/App';
 import { appSetup } from '../common';
-
+import moment from 'moment';
 import './main.css';
 
 appSetup();
-
+moment.locale('zh-cn');
 const profileViewContainer = document.getElementById('app');
 const bootstrap = JSON.parse(profileViewContainer.getAttribute('data-bootstrap'));
 

@@ -50,7 +50,7 @@ export default class AddSliceContainer extends React.PureComponent {
   render() {
     return (
       <div className="container">
-        <Panel header={<h3>创建切片</h3>}>
+        <Panel header={<h3>创建历史查询</h3>}>
           <Grid>
             <Row>
               <Col xs={12} sm={6}>
@@ -83,7 +83,7 @@ export default class AddSliceContainer extends React.PureComponent {
                   disabled={this.isBtnDisabled()}
                   onClick={this.gotoSlice.bind(this)}
                 >
-                  创建切片
+                  创建历史查询
                 </Button>
                 <br /><br />
               </Col>

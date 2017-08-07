@@ -38,11 +38,11 @@ export default function ExploreActionButtons({
         <a
           href={slice.data.csv_endpoint}
           className={exportToCSVClasses}
-          title="导出为csv"
+          title="导出csv"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <i className="fa fa-file-text-o" /> .csv
+          <i className="fa fa-file-text-o" /> 导出csv
         </a>
 
         <DisplayQueryButton

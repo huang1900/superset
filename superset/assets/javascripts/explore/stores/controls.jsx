@@ -2,7 +2,6 @@ import React from 'react';
 import { formatSelectOptionsForRange, formatSelectOptions } from '../../modules/utils';
 import * as v from '../validators';
 import MetricOption from '../../components/MetricOption';
-import ColumnOption from '../../components/ColumnOption';
 
 const D3_FORMAT_DOCS = 'D3 format syntax: https://github.com/d3/d3-format';
 
@@ -27,7 +26,7 @@ export const D3_TIME_FORMAT_OPTIONS = [
 export const controls = {
   datasource: {
     type: 'SelectControl',
-    label: '数据域',
+    label: '数据指标分类',
     isLoading: true,
     clearable: false,
     default: null,
@@ -46,25 +45,37 @@ export const controls = {
 
   viz_type: {
     type: 'VizTypeControl',
-    label: '分析模式',
+    label: '报表类型',
     default: 'table',
     description: '选择一种分析模式',
   },
 
+  // metrics: {
+  //   type: 'SelectControl',
+  //   multi: true,
+  //   label: '计算指标',
+  //   validators: [v.nonEmpty],
+  //   valueKey: 'metric_name',
+  //   optionRenderer: m => <MetricOption metric={m} />,
+  //   valueRenderer: m => <MetricOption metric={m} />,
+  //   default: c => c.options && c.options.length > 0 ? [c.options[0].metric_name] : null,
+  //   mapStateToProps: state => ({
+  //     options: (state.datasource) ? state.datasource.metrics : [],
+  //   }),
+  //   description: '选择一个或多个计算指标',
+  // },
   metrics: {
-    type: 'SelectControl',
-    multi: true,
-    label: '计算指标',
-    validators: [v.nonEmpty],
-    valueKey: 'metric_name',
-    optionRenderer: m => <MetricOption metric={m} />,
-    valueRenderer: m => <MetricOption metric={m} />,
-    default: c => c.options && c.options.length > 0 ? [c.options[0].metric_name] : null,
-    mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.metrics : [],
-    }),
-    description: '选择一个或多个计算指标',
-  },
+       type: 'MetricControl',
+        multi: true,
+        label: '计算指标',
+        validators: [v.nonEmpty],
+        valueKey: 'metric_name',
+        default:[],
+        mapStateToProps: state => ({
+            metrics: (state.datasource) ? state.datasource.metrics : [],
+        }),
+        description: '选择一个或多个计算指标',
+    },
   y_axis_bounds: {
     type: 'BoundsControl',
     label: 'Y Axis Bounds',
@@ -87,21 +98,43 @@ export const controls = {
     }),
   },
 
-  metric: {
-    type: 'SelectControl',
-    label: '字段',
-    clearable: false,
-    validators: [v.nonEmpty],
-    optionRenderer: m => <MetricOption metric={m} />,
-    valueRenderer: m => <MetricOption metric={m} />,
-    default: c => c.options && c.options.length > 0 ? c.options[0].metric_name : null,
-    valueKey: 'metric_name',
-    description: '选择字段',
-    mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.metrics : [],
-    }),
-  },
+  // metric: {
+  //   type: 'SelectControl',
+  //   label: '字段',
+  //   clearable: false,
+  //   validators: [v.nonEmpty],
+  //   optionRenderer: m => <MetricOption metric={m} />,
+  //   valueRenderer: m => <MetricOption metric={m} />,
+  //   default: c => c.options && c.options.length > 0 ? c.options[0].metric_name : null,
+  //   valueKey: 'metric_name',
+  //   description: '选择字段',
+  //   mapStateToProps: state => ({
+  //     options: (state.datasource) ? state.datasource.metrics : [],
+  //   }),
+  // },
 
+    metric: {
+        type: 'MetricControl',
+        label: '字段',
+        clearable: false,
+        validators: [v.nonEmpty],
+        valueKey: 'metric_name',
+        description: '选择字段',
+        mapStateToProps: state => ({
+            metrics: (state.datasource) ? state.datasource.metrics : [],
+        }),
+    },
+  // metric_check: {
+  //       type: 'MetricControl',
+  //       label: '字段',
+  //       clearable: false,
+  //       validators: [v.nonEmpty],
+  //       valueKey: 'metric_name',
+  //       description: '选择字段',
+  //       mapStateToProps: state => ({
+  //           metrics: (state.datasource) ? state.datasource.metrics : [],
+  //       }),
+  //   },
   metric_2: {
     type: 'SelectControl',
     label: 'Right Axis Metric',
@@ -312,47 +345,85 @@ export const controls = {
     'to find in the [country] column',
   },
 
-  groupby: {
-    type: 'SelectControl',
-    multi: true,
-    label: '分组',
-    default: [],
-    description: '选择指标分组',
-    optionRenderer: c => <ColumnOption column={c} />,
-    valueRenderer: c => <ColumnOption column={c} />,
-    valueKey: 'column_name',
-    mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.columns : [],
-    }),
-  },
-
-  columns: {
-    type: 'SelectControl',
-    multi: true,
-    label: 'Columns',
-    default: [],
-    optionRenderer: c => <ColumnOption column={c} />,
-    valueRenderer: c => <ColumnOption column={c} />,
-    valueKey: 'column_name',
-    mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.columns : [],
-    }),
-    description: '选择分组列',
-  },
-
+  // groupby: {
+  //   type: 'SelectControl',
+  //   multi: true,
+  //   label: '分组',
+  //   default: [],
+  //   description: '选择指标分组',
+  //   optionRenderer: c => <ColumnOption column={c} />,
+  //   valueRenderer: c => <ColumnOption column={c} />,
+  //   valueKey: 'column_name',
+  //   mapStateToProps: state => ({
+  //     options: (state.datasource) ? state.datasource.columns : [],
+  //   }),
+  // },
+    groupby: {
+        type: 'SelectControl',
+        multi: true,
+        label: '分组',
+        default: [],
+        description: '选择指标分组',
+        valueKey: 'column_name',
+        type: 'MetricControl',
+        mapStateToProps: state => ({
+            metrics: (state.datasource) ?
+                state.datasource.gb_cols.map((x)=> {
+                return {column_name:x[0],verbose_name:x[0]}
+                })
+                : [],
+        }),
+    },
+  // columns: {
+  //       type: 'SelectControl',
+  //       multi: true,
+  //       label: 'Columns',
+  //       default: [],
+  //       optionRenderer: c => <ColumnOption column={c} />,
+  //       valueRenderer: c => <ColumnOption column={c} />,
+  //       valueKey: 'column_name',
+  //       mapStateToProps: state => ({
+  //           options: (state.datasource) ? state.datasource.columns : [],
+  //       }),
+  //       description: '选择分组列',
+  //   },
+    columns: {
+        multi: true,
+        label: '分组列',
+        valueKey: 'column_name',
+        type: 'MetricControl',
+        default: [],
+        valueKey: 'column_name',
+        mapStateToProps: state => ({
+            metrics: (state.datasource) ? state.datasource.columns : [],
+        }),
+        description: '选择分组列',
+    },
   all_columns: {
-    type: 'SelectControl',
     multi: true,
     label: '列',
     default: [],
     description: '显示列',
     valueKey: 'column_name',
-    optionRenderer: c => <ColumnOption column={c} />,
-    valueRenderer: c => <ColumnOption column={c} />,
+    type: 'MetricControl',
+    clearable: false,
     mapStateToProps: state => ({
-      options: (state.datasource) ? state.datasource.columns : [],
+        metrics: (state.datasource) ? state.datasource.columns : [],
     }),
   },
+  // all_columns: {
+  //       type: 'SelectControl',
+  //       multi: true,
+  //       label: '列',
+  //       default: [],
+  //       description: '显示列',
+  //       valueKey: 'column_name',
+  //       optionRenderer: c => <ColumnOption column={c} />,
+  //       valueRenderer: c => <ColumnOption column={c} />,
+  //       mapStateToProps: state => ({
+  //           options: (state.datasource) ? state.datasource.columns : [],
+  //       }),
+  //   },
 
   all_columns_x: {
     type: 'SelectControl',
@@ -527,6 +598,16 @@ export const controls = {
       '1 day ago',
     ]),
   },
+    date_timepick_st: {
+        type: 'DatetimeControl',
+        label: '开始时间.',
+        description: '选择开始时间',
+    },
+    date_timepick_end: {
+        type: 'DatetimeControl',
+        label: '结束时间.',
+        description: '选择结束时间',
+    },
 
   max_bubble_size: {
     type: 'SelectControl',
@@ -573,7 +654,7 @@ export const controls = {
     freeForm: true,
     label: '数据条数上限',
     default:500 ,
-    choices: formatSelectOptions(ROW_LIMIT_OPTIONS),
+    choices: [["0","不设限制（慎重)"],[10,10], [50,50], [100,100], [250,250], [500,500], [1000,1000], [5000,5000], [10000,10000], [50000,50000]],
   },
 
   limit: {
@@ -851,10 +932,12 @@ export const controls = {
      ['sum','求和'],
      ['mean','平均'],
       ['min','最小值'],
-      ['max','最小值'],
+      ['max','最大值'],
       ['median','中位数'],
-      // 'stdev',
-      // 'var',
+      ['median','中位数'],
+      ['median','中位数'],
+      ['stdev','标准差'] ,
+      ['var','方差'],
     ],
     default: 'sum',
     description: '分组指标汇总',
@@ -912,8 +995,8 @@ export const controls = {
   include_search: {
     type: 'CheckboxControl',
     label: '查询框',
-    // renderTrigger: true,
-    default: false,
+    renderTrigger: true,
+    default: true,
     description: '是否有查询框',
   },
 
@@ -1033,12 +1116,9 @@ export const controls = {
   mapbox_label: {
     type: 'SelectControl',
     multi: true,
-    label: 'label',
+    label: '气泡点',
     default: [],
-    description: '`count` is COUNT(*) if a group by is used. ' +
-    'Numerical columns will be aggregated with the aggregator. ' +
-    'Non-numerical columns will be used to label points. ' +
-    'Leave empty to get a count of points in each cluster.',
+    description: '气泡点汇总字段',
     mapStateToProps: state => ({
       choices: (state.datasource) ? state.datasource.all_cols : [],
     }),
@@ -1046,23 +1126,23 @@ export const controls = {
 
   mapbox_style: {
     type: 'SelectControl',
-    label: 'Map Style',
+    label: '地图样式',
     choices: [
-      ['mapbox://styles/mapbox/streets-v9', 'Streets'],
-      ['mapbox://styles/mapbox/dark-v9', 'Dark'],
-      ['mapbox://styles/mapbox/light-v9', 'Light'],
-      ['mapbox://styles/mapbox/satellite-streets-v9', 'Satellite Streets'],
-      ['mapbox://styles/mapbox/satellite-v9', 'Satellite'],
-      ['mapbox://styles/mapbox/outdoors-v9', 'Outdoors'],
+      ['mapbox://styles/mapbox/streets-v9', '街道'],
+      ['mapbox://styles/mapbox/dark-v9', '黑色'],
+      ['mapbox://styles/mapbox/light-v9', '光亮'],
+      ['mapbox://styles/mapbox/satellite-streets-v9', '卫星街道'],
+      ['mapbox://styles/mapbox/satellite-v9', '卫星'],
+      // ['mapbox://styles/mapbox/outdoors-v9', '户外'],
     ],
     default: 'mapbox://styles/mapbox/streets-v9',
-    description: 'Base layer map style',
+    description: '地图的布局样式',
   },
 
   clustering_radius: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'Clustering Radius',
+    label: '气泡点聚合半径',
     default: '60',
     choices: formatSelectOptions([
       '0',
@@ -1075,88 +1155,81 @@ export const controls = {
       '500',
       '1000',
     ]),
-    description: 'The radius (in pixels) the algorithm uses to define a cluster. ' +
-    'Choose 0 to turn off clustering, but beware that a large ' +
-    'number of points (>1000) will cause lag.',
+    description: '将半径内的单点聚合为气泡点，过大的半径可能导致延迟',
   },
 
   point_radius: {
     type: 'SelectControl',
-    label: 'Point Radius',
+    label: '单点半径',
     default: 'Auto',
-    description: 'The radius of individual points (ones that are not in a cluster). ' +
-    'Either a numerical column or `Auto`, which scales the point based ' +
-    'on the largest cluster',
+    description: '单点半径大小',
     mapStateToProps: state => ({
-      choices: [].concat([['Auto', 'Auto']], state.datasource.all_cols),
+      choices: [].concat([['Auto', '自动']], state.datasource.all_cols),
     }),
   },
 
   point_radius_unit: {
     type: 'SelectControl',
-    label: 'Point Radius Unit',
+    label: '单点半径大小',
     default: 'Pixels',
-    choices: formatSelectOptions(['Pixels', 'Miles', 'Kilometers']),
-    description: 'The unit of measure for the specified point radius',
+    choices: [['Pixels','像素'],['Miles','米'],['Kilometers','千米']],
+    description: '单点半径大小',
   },
 
   global_opacity: {
     type: 'TextControl',
-    label: 'Opacity',
+    label: '透明度',
     default: 1,
     isFloat: true,
-    description: 'Opacity of all clusters, points, and labels. ' +
-    'Between 0 and 1.',
+    description: '单点和气泡点的透明度',
   },
 
   viewport_zoom: {
     type: 'TextControl',
-    label: 'Zoom',
+    label: '缩放比例',
     isFloat: true,
     default: 11,
-    description: 'Zoom level of the map',
+    description: '地图缩放比例（1~20）',
     places: 8,
   },
-
   viewport_latitude: {
     type: 'TextControl',
-    label: 'Default latitude',
-    default: 37.772123,
+    label: '纬度',
+    default: 39.915378,
     isFloat: true,
-    description: 'Latitude of default viewport',
+    description: '默认视角维度',
     places: 8,
   },
-
   viewport_longitude: {
     type: 'TextControl',
-    label: 'Default longitude',
-    default: -122.405293,
+    label: '经度',
+    default:   116.404844,
     isFloat: true,
-    description: 'Longitude of default viewport',
+    description: '默认视角经度',
     places: 8,
   },
 
   render_while_dragging: {
     type: 'CheckboxControl',
-    label: 'Live render',
+    label: '自动渲染',
     default: true,
-    description: 'Points and clusters will update as viewport is being changed',
+    description: '图像将会随着视角变动自动变化',
   },
 
   mapbox_color: {
     type: 'SelectControl',
     freeForm: true,
-    label: 'RGB Color',
+    label: '配色',
     default: 'rgb(0, 122, 135)',
     choices: [
-      ['rgb(0, 139, 139)', 'Dark Cyan'],
-      ['rgb(128, 0, 128)', 'Purple'],
-      ['rgb(255, 215, 0)', 'Gold'],
-      ['rgb(69, 69, 69)', 'Dim Gray'],
-      ['rgb(220, 20, 60)', 'Crimson'],
-      ['rgb(34, 139, 34)', 'Forest Green'],
+      ['rgb(0, 139, 139)', '深青色'],
+      ['rgb(128, 0, 128)', '紫色'],
+      ['rgb(255, 215, 0)', '金色'],
+      ['rgb(69, 69, 69)', '灰色'],
+      ['rgb(220, 20, 60)', '深红色'],
+      ['rgb(34, 139, 34)', '绿色'],
     ],
-    description: 'The color for points and clusters in RGB',
+    description: '单点和坐标点的颜色',
   },
 
   ranges: {

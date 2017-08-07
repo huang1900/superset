@@ -19,18 +19,18 @@ export default class Favorites extends React.PureComponent {
   }
   renderSliceTable() {
     const mutator = data => data.map(slice => ({
-      slice: <a href={slice.url}>{slice.title}</a>,
-      creator: <a href={slice.creator_url}>{slice.creator}</a>,
-      favorited: moment.utc(slice.dttm).fromNow(),
+        '历史查询': <a href={slice.url}>{slice.title}</a>,
+        '创建者': <a href={slice.creator_url}>{slice.creator}</a>,
+        '关注时间': moment.utc(slice.dttm).fromNow(),
       _favorited: slice.dttm,
     }));
     return (
       <TableLoader
         dataEndpoint={`/superset/fave_slices/${this.props.user.userId}/`}
         className="table table-condensed"
-        columns={['slice', 'creator', 'favorited']}
+        columns={['历史查询', '创建者', '关注时间']}
         mutator={mutator}
-        noDataText="No favorite slices yet, go click on stars!"
+        noDataText="没有关注的查询，不如现在去关注一下"
         sortable
       />
     );
@@ -46,8 +46,8 @@ export default class Favorites extends React.PureComponent {
         className="table table-condensed"
         mutator={mutator}
         dataEndpoint={`/superset/fave_dashboards/${this.props.user.userId}/`}
-        noDataText="No favorite dashboards yet, go click on stars!"
-        columns={['dashboard', 'creator', 'favorited']}
+        noDataText="没有关注的看版，不如现在去关注一下"
+        columns={['看板', '创建者', '关注时间']}
         sortable
       />
     );
@@ -55,10 +55,10 @@ export default class Favorites extends React.PureComponent {
   render() {
     return (
       <div>
-        <h3>Dashboards</h3>
+        <h3>看板</h3>
         {this.renderDashboardTable()}
         <hr />
-        <h3>Slices</h3>
+        <h3>历史查询</h3>
         {this.renderSliceTable()}
       </div>
     );

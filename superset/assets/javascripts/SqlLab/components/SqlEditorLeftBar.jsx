@@ -62,7 +62,7 @@ class SqlEditorLeftBar extends React.PureComponent {
     if (data.result.length === 0) {
       this.props.actions.addAlert({
         bsStyle: 'danger',
-        msg: "It seems you don't have access to any database",
+        msg: "你没有权限访问数据",
       });
     }
     return options;
@@ -149,7 +149,7 @@ class SqlEditorLeftBar extends React.PureComponent {
               '_od_DatabaseAsync=asc'
             }
             onChange={this.onDatabaseChange.bind(this)}
-            onAsyncError={() => notify.error('Error while fetching database list')}
+            onAsyncError={() => notify.error('获取数据列表出错')}
             value={this.props.queryEditor.dbId}
             databaseId={this.props.queryEditor.dbId}
             actions={this.props.actions}
@@ -159,14 +159,14 @@ class SqlEditorLeftBar extends React.PureComponent {
               </div>
             )}
             mutator={this.dbMutator.bind(this)}
-            placeholder="Select a database"
+            placeholder="选择一个数据源"
             autoSelect
           />
         </div>
         <div className="m-t-5">
           <Select
             name="select-schema"
-            placeholder={`Select a schema (${this.state.schemaOptions.length})`}
+            placeholder={`选择一个库(${this.state.schemaOptions.length})`}
             options={this.state.schemaOptions}
             value={this.props.queryEditor.schema}
             valueRenderer={o => (
@@ -186,7 +186,7 @@ class SqlEditorLeftBar extends React.PureComponent {
               ref="selectTable"
               isLoading={this.state.tableLoading}
               value={this.state.tableName}
-              placeholder={`Add a table (${this.state.tableOptions.length})`}
+              placeholder={`共有 (${this.state.tableOptions.length})个表`}
               autosize={false}
               onChange={this.changeTable.bind(this)}
               filterOptions={this.state.filterOptions}
@@ -199,7 +199,7 @@ class SqlEditorLeftBar extends React.PureComponent {
               name="async-select-table"
               ref="selectTable"
               value={this.state.tableName}
-              placeholder={'Type to search ...'}
+              placeholder={'搜索...'}
               autosize={false}
               onChange={this.changeTable.bind(this)}
               loadOptions={this.getTableNamesBySubStr.bind(this)}
@@ -222,7 +222,7 @@ class SqlEditorLeftBar extends React.PureComponent {
         </div>
         {shouldShowReset &&
           <Button bsSize="small" bsStyle="danger" onClick={this.resetState.bind(this)}>
-            <i className="fa fa-bomb" /> Reset State
+            <i className="fa fa-bomb" /> 重置
           </Button>
         }
       </div>

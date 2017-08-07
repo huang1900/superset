@@ -1,3 +1,4 @@
+#-*-coding:utf8-*-
 """Views used by the SqlAlchemy connector"""
 import logging
 

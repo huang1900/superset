@@ -33,7 +33,7 @@ export default function QueryAndSaveBtns(
       bsStyle="warning"
 
     >
-      <i className="fa fa-stop-circle-o" /> 停止
+      <i className="fa fa-stop-circle-o" /> 停止查询
     </Button>
   ) : (
     <Button
@@ -42,7 +42,7 @@ export default function QueryAndSaveBtns(
       bsStyle={qryButtonStyle}
       disabled={!!errorMessage}
     >
-      <i className="fa fa-bolt" /> 查询
+      <i className="fa fa fa-toggle-right" /> 开始提数
     </Button>
   );
 
@@ -60,6 +60,7 @@ export default function QueryAndSaveBtns(
           <i className="fa fa-plus-circle" /> 保存
         </Button>
       </ButtonGroup>
+          保存提数后，提数条件将存储在您的历史提数模块中
       {errorMessage &&
         <span>
           {' '}

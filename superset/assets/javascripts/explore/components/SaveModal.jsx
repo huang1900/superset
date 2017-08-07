@@ -130,7 +130,7 @@ class SaveModal extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            保存切片
+            保存历史提数
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -151,7 +151,7 @@ class SaveModal extends React.Component {
               checked={this.state.action === 'overwrite'}
               onChange={this.changeAction.bind(this, 'overwrite')}
             >
-              {`覆盖原有切片 ${this.props.slice.slice_name}`}
+              {`覆盖原有历史提数 ${this.props.slice.slice_name}`}
             </Radio>
           }
 
@@ -164,7 +164,7 @@ class SaveModal extends React.Component {
           </Radio>
           <input
             name="new_slice_name"
-            placeholder="切片名"
+            placeholder="历史提数名"
             onChange={this.onChange.bind(this, 'newSliceName')}
             onFocus={this.changeAction.bind(this, 'saveas')}
           />

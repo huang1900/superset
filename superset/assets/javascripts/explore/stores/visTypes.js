@@ -12,7 +12,7 @@ export const sections = {
     ],
   },
   datasourceAndVizType: {
-    label: '数据表 & 报表类型',
+    label: '数据指标分类&报表类型',
     controlSetRows: [
       ['datasource'],
       ['viz_type'],
@@ -27,7 +27,25 @@ export const sections = {
       ['since', 'until'],
     ],
   },
-
+    TableTimeSeries: {
+        label: '时间',
+        description: '时间类型范围',
+        controlSetRows: [
+            ['granularity_sqla','time_grain_sqla']
+        ],
+    },
+    TableTimePick: {
+        label: '时间范围',
+        controlSetRows: [
+            ['date_timepick_st','date_timepick_end']
+        ],
+    },
+    TableTimeText: {
+        label: '报表更新时间（如果需要将查询生成自动更新报表，请配置报表更新时间）',
+        controlSetRows: [
+            ['since','until']
+        ],
+    },
   NVD3TimeSeries: [
     {
       label: null,
@@ -241,7 +259,7 @@ const visTypes = {
         label: '汇总查询',
         description: '选择分组维度，以及计算指标',
         controlSetRows: [
-          ['groupby', 'metrics']
+          ['groupby', 'metrics'],
         ],
       },
       {
@@ -286,7 +304,7 @@ const visTypes = {
     label: '透视图',
     controlPanelSections: [
       {
-        label: null,
+        label:  '选项',
         controlSetRows: [
           ['groupby', 'columns'],
           ['metrics', 'pandas_aggfunc'],
@@ -570,39 +588,39 @@ const visTypes = {
   // },
   //
   // world_map: {
-  //   label: 'World Map',
-  //   controlPanelSections: [
-  //     {
-  //       label: null,
-  //       controlSetRows: [
-  //         ['entity'],
-  //         ['country_fieldtype'],
-  //         ['metric'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Bubbles',
-  //       controlSetRows: [
-  //         ['show_bubbles'],
-  //         ['secondary_metric'],
-  //         ['max_bubble_size'],
-  //       ],
-  //     },
-  //   ],
-  //   controlOverrides: {
-  //     entity: {
-  //       label: 'Country Control',
-  //       description: '3 letter code of the country',
-  //     },
-  //     metric: {
-  //       label: 'Metric for color',
-  //       description: 'Metric that defines the color of the country',
-  //     },
-  //     secondary_metric: {
-  //       label: 'Bubble size',
-  //       description: 'Metric that defines the size of the bubble',
-  //     },
-  //   },
+  //         label: 'World Map',
+  //         controlPanelSections: [
+  //             {
+  //                 label: null,
+  //                 controlSetRows: [
+  //                     ['entity'],
+  //                     ['country_fieldtype'],
+  //                     ['metric'],
+  //                 ],
+  //             },
+  //             {
+  //                 label: 'Bubbles',
+  //                 controlSetRows: [
+  //                     ['show_bubbles'],
+  //                     ['secondary_metric'],
+  //                     ['max_bubble_size'],
+  //                 ],
+  //             },
+  //         ],
+  //         controlOverrides: {
+  //             entity: {
+  //                 label: 'Country Control',
+  //                 description: '3 letter code of the country',
+  //             },
+  //             metric: {
+  //                 label: 'Metric for color',
+  //                 description: 'Metric that defines the color of the country',
+  //             },
+  //             secondary_metric: {
+  //                 label: 'Bubble size',
+  //                 description: 'Metric that defines the size of the bubble',
+  //             },
+  //         },
   // },
   //
   // filter_box: {
@@ -690,75 +708,73 @@ const visTypes = {
   //   ],
   // },
   //
-  // mapbox: {
-  //   label: 'Mapbox',
-  //   controlPanelSections: [
-  //     {
-  //       label: null,
-  //       controlSetRows: [
-  //         ['all_columns_x', 'all_columns_y'],
-  //         ['clustering_radius'],
-  //         ['row_limit'],
-  //         ['groupby'],
-  //         ['render_while_dragging'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Points',
-  //       controlSetRows: [
-  //         ['point_radius'],
-  //         ['point_radius_unit'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Labelling',
-  //       controlSetRows: [
-  //         ['mapbox_label'],
-  //         ['pandas_aggfunc'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Visual Tweaks',
-  //       controlSetRows: [
-  //         ['mapbox_style'],
-  //         ['global_opacity'],
-  //         ['mapbox_color'],
-  //       ],
-  //     },
-  //     {
-  //       label: 'Viewport',
-  //       controlSetRows: [
-  //         ['viewport_longitude'],
-  //         ['viewport_latitude'],
-  //         ['viewport_zoom'],
-  //       ],
-  //     },
-  //   ],
-  //   controlOverrides: {
-  //     all_columns_x: {
-  //       label: 'Longitude',
-  //       description: 'Column containing longitude data',
-  //     },
-  //     all_columns_y: {
-  //       label: 'Latitude',
-  //       description: 'Column containing latitude data',
-  //     },
-  //     pandas_aggfunc: {
-  //       label: 'Cluster label aggregator',
-  //       description: 'Aggregate function applied to the list of points ' +
-  //                    'in each cluster to produce the cluster label.',
-  //     },
-  //     rich_tooltip: {
-  //       label: 'Tooltip',
-  //       description: 'Show a tooltip when hovering over points and clusters ' +
-  //                    'describing the label',
-  //     },
-  //     groupby: {
-  //       description: 'One or many controls to group by. If grouping, latitude ' +
-  //                    'and longitude columns must be present.',
-  //     },
-  //   },
-  // },
+  mapbox: {
+    label: '地图',
+    controlPanelSections: [
+      {
+        label: null,
+        controlSetRows: [
+          ['all_columns_x', 'all_columns_y'],
+          ['clustering_radius'],
+          ['row_limit'],
+          ['groupby'],
+          ['render_while_dragging'],
+        ],
+      },
+      {
+        label: '单点',
+        controlSetRows: [
+          ['point_radius'],
+          ['point_radius_unit'],
+        ],
+      },
+      {
+        label: '汽包点',
+        controlSetRows: [
+          ['mapbox_label'],
+          ['pandas_aggfunc'],
+        ],
+      },
+      {
+        label: '地图选项',
+        controlSetRows: [
+          ['mapbox_style'],
+          ['global_opacity'],
+          ['mapbox_color'],
+        ],
+      },
+      {
+        label: '视角',
+        controlSetRows: [
+          ['viewport_longitude'],
+          ['viewport_latitude'],
+          ['viewport_zoom'],
+        ],
+      },
+    ],
+    controlOverrides: {
+      all_columns_x: {
+        label: '经度',
+        description: '经度字段',
+      },
+      all_columns_y: {
+        label: '维度',
+        description: '维度字段',
+      },
+      pandas_aggfunc: {
+        label: '气泡点汇总方法',
+        description: '气泡点数值汇总方法',
+      },
+      rich_tooltip: {
+        label: '工具',
+        description: 'Show a tooltip when hovering over points and clusters ' +
+                     'describing the label',
+      },
+      groupby: {
+        description: '按数据分组，经纬度字段必须包括',
+      },
+    },
+  },
   //   chord: {
   //       label: 'Chord Diagram',
   //       controlPanelSections: [
@@ -798,10 +814,11 @@ export function sectionsToRender(vizType, datasourceType) {
   const viz = visTypes[vizType];
   return [].concat(
     sections.datasourceAndVizType,
-    datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
+    // datasourceType === 'table' ? sections.sqlaTimeSeries : sections.druidTimeSeries,
+    datasourceType === 'table' ? sections.TableTimeSeries : sections.druidTimeSeries,
+    datasourceType === 'table' ? sections.TableTimePick : sections.druidTimeSeries,
+    datasourceType === 'table' ? sections.TableTimeText : sections.druidTimeSeries,
     viz.controlPanelSections,
     datasourceType === 'table' ? sections.filters[0] : sections.filters,
-   // datasourceType === 'table' ? sections.sqlClause : [],
-
   );
 }

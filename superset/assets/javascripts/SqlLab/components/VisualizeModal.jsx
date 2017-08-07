@@ -15,10 +15,10 @@ import { VISUALIZE_VALIDATION_ERRORS } from '../constants';
 import { QUERY_TIMEOUT_THRESHOLD } from '../../constants';
 
 const CHART_TYPES = [
-  { value: 'dist_bar', label: 'Distribution - Bar Chart', requiresTime: false },
-  { value: 'pie', label: 'Pie Chart', requiresTime: false },
-  { value: 'line', label: 'Time Series - Line Chart', requiresTime: true },
-  { value: 'bar', label: 'Time Series - Bar Chart', requiresTime: true },
+  { value: 'dist_bar', label: '柱状图', requiresTime: false },
+  { value: 'pie', label: '饼图', requiresTime: false },
+  { value: 'line', label: '时间折线图', requiresTime: true },
+  { value: 'bar', label: '时间柱状图', requiresTime: true },
 ];
 
 const propTypes = {
@@ -132,12 +132,8 @@ class VisualizeModal extends React.PureComponent {
     if (Math.round(queryDuration.asMilliseconds()) > QUERY_TIMEOUT_THRESHOLD) {
       advise = (
         <Alert bsStyle="warning">
-          This query took {Math.round(queryDuration.asSeconds())} seconds to run,
-          and the explore view times out at {QUERY_TIMEOUT_THRESHOLD / 1000} seconds,
-          following this flow will most likely lead to your query timing out.
-          We recommend your summarize your data further before following that flow.
-          If activated you can use the <strong>CREATE TABLE AS</strong> feature
-          to store a summarized data set that you can then explore.
+          查询耗时超过{QUERY_TIMEOUT_THRESHOLD / 1000}秒的限制，建议使用<strong>CREATE TABLE AS</strong>
+          功能转化为表使用
         </Alert>);
     }
     return advise;
@@ -161,7 +157,7 @@ class VisualizeModal extends React.PureComponent {
         if (mainGroupBy) {
           formData.groupby = [mainGroupBy.name];
         }
-        notify.info('Creating a data source and popping a new tab');
+        notify.info('在新的选项卡中打开数据');
 
         window.open(getExploreUrl(formData));
       })
@@ -191,15 +187,15 @@ class VisualizeModal extends React.PureComponent {
         <div className="VisualizeModal">
           <Modal show={this.props.show} onHide={this.props.onHide}>
             <Modal.Body>
-              No results available for this query
+            没有结果
             </Modal.Body>
           </Modal>
         </div>
       );
     }
     const tableData = this.props.query.results.columns.map(col => ({
-      column: col.name,
-      is_dimension: (
+      列: col.name,
+      是否维度: (
         <input
           type="checkbox"
           onChange={this.changeCheckbox.bind(this, 'is_dim', col.name)}
@@ -207,7 +203,7 @@ class VisualizeModal extends React.PureComponent {
           className="form-control"
         />
       ),
-      is_date: (
+      是否时间: (
         <input
           type="checkbox"
           className="form-control"
@@ -215,7 +211,7 @@ class VisualizeModal extends React.PureComponent {
           checked={(this.state.columns[col.name]) ? this.state.columns[col.name].is_date : false}
         />
       ),
-      agg_func: (
+      合并函数: (
         <Select
           options={[
             { value: 'sum', label: 'SUM(x)' },
@@ -236,7 +232,7 @@ class VisualizeModal extends React.PureComponent {
       <div className="VisualizeModal">
         <Modal show={this.props.show} onHide={this.props.onHide}>
           <Modal.Header closeButton>
-            <Modal.Title>Visualize</Modal.Title>
+            <Modal.Title>图形化</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {alerts}
@@ -254,11 +250,11 @@ class VisualizeModal extends React.PureComponent {
                 />
               </Col>
               <Col md={6}>
-                Datasource Name
+               数据源
                 <input
                   type="text"
                   className="form-control input-sm"
-                  placeholder="datasource name"
+                  placeholder="数据来源"
                   onChange={this.changeDatasourceName.bind(this)}
                   value={this.state.datasourceName}
                 />
@@ -267,7 +263,7 @@ class VisualizeModal extends React.PureComponent {
             <hr />
             <Table
               className="table table-condensed"
-              columns={['column', 'is_dimension', 'is_date', 'agg_func']}
+              columns={['列', '是否维度', '是否时间', '合并函数']}
               data={tableData}
             />
             <Button
@@ -275,7 +271,7 @@ class VisualizeModal extends React.PureComponent {
               bsStyle="primary"
               disabled={(this.state.hints.length > 0)}
             >
-              Visualize
+              图形化
             </Button>
           </Modal.Body>
         </Modal>

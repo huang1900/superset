@@ -322,7 +322,7 @@ appbuilder.add_view(
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
     can_add = False
-    flask_title= "切片"
+    flask_title= "历史查询"
     list_title = "{}列表".format(flask_title)
     show_title = "显示{}".format(flask_title)
     add_title = "添加{}".format(flask_title)
@@ -351,7 +351,7 @@ class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
             "object is exposed here for reference and for power users who may "
             "want to alter specific parameters."),
         'cache_timeout': _(
-            "切片的缓存时间"
+            "历史查询的缓存时间"
         ),
     }
     base_filters = [['id', SliceFilter, lambda: []]]
@@ -571,7 +571,7 @@ class KV(BaseSupersetView):
 
     """Used for storing and retrieving key value pairs"""
 
-    @log_this
+    #@log_this(name="")
     @expose("/store/", methods=['POST'])
     def store(self):
         try:
@@ -585,7 +585,7 @@ class KV(BaseSupersetView):
             json.dumps({'id': obj.id}),
             status=200)
 
-    @log_this
+    #@log_this(name="")
     @expose("/<key_id>/", methods=['GET'])
     def get_value(self, key_id):
         kv = None
@@ -602,7 +602,7 @@ class R(BaseSupersetView):
 
     """used for short urls"""
 
-    @log_this
+    #@log_this
     @expose("/<url_id>")
     def index(self, url_id):
         url = db.session.query(models.Url).filter_by(id=url_id).first()
@@ -611,8 +611,7 @@ class R(BaseSupersetView):
         else:
             flash("URL 无效", "danger")
             return redirect('/')
-
-    @log_this
+    @log_this(name="获取短链接")
     @expose("/shortner/", methods=['POST', 'GET'])
     def shortner(self):
         url = request.form.get('data')
@@ -932,7 +931,7 @@ class Superset(BaseSupersetView):
             endpoint += '&standalone=true'
         return redirect(endpoint)
 
-    @log_this
+    @log_this(name="自助查询")
     @has_access_api
     @expose("/explore_json/<datasource_type>/<datasource_id>/")
     def explore_json(self, datasource_type, datasource_id):
@@ -989,7 +988,7 @@ class Superset(BaseSupersetView):
         return json_success(viz_obj.json_dumps(payload), status=status)
 
     @expose("/import_dashboards", methods=['GET', 'POST'])
-    @log_this
+    @log_this(name="添加看板")
     def import_dashboards(self):
         """Overrides the dashboards using pickled instances from the file."""
         f = request.files.get('file')
@@ -1008,7 +1007,7 @@ class Superset(BaseSupersetView):
             return redirect('/dashboardmodelview/list/')
         return self.render_template('superset/import_dashboards.html')
 
-    @log_this
+    #@log_this
     @has_access
     @expose("/explorev2/<datasource_type>/<datasource_id>/")
     def explorev2(self, datasource_type, datasource_id):
@@ -1018,12 +1017,11 @@ class Superset(BaseSupersetView):
             datasource_id=datasource_id,
             **request.args))
 
-    @log_this
+    #@log_this(name="打开自助餐")
     @has_access
     @expose("/explore/<datasource_type>/<datasource_id>/")
     def explore(self, datasource_type, datasource_id):
         form_data = self.get_form_data()
-
         datasource_id = int(datasource_id)
         viz_type = form_data.get("viz_type")
         slice_id = form_data.get('slice_id')
@@ -1124,7 +1122,7 @@ class Superset(BaseSupersetView):
             return json_error_response(DATASOURCE_ACCESS_ERR)
 
         payload = json.dumps(
-            datasource.values_for_column(column),
+            datasource.values_for_column(column,datasource),
             default=utils.json_int_dttm_ser)
         return json_success(payload)
 
@@ -1695,7 +1693,7 @@ class Superset(BaseSupersetView):
                     'dashboard_id={dash.id}&'.format(**locals()))
 
         # Hack to log the dashboard_id properly, even when getting a slug
-        @log_this
+        @log_this(name="查看看板")
         def dashboard(**kwargs):  # noqa
             pass
         dashboard(dashboard_id=dash.id)
@@ -1775,9 +1773,10 @@ class Superset(BaseSupersetView):
             return json_error_response(utils.error_msg_from_exception(e))
         return Response(status=201)
 
+
+    #@log_this
     @has_access
     @expose("/sqllab_viz/", methods=['POST'])
-    @log_this
     def sqllab_viz(self):
         SqlaTable = ConnectorRegistry.sources['table']
         data = json.loads(request.form.get('data'))
@@ -1839,7 +1838,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/table/<database_id>/<table_name>/<schema>/")
-    @log_this
+    #@log_this
     def table(self, database_id, table_name, schema):
         schema = utils.js_string_to_python(schema)
         mydb = db.session.query(models.Database).filter_by(id=database_id).one()
@@ -1894,7 +1893,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/extra_table_metadata/<database_id>/<table_name>/<schema>/")
-    @log_this
+    #@log_this
     def extra_table_metadata(self, database_id, table_name, schema):
         schema = utils.js_string_to_python(schema)
         mydb = db.session.query(models.Database).filter_by(id=database_id).one()
@@ -1904,7 +1903,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/select_star/<database_id>/<table_name>/")
-    @log_this
+    #@log_this
     def select_star(self, database_id, table_name):
         mydb = db.session.query(
             models.Database).filter_by(id=database_id).first()
@@ -1919,7 +1918,7 @@ class Superset(BaseSupersetView):
 
     @has_access_api
     @expose("/cached_key/<key>/")
-    @log_this
+    #@log_this
     def cached_key(self, key):
         """Returns a key from the cache"""
         resp = cache.get(key)
@@ -1929,7 +1928,7 @@ class Superset(BaseSupersetView):
 
     @has_access_api
     @expose("/results/<key>/")
-    @log_this
+    #@log_this
     def results(self, key):
         """Serves a key off of the results backend"""
         if not results_backend:
@@ -1960,7 +1959,7 @@ class Superset(BaseSupersetView):
 
     @has_access_api
     @expose("/stop_query/", methods=['POST'])
-    @log_this
+    #@log_this
     def stop_query(self):
         client_id = request.form.get('client_id')
         try:
@@ -1974,9 +1973,9 @@ class Superset(BaseSupersetView):
             pass
         return self.json_response('OK')
 
+    @log_this(name="sql查询")
     @has_access_api
     @expose("/sql_json/", methods=['POST', 'GET'])
-    @log_this
     def sql_json(self):
         """Runs arbitrary sql and returns and json"""
         async = request.form.get('runAsync') == 'true'
@@ -2073,9 +2072,9 @@ class Superset(BaseSupersetView):
             return json_error_response(payload)
         return json_success(payload)
 
+    @log_this(name="导出csv")
     @has_access
     @expose("/csv/<client_id>")
-    @log_this
     def csv(self, client_id):
         """Download the query results as csv."""
         query = (
@@ -2110,9 +2109,9 @@ class Superset(BaseSupersetView):
             'attachment; filename={}.csv'.format(query.name))
         return response
 
+    #@log_this
     @has_access
     @expose("/fetch_datasource_metadata")
-    @log_this
     def fetch_datasource_metadata(self):
         datasource_id, datasource_type = (
             request.args.get('datasourceKey').split('__'))
@@ -2160,7 +2159,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/search_queries")
-    @log_this
+    #@log_this
     def search_queries(self):
         """Search for queries."""
         query = db.session.query(Query)

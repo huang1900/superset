@@ -62,7 +62,7 @@ class HighlightedSql extends React.Component {
     this.setState({
       modalBody: (
         <div>
-          <h4>Source SQL</h4>
+          <h4>SQL</h4>
           <SyntaxHighlighter language="sql" style={github}>
             {this.props.sql}
           </SyntaxHighlighter>

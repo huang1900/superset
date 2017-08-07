@@ -29,7 +29,7 @@ const UserInfo = ({ user }) => (
       </h4>
       <hr />
       <p>
-        <i className="fa fa-clock-o" /> joined {moment(user.createdOn, 'YYYYMMDD').fromNow()}
+        <i className="fa fa-clock-o" /> 创建于 {moment(user.createdOn, 'YYYYMMDD').fromNow()}
       </p>
       <p className="email">
         <i className="fa fa-envelope-o" /> {user.email}

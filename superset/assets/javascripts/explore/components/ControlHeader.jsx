@@ -56,7 +56,7 @@ export default function ControlHeader({
                 placement="right"
                 overlay={
                   <Tooltip id={'rendertrigger-tooltip'}>
-                    Takes effect on chart immediatly
+                    即刻生效
                   </Tooltip>
                 }
               >

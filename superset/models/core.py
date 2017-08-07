@@ -14,7 +14,7 @@ import textwrap
 from future.standard_library import install_aliases
 from copy import copy
 from datetime import datetime, date
-
+import pytz
 import pandas as pd
 import sqlalchemy as sqla
 from sqlalchemy.engine.url import make_url
@@ -35,7 +35,7 @@ from sqlalchemy.pool import NullPool
 from sqlalchemy.sql import text
 from sqlalchemy.sql.expression import TextAsFrom
 from sqlalchemy_utils import EncryptedType
-
+from superset.legacy import cast_form_data
 from superset import app, db, db_engine_specs, utils, sm
 from superset.connectors.connector_registry import ConnectorRegistry
 from superset.viz import viz_types
@@ -46,7 +46,7 @@ from urllib import parse  # noqa
 config = app.config
 stats_logger = config.get('STATS_LOGGER')
 metadata = Model.metadata  # pylint: disable=no-member
-
+tz = pytz.timezone('Asia/Shanghai')
 
 def set_related_perm(mapper, connection, target):  # noqa
     src_class = target.cls_model
@@ -728,51 +728,64 @@ class Log(Model):
     slice_id = Column(Integer)
     json = Column(Text)
     user = relationship(sm.user_model, backref='logs', foreign_keys=[user_id])
-    dttm = Column(DateTime, default=datetime.utcnow)
+    dttm = Column(DateTime, default=datetime.now(tz))
     dt = Column(Date, default=date.today())
     duration_ms = Column(Integer)
     referrer = Column(String(1024))
 
     @classmethod
-    def log_this(cls, f):
+    def log_this(cls,name=None):
         """Decorator to log user actions"""
-        @functools.wraps(f)
-        def wrapper(*args, **kwargs):
-            start_dttm = datetime.now()
-            user_id = None
-            if g.user:
-                user_id = g.user.get_id()
-            d = request.args.to_dict()
-            post_data = request.form or {}
-            d.update(post_data)
-            d.update(kwargs)
-            slice_id = d.get('slice_id', 0)
-            try:
-                slice_id = int(slice_id) if slice_id else 0
-            except ValueError:
-                slice_id = 0
-            params = ""
-            try:
-                params = json.dumps(d)
-            except:
-                pass
-            stats_logger.incr(f.__name__)
-            value = f(*args, **kwargs)
 
-            sesh = db.session()
-            log = cls(
-                action=f.__name__,
-                json=params,
-                dashboard_id=d.get('dashboard_id') or None,
-                slice_id=slice_id,
-                duration_ms=(
-                    datetime.now() - start_dttm).total_seconds() * 1000,
-                referrer=request.referrer[:1000] if request.referrer else None,
-                user_id=user_id)
-            sesh.add(log)
-            sesh.commit()
-            return value
-        return wrapper
+        def log(f):
+            @functools.wraps(f)
+            def wrapper(*args, **kwargs):
+                start_dttm = datetime.now()
+                user_id = None
+                if g.user:
+                    user_id = g.user.get_id()
+                if request.args.get("form_data"):
+                     form_data = request.args.get("form_data")
+                elif request.form.get("form_data"):
+                     form_data = request.form.get("form_data")
+                else:
+                     form_data = '{}'
+                d = json.loads(form_data)
+                if request.args.get("viz_type"):
+                    d = cast_form_data(request.args)
+                if not d:
+                    d = request.args.to_dict()
+                post_data = request.form or {}
+                d.update(post_data)
+                d.update(kwargs)
+                slice_id = d.get('slice_id', 0)
+                try:
+                    slice_id = int(slice_id) if slice_id else 0
+                except ValueError:
+                    slice_id = 0
+                params = ""
+                try:
+                    params = json.dumps(d)
+                except:
+                    pass
+                stats_logger.incr(name if name else f.__name__ )
+                value = f(*args, **kwargs)
+
+                sesh = db.session()
+                log = cls(
+                    action=name if name else f.__name__ ,
+                    json=params,
+                    dashboard_id=d.get('dashboard_id') or None,
+                    slice_id=slice_id,
+                    duration_ms=(
+                        datetime.now() - start_dttm).total_seconds() * 1000,
+                    referrer=request.referrer[:1000] if request.referrer else None,
+                    user_id=user_id)
+                sesh.add(log)
+                sesh.commit()
+                return value
+            return wrapper
+        return log
 
 
 class FavStar(Model):

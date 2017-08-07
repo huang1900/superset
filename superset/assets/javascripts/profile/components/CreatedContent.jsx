@@ -19,25 +19,25 @@ class CreatedContent extends React.PureComponent {
   }
   renderSliceTable() {
     const mutator = data => data.map(slice => ({
-      slice: <a href={slice.url}>{slice.title}</a>,
-      favorited: moment.utc(slice.dttm).fromNow(),
+        '历史查询': <a href={slice.url}>{slice.title}</a>,
+        '创建时间': moment.utc(slice.dttm).fromNow(),
       _favorited: slice.dttm,
     }));
     return (
       <TableLoader
         dataEndpoint={`/superset/created_slices/${this.props.user.userId}/`}
         className="table table-condensed"
-        columns={['slice', 'favorited']}
+        columns={['历史查询', '创建时间']}
         mutator={mutator}
-        noDataText="No slices"
+        noDataText="没有历史查询"
         sortable
       />
     );
   }
   renderDashboardTable() {
     const mutator = data => data.map(dash => ({
-      dashboard: <a href={dash.url}>{dash.title}</a>,
-      favorited: moment.utc(dash.dttm).fromNow(),
+        '看板': <a href={dash.url}>{dash.title}</a>,
+        '创建时间': moment.utc(dash.dttm).fromNow(),
       _favorited: dash.dttm,
     }));
     return (
@@ -45,8 +45,8 @@ class CreatedContent extends React.PureComponent {
         className="table table-condensed"
         mutator={mutator}
         dataEndpoint={`/superset/created_dashboards/${this.props.user.userId}/`}
-        noDataText="No dashboards"
-        columns={['dashboard', 'favorited']}
+        noDataText="没有看板"
+        columns={['看板', '创建时间']}
         sortable
       />
     );
@@ -54,10 +54,10 @@ class CreatedContent extends React.PureComponent {
   render() {
     return (
       <div>
-        <h3>Dashboards</h3>
+        <h3>看板</h3>
         {this.renderDashboardTable()}
         <hr />
-        <h3>Slices</h3>
+        <h3>历史查询</h3>
         {this.renderSliceTable()}
       </div>
     );
