@@ -571,7 +571,7 @@ class KV(BaseSupersetView):
 
     """Used for storing and retrieving key value pairs"""
 
-    @log_this
+    #@log_this(name="")
     @expose("/store/", methods=['POST'])
     def store(self):
         try:
@@ -585,7 +585,7 @@ class KV(BaseSupersetView):
             json.dumps({'id': obj.id}),
             status=200)
 
-    @log_this
+    #@log_this(name="")
     @expose("/<key_id>/", methods=['GET'])
     def get_value(self, key_id):
         kv = None
@@ -602,7 +602,7 @@ class R(BaseSupersetView):
 
     """used for short urls"""
 
-    @log_this
+    #@log_this
     @expose("/<url_id>")
     def index(self, url_id):
         url = db.session.query(models.Url).filter_by(id=url_id).first()
@@ -611,9 +611,8 @@ class R(BaseSupersetView):
         else:
             flash("URL 无效", "danger")
             return redirect('/')
-
+    @log_this(name="获取短链接")
     @expose("/shortner/", methods=['POST', 'GET'])
-    @log_this
     def shortner(self):
         url = request.form.get('data')
         obj = models.Url(url=url)
@@ -1008,7 +1007,7 @@ class Superset(BaseSupersetView):
             return redirect('/dashboardmodelview/list/')
         return self.render_template('superset/import_dashboards.html')
 
-    @log_this
+    #@log_this
     @has_access
     @expose("/explorev2/<datasource_type>/<datasource_id>/")
     def explorev2(self, datasource_type, datasource_id):
@@ -1904,7 +1903,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/select_star/<database_id>/<table_name>/")
-    @log_this
+    #@log_this
     def select_star(self, database_id, table_name):
         mydb = db.session.query(
             models.Database).filter_by(id=database_id).first()
@@ -1919,7 +1918,7 @@ class Superset(BaseSupersetView):
 
     @has_access_api
     @expose("/cached_key/<key>/")
-    @log_this
+    #@log_this
     def cached_key(self, key):
         """Returns a key from the cache"""
         resp = cache.get(key)
@@ -1929,7 +1928,7 @@ class Superset(BaseSupersetView):
 
     @has_access_api
     @expose("/results/<key>/")
-    @log_this
+    #@log_this
     def results(self, key):
         """Serves a key off of the results backend"""
         if not results_backend:
@@ -1960,7 +1959,7 @@ class Superset(BaseSupersetView):
 
     @has_access_api
     @expose("/stop_query/", methods=['POST'])
-    @log_this
+    #@log_this
     def stop_query(self):
         client_id = request.form.get('client_id')
         try:
@@ -2110,7 +2109,7 @@ class Superset(BaseSupersetView):
             'attachment; filename={}.csv'.format(query.name))
         return response
 
-    @log_this
+    #@log_this
     @has_access
     @expose("/fetch_datasource_metadata")
     def fetch_datasource_metadata(self):
@@ -2160,7 +2159,7 @@ class Superset(BaseSupersetView):
 
     @has_access
     @expose("/search_queries")
-    @log_this
+    #@log_this
     def search_queries(self):
         """Search for queries."""
         query = db.session.query(Query)

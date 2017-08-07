@@ -736,6 +736,7 @@ class Log(Model):
     @classmethod
     def log_this(cls,name=None):
         """Decorator to log user actions"""
+
         def log(f):
             @functools.wraps(f)
             def wrapper(*args, **kwargs):
