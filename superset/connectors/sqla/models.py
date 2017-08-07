@@ -1,6 +1,5 @@
 #-*-coding:utf8-*-
 from datetime import datetime
-import json
 import logging
 import sqlparse
 from past.builtins import basestring
@@ -19,10 +18,7 @@ from sqlalchemy.sql import table, literal_column, text, column
 
 from flask import escape, Markup
 from flask_appbuilder import Model
-from flask_babel import lazy_gettext as _
-
 from superset import db, utils, import_util, sm,security
-from superset.connectors.base import BaseDatasource, BaseColumn, BaseMetric
 from superset import db, utils, import_util, sm
 from superset.connectors.base.models import BaseDatasource, BaseColumn, BaseMetric
 from superset.utils import DTTM_ALIAS, QueryStatus
