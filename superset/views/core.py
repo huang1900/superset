@@ -612,8 +612,8 @@ class R(BaseSupersetView):
             flash("URL 无效", "danger")
             return redirect('/')
 
-    @log_this
     @expose("/shortner/", methods=['POST', 'GET'])
+    @log_this
     def shortner(self):
         url = request.form.get('data')
         obj = models.Url(url=url)
@@ -1775,7 +1775,7 @@ class Superset(BaseSupersetView):
         return Response(status=201)
 
 
-    @log_this
+    #@log_this
     @has_access
     @expose("/sqllab_viz/", methods=['POST'])
     def sqllab_viz(self):
