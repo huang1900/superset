@@ -170,8 +170,13 @@ def generate_download_headers(extension):
 
 
 class DatabaseView(SupersetModelView, DeleteMixin):  # noqa
-    flask_title="数据源"
     datamodel = SQLAInterface(models.Database)
+
+    list_title = _('List Databases')
+    show_title = _('Show Database')
+    add_title = _('Add Database')
+    edit_title = _('Edit Database')
+
     list_columns = [
         'database_name', 'backend', 'allow_run_sync', 'allow_run_async',
         'allow_dml', 'creator', 'modified']
@@ -321,12 +326,13 @@ appbuilder.add_view(
 
 class SliceModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Slice)
+
+    list_title = _('List Slices')
+    show_title = _('Show Slice')
+    add_title = _('Add Slice')
+    edit_title = _('Edit Slice')
+
     can_add = False
-    flask_title= "历史查询"
-    list_title = "{}列表".format(flask_title)
-    show_title = "显示{}".format(flask_title)
-    add_title = "添加{}".format(flask_title)
-    edit_title = "编辑{}".format(flask_title)
     label_columns = {
         'datasource_link': 'Datasource',
     }
@@ -423,11 +429,12 @@ appbuilder.add_view_no_menu(SliceAddView)
 
 class DashboardModelView(SupersetModelView, DeleteMixin):  # noqa
     datamodel = SQLAInterface(models.Dashboard)
-    flask_title = "看板"
-    list_title = "{}列表".format(flask_title)
-    show_title = "显示{}".format(flask_title)
-    add_title = "添加{}".format(flask_title)
-    edit_title = "编辑{}".format(flask_title)
+
+    list_title = _('List Dashboards')
+    show_title = _('Show Dashboard')
+    add_title = _('Add Dashboard')
+    edit_title = _('Edit Dashboard')
+
     list_columns = ['dashboard_link', 'creator', 'modified']
     edit_columns = [
         'dashboard_title', 'slug', 'slices', 'owners', 'position_json', 'css',
@@ -694,7 +701,8 @@ class Superset(BaseSupersetView):
     @expose("/datasources/")
     def datasources(self):
         datasources = ConnectorRegistry.get_all_datasources(db.session)
-        datasources = [(str(o.id) + '__' + o.type, repr(o)) for o in datasources]
+        datasources = [o.short_data for o in datasources]
+        datasources = sorted(datasources, key=lambda o: o['name'])
         return self.json_response(datasources)
 
     @has_access_api
@@ -1339,6 +1347,8 @@ class Superset(BaseSupersetView):
 
         if 'filter_immune_slices' not in md:
             md['filter_immune_slices'] = []
+        if 'timed_refresh_immune_slices' not in md:
+            md['timed_refresh_immune_slices'] = []
         if 'filter_immune_slice_fields' not in md:
             md['filter_immune_slice_fields'] = {}
         md['expanded_slices'] = data['expanded_slices']
@@ -1976,6 +1986,7 @@ class Superset(BaseSupersetView):
     @log_this(name="sql查询")
     @has_access_api
     @expose("/sql_json/", methods=['POST', 'GET'])
+    @log_this
     def sql_json(self):
         """Runs arbitrary sql and returns and json"""
         async = request.form.get('runAsync') == 'true'
@@ -2077,6 +2088,7 @@ class Superset(BaseSupersetView):
     @expose("/csv/<client_id>")
     def csv(self, client_id):
         """Download the query results as csv."""
+        logging.info("Exporting CSV file [{}]".format(client_id))
         query = (
             db.session.query(Query)
             .filter_by(client_id=client_id)
@@ -2090,14 +2102,20 @@ class Superset(BaseSupersetView):
             return redirect('/')
         blob = None
         if results_backend and query.results_key:
+            logging.info(
+                "Fetching CSV from results backend "
+                "[{}]".format(query.results_key))
             blob = results_backend.get(query.results_key)
         if blob:
+            logging.info("Decompressing")
             json_payload = utils.zlib_decompress_to_string(blob)
             obj = json.loads(json_payload)
             columns = [c['name'] for c in obj['columns']]
             df = pd.DataFrame.from_records(obj['data'], columns=columns)
+            logging.info("Using pandas to convert to CSV")
             csv = df.to_csv(index=False, encoding='utf-8')
         else:
+            logging.info("Running a query to turn into CSV")
             sql = query.select_sql or query.executed_sql
             df = query.database.get_df(sql, query.schema)
             # TODO(bkyryliuk): add compression=gzip for big files.
@@ -2107,6 +2125,7 @@ class Superset(BaseSupersetView):
         response.content_encoding='utf-8'
         response.headers['Content-Disposition'] = (
             'attachment; filename={}.csv'.format(query.name))
+        logging.info("Ready to return response")
         return response
 
     #@log_this

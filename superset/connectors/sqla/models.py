@@ -13,8 +13,7 @@ from sqlalchemy import (
 )
 import sqlalchemy as sa
 from sqlalchemy import asc, and_, desc, select
-from sqlalchemy.ext.compiler import compiles
-from sqlalchemy.sql.expression import ColumnClause, TextAsFrom
+from sqlalchemy.sql.expression import TextAsFrom
 from sqlalchemy.orm import backref, relationship
 from sqlalchemy.sql import table, literal_column, text, column
 
@@ -24,6 +23,8 @@ from flask_babel import lazy_gettext as _
 
 from superset import db, utils, import_util, sm,security
 from superset.connectors.base import BaseDatasource, BaseColumn, BaseMetric
+from superset import db, utils, import_util, sm
+from superset.connectors.base.models import BaseDatasource, BaseColumn, BaseMetric
 from superset.utils import DTTM_ALIAS, QueryStatus
 from superset.models.helpers import QueryResult
 from superset.models.core import Database
@@ -227,6 +228,10 @@ class SqlaTable(Model, BaseDatasource):
                        if self.has_col_access(c)])
 
     @property
+    def connection(self):
+        return str(self.database)
+
+    @property
     def description_markeddown(self):
         return utils.markdown(self.description)
 
@@ -390,7 +395,6 @@ class SqlaTable(Model, BaseDatasource):
         )
         logging.info(sql)
         sql = sqlparse.format(sql, reindent=True)
-        sql = self.database.db_engine_spec.sql_preprocessor(sql)
         return sql
 
     def get_sqla_table(self):
@@ -486,13 +490,14 @@ class SqlaTable(Model, BaseDatasource):
             'form_data': form_data,
         }
         template_processor = self.get_template_processor(**template_kwargs)
+        db_engine_spec = self.database.db_engine_spec
 
         # For backward compatibility
         if granularity not in self.dttm_cols:
             granularity = self.main_dttm_col
 
         # Database spec supports join-free timeslot grouping
-        time_groupby_inline = self.database.db_engine_spec.time_groupby_inline
+        time_groupby_inline = db_engine_spec.time_groupby_inline
 
         cols = {col.column_name: col for col in self.columns if self.has_col_access(col)}
         metrics_dict = {m.metric_name: m for m in self.metrics if self.has_met_access(m)}
@@ -554,7 +559,7 @@ class SqlaTable(Model, BaseDatasource):
                 groupby_exprs += [timestamp]
 
             # Use main dttm column to support index with secondary dttm columns
-            if self.database.db_engine_spec.time_secondary_columns and \
+            if db_engine_spec.time_secondary_columns and \
                     self.main_dttm_col in self.dttm_cols and \
                     self.main_dttm_col != dttm_col.column_name:
                 time_filters.append(cols[self.main_dttm_col].

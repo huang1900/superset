@@ -75,6 +75,11 @@ class BaseEngineSpec(object):
         return {}
 
     @classmethod
+    def escape_sql(cls, sql):
+        """Escapes the raw SQL"""
+        return sql
+
+    @classmethod
     def convert_dttm(cls, target_type, dttm):
         return "'{}'".format(dttm.strftime('%Y-%m-%d %H:%M:%S'))
 
@@ -139,14 +144,6 @@ class BaseEngineSpec(object):
         the database component of the URL, that can be handled here.
         """
         return uri
-
-    @classmethod
-    def sql_preprocessor(cls, sql):
-        """If the SQL needs to be altered prior to running it
-
-        For example Presto needs to double `%` characters
-        """
-        return sql
 
     @classmethod
     def patch(cls):
@@ -401,6 +398,10 @@ class PrestoEngineSpec(BaseEngineSpec):
         return uri
 
     @classmethod
+    def escape_sql(cls, sql):
+        return re.sub(r'%%|%', "%%", sql)
+
+    @classmethod
     def convert_dttm(cls, target_type, dttm):
         tt = target_type.upper()
         if tt == 'DATE':
@@ -637,6 +638,21 @@ class HiveEngineSpec(PrestoEngineSpec):
     engine = 'hive'
     cursor_execute_kwargs = {'async': True}
 
+    # Scoping regex at class level to avoid recompiling
+    # 17/02/07 19:36:38 INFO ql.Driver: Total jobs = 5
+    jobs_stats_r = re.compile(
+        r'.*INFO.*Total jobs = (?P<max_jobs>[0-9]+)')
+    # 17/02/07 19:37:08 INFO ql.Driver: Launching Job 2 out of 5
+    launching_job_r = re.compile(
+        '.*INFO.*Launching Job (?P<job_number>[0-9]+) out of '
+        '(?P<max_jobs>[0-9]+)')
+    # 17/02/07 19:36:58 INFO exec.Task: 2017-02-07 19:36:58,152 Stage-18
+    # map = 0%,  reduce = 0%
+    stage_progress_r = re.compile(
+        r'.*INFO.*Stage-(?P<stage_number>[0-9]+).*'
+        r'map = (?P<map_progress>[0-9]+)%.*'
+        r'reduce = (?P<reduce_progress>[0-9]+)%.*')
+
     @classmethod
     def patch(cls):
         from pyhive import hive
@@ -666,41 +682,30 @@ class HiveEngineSpec(PrestoEngineSpec):
         return uri
 
     @classmethod
-    def progress(cls, logs):
-        # 17/02/07 19:36:38 INFO ql.Driver: Total jobs = 5
-        jobs_stats_r = re.compile(
-            r'.*INFO.*Total jobs = (?P<max_jobs>[0-9]+)')
-        # 17/02/07 19:37:08 INFO ql.Driver: Launching Job 2 out of 5
-        launching_job_r = re.compile(
-            '.*INFO.*Launching Job (?P<job_number>[0-9]+) out of '
-            '(?P<max_jobs>[0-9]+)')
-        # 17/02/07 19:36:58 INFO exec.Task: 2017-02-07 19:36:58,152 Stage-18
-        # map = 0%,  reduce = 0%
-        stage_progress = re.compile(
-            r'.*INFO.*Stage-(?P<stage_number>[0-9]+).*'
-            r'map = (?P<map_progress>[0-9]+)%.*'
-            r'reduce = (?P<reduce_progress>[0-9]+)%.*')
-        total_jobs = None
-        current_job = None
+    def progress(cls, log_lines):
+        total_jobs = 1  # assuming there's at least 1 job
+        current_job = 1
         stages = {}
-        lines = logs.splitlines()
-        for line in lines:
-            match = jobs_stats_r.match(line)
+        for line in log_lines:
+            match = cls.jobs_stats_r.match(line)
             if match:
-                total_jobs = int(match.groupdict()['max_jobs'])
-            match = launching_job_r.match(line)
+                total_jobs = int(match.groupdict()['max_jobs']) or 1
+            match = cls.launching_job_r.match(line)
             if match:
                 current_job = int(match.groupdict()['job_number'])
+                total_jobs = int(match.groupdict()['max_jobs']) or 1
                 stages = {}
-            match = stage_progress.match(line)
+            match = cls.stage_progress_r.match(line)
             if match:
                 stage_number = int(match.groupdict()['stage_number'])
                 map_progress = int(match.groupdict()['map_progress'])
                 reduce_progress = int(match.groupdict()['reduce_progress'])
                 stages[stage_number] = (map_progress + reduce_progress) / 2
+        logging.info(
+            "Progress detail: {}, "
+            "current job {}, "
+            "total jobs: {}".format(stages, current_job, total_jobs))
 
-        if not total_jobs or not current_job:
-            return 0
         stage_progress = sum(
             stages.values()) / len(stages.values()) if stages else 0
 
@@ -708,6 +713,13 @@ class HiveEngineSpec(PrestoEngineSpec):
             100 * (current_job - 1) / total_jobs + stage_progress / total_jobs
         )
         return int(progress)
+
+    @classmethod
+    def get_tracking_url(cls, log_lines):
+        lkp = "Tracking URL = "
+        for line in log_lines:
+            if lkp in line:
+                return line.split(lkp)[1]
 
     @classmethod
     def handle_cursor(cls, cursor, query, session):
@@ -718,18 +730,45 @@ class HiveEngineSpec(PrestoEngineSpec):
             hive.ttypes.TOperationState.RUNNING_STATE,
         )
         polled = cursor.poll()
+        last_log_line = 0
+        tracking_url = None
+        job_id = None
         while polled.operationState in unfinished_states:
             query = session.query(type(query)).filter_by(id=query.id).one()
             if query.status == QueryStatus.STOPPED:
                 cursor.cancel()
                 break
 
-            resp = cursor.fetch_logs()
-            if resp and resp.log:
-                progress = cls.progress(resp.log)
+            log = cursor.fetch_logs() or ''
+            if log:
+                log_lines = log.splitlines()
+                progress = cls.progress(log_lines)
+                logging.info("Progress total: {}".format(progress))
+                needs_commit = False
                 if progress > query.progress:
                     query.progress = progress
-                session.commit()
+                    needs_commit = True
+                if not tracking_url:
+                    tracking_url = cls.get_tracking_url(log_lines)
+                    if tracking_url:
+                        job_id = tracking_url.split('/')[-2]
+                        logging.info(
+                            "Found the tracking url: {}".format(tracking_url))
+                        tracking_url = tracking_url_trans(tracking_url)
+                        logging.info(
+                            "Transformation applied: {}".format(tracking_url))
+                        query.tracking_url = tracking_url
+                        logging.info("Job id: {}".format(job_id))
+                        needs_commit = True
+                if job_id and len(log_lines) > last_log_line:
+                    # Wait for job id before logging things out
+                    # this allows for prefixing all log lines and becoming
+                    # searchable in something like Kibana
+                    for l in log_lines[last_log_line:]:
+                        logging.info("[{}] {}".format(job_id, l))
+                    last_log_line = len(log_lines)
+                if needs_commit:
+                    session.commit()
             time.sleep(5)
             polled = cursor.poll()
 
@@ -929,7 +968,59 @@ class sparkSpec(BaseEngineSpec):
         return "FromUnixTime({col}，'yyyy-MM-dd HH:mm:ss')"
 
 
+
+class BQEngineSpec(BaseEngineSpec):
+    """Engine spec for Google's BigQuery
+
+    As contributed by @mxmzdlv on issue #945"""
+    engine = 'bigquery'
+
+    time_grains = (
+        Grain("Time Column", _('Time Column'), "{col}"),
+        Grain("second", _('second'), "TIMESTAMP_TRUNC({col}, SECOND)"),
+        Grain("minute", _('minute'), "TIMESTAMP_TRUNC({col}, MINUTE)"),
+        Grain("hour", _('hour'), "TIMESTAMP_TRUNC({col}, HOUR)"),
+        Grain("day", _('day'), "TIMESTAMP_TRUNC({col}, DAY)"),
+        Grain("week", _('week'), "TIMESTAMP_TRUNC({col}, WEEK)"),
+        Grain("month", _('month'), "TIMESTAMP_TRUNC({col}, MONTH)"),
+        Grain("quarter", _('quarter'), "TIMESTAMP_TRUNC({col}, QUARTER)"),
+        Grain("year", _('year'), "TIMESTAMP_TRUNC({col}, YEAR)"),
+    )
+
+    @classmethod
+    def convert_dttm(cls, target_type, dttm):
+        tt = target_type.upper()
+        if tt == 'DATE':
+            return "'{}'".format(dttm.strftime('%Y-%m-%d'))
+        else:
+            return "'{}'".format(dttm.strftime('%Y-%m-%d %H:%M:%S'))
+
+
+class ImpalaEngineSpec(BaseEngineSpec):
+    """Engine spec for Cloudera's Impala"""
+
+    engine = 'impala'
+
+    time_grains = (
+        Grain("Time Column", _('Time Column'), "{col}"),
+        Grain("minute", _('minute'), "TRUNC({col}, 'MI')"),
+        Grain("hour", _('hour'), "TRUNC({col}, 'HH')"),
+        Grain("day", _('day'), "TRUNC({col}, 'DD')"),
+        Grain("week", _('week'), "TRUNC({col}, 'WW')"),
+        Grain("month", _('month'), "TRUNC({col}, 'MONTH')"),
+        Grain("quarter", _('quarter'), "TRUNC({col}, 'Q')"),
+        Grain("year", _('year'), "TRUNC({col}, 'YYYY')"),
+    )
+
+    @classmethod
+    def convert_dttm(cls, target_type, dttm):
+        tt = target_type.upper()
+        if tt == 'DATE':
+            return "'{}'".format(dttm.strftime('%Y-%m-%d'))
+        else:
+            return "'{}'".format(dttm.strftime('%Y-%m-%d %H:%M:%S'))
+
+
 engines = {
     o.engine: o for o in globals().values()
     if inspect.isclass(o) and issubclass(o, BaseEngineSpec)}
-

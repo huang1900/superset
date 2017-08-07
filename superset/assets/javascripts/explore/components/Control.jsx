@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import CheckboxControl from './controls/CheckboxControl';
+import DatasourceControl from './controls/DatasourceControl';
 import FilterControl from './controls/FilterControl';
 import HiddenControl from './controls/HiddenControl';
 import SelectControl from './controls/SelectControl';
@@ -15,6 +16,7 @@ import MetricControl from "./controls/MetricControl";
 
 const controlMap = {
   CheckboxControl,
+  DatasourceControl,
   FilterControl,
   HiddenControl,
   SelectControl,
