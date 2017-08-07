@@ -767,7 +767,7 @@ class Log(Model):
                     params = json.dumps(d)
                 except:
                     pass
-                stats_logger.incr(f.__name__)
+                stats_logger.incr(name if name else f.__name__ )
                 value = f(*args, **kwargs)
 
                 sesh = db.session()
