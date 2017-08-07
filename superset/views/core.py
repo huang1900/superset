@@ -1018,7 +1018,7 @@ class Superset(BaseSupersetView):
             datasource_id=datasource_id,
             **request.args))
 
-    # @log_this
+    #@log_this(name="打开自助餐")
     @has_access
     @expose("/explore/<datasource_type>/<datasource_id>/")
     def explore(self, datasource_type, datasource_id):
@@ -1774,9 +1774,10 @@ class Superset(BaseSupersetView):
             return json_error_response(utils.error_msg_from_exception(e))
         return Response(status=201)
 
-    @expose("/sqllab_viz/", methods=['POST'])
-    @has_access
+
     @log_this
+    @has_access
+    @expose("/sqllab_viz/", methods=['POST'])
     def sqllab_viz(self):
         SqlaTable = ConnectorRegistry.sources['table']
         data = json.loads(request.form.get('data'))
@@ -2072,9 +2073,9 @@ class Superset(BaseSupersetView):
             return json_error_response(payload)
         return json_success(payload)
 
+    @log_this(name="导出csv")
     @has_access
     @expose("/csv/<client_id>")
-    @log_this(name="导出csv")
     def csv(self, client_id):
         """Download the query results as csv."""
         query = (
@@ -2109,9 +2110,9 @@ class Superset(BaseSupersetView):
             'attachment; filename={}.csv'.format(query.name))
         return response
 
+    @log_this
     @has_access
     @expose("/fetch_datasource_metadata")
-    @log_this
     def fetch_datasource_metadata(self):
         datasource_id, datasource_type = (
             request.args.get('datasourceKey').split('__'))
