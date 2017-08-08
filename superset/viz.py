@@ -472,6 +472,7 @@ class PivotTableViz(BaseViz):
             values=self.form_data.get('metrics'),
             aggfunc=self.form_data.get('pandas_aggfunc'),
             margins=self.form_data.get('pivot_margins'),
+            margins_name="总计"
         )
         # Display metrics side by side with each column
         if self.form_data.get('combine_metric'):

@@ -67,7 +67,7 @@ export default class DatasourceControl extends React.PureComponent {
         },
         error() {
           that.setState({ loading: false });
-          notify.error('Something went wrong while fetching the datasource list');
+          notify.error('获取数据源出错');
         },
       });
     }
@@ -92,7 +92,7 @@ export default class DatasourceControl extends React.PureComponent {
         <OverlayTrigger
           placement="right"
           overlay={
-            <Tooltip id={'error-tooltip'}>Click to point to another datasource</Tooltip>
+            <Tooltip id={'error-tooltip'}>点击切换数据源</Tooltip>
           }
         >
           <Label onClick={this.toggleModal} style={{ cursor: 'pointer' }} className="m-r-3">
@@ -100,9 +100,9 @@ export default class DatasourceControl extends React.PureComponent {
           </Label>
         </OverlayTrigger>
         <InfoTooltipWithTrigger
-          tooltip="edit the datasource's configuration"
+          tooltip="点击编辑数据域"
           icon="edit"
-          label="edit datasource"
+          label="编辑"
           onClick={() => {
             window.location = this.props.datasource.edit_url;
           }}
@@ -115,7 +115,7 @@ export default class DatasourceControl extends React.PureComponent {
           bsSize="lg"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Select a datasource</Modal.Title>
+            <Modal.Title>选择一个数据域</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div>
@@ -125,7 +125,7 @@ export default class DatasourceControl extends React.PureComponent {
                 type="text"
                 bsSize="sm"
                 value={this.state.filter}
-                placeholder="Search / Filter"
+                placeholder="搜索"
                 onChange={this.changeSearch}
               />
             </div>
@@ -138,7 +138,7 @@ export default class DatasourceControl extends React.PureComponent {
             }
             {this.state.datasources &&
               <Table
-                columns={['name', 'type', 'schema', 'connection', 'creator']}
+                columns={[{name:'name',label:"名称"}, {name:'connection',label:"来源"}, {name:'creator',label:"创建者"}]}
                 className="table table-condensed"
                 data={this.state.datasources}
                 itemsPerPage={20}
