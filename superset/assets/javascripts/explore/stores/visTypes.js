@@ -90,7 +90,7 @@ export const sections = {
     },
 };
 
-const visTypes = {
+export const visTypes = {
   // dist_bar: {
   //   label: '柱状图',
   //   controlPanelSections: [
