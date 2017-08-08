@@ -270,10 +270,10 @@ export const controls = {
 
   pivot_margins: {
     type: 'CheckboxControl',
-    label: 'Show totals',
+    label: '总计',
     renderTrigger: false,
     default: true,
-    description: 'Display total row/column',
+    description: '是否显示总计',
   },
 
   show_markers: {
@@ -301,10 +301,9 @@ export const controls = {
 
   combine_metric: {
     type: 'CheckboxControl',
-    label: 'Combine Metrics',
+    label: '合并指标',
     default: false,
-    description: 'Display metrics side by side within each column, as ' +
-    'opposed to each column being displayed side by side for each metric.',
+    description: '是否在同一个个单元格内显示指标.',
   },
 
   show_controls: {
@@ -382,68 +381,34 @@ export const controls = {
     description: 'The country code standard that Superset should expect ' +
     'to find in the [country] column',
   },
+    groupby: {
+        multi: true,
+        label: '分组',
+        default: [],
+        description: '选择指标分组',
+        valueKey: 'column_name',
+        type: 'MetricControl',
+        mapStateToProps: state => ({
+            metrics: (state.datasource) ?
+                state.datasource.gb_cols.map((x)=> {
+                return {column_name:x[0],verbose_name:x[0]}
+                })
+                : [],
+        }),
+    },
 
-  // groupby: {
-  //   type: 'SelectControl',
-  //   multi: true,
-  //   label: '分组',
-  //   default: [],
-  //   description: '选择指标分组',
-  //   optionRenderer: c => <ColumnOption column={c} />,
-  //   valueRenderer: c => <ColumnOption column={c} />,
-  //   valueKey: 'column_name',
-  //   mapStateToProps: state => ({
-  //     options: (state.datasource) ? state.datasource.columns : [],
-  //   }),
-  // },
-  //   groupby: {
-  //       type: 'SelectControl',
-  //       multi: true,
-  //       label: '分组',
-  //       default: [],
-  //       description: '选择指标分组',
-  //       valueKey: 'column_name',
-  //       type: 'MetricControl',
-  //       mapStateToProps: state => ({
-  //           metrics: (state.datasource) ?
-  //               state.datasource.gb_cols.map((x)=> {
-  //               return {column_name:x[0],verbose_name:x[0]}
-  //               })
-  //               : [],
-  //       }),
-  //   },
-  // columns: {
-  //       type: 'SelectControl',
-  //       multi: true,
-  //       label: 'Columns',
-  //       default: [],
-  //       optionRenderer: c => <ColumnOption column={c} />,
-  //       valueRenderer: c => <ColumnOption column={c} />,
-  //       valueKey: 'column_name',
-  //       mapStateToProps: state => ({
-  //           options: (state.datasource) ? state.datasource.columns : [],
-  //       }),
-  //       description: '选择分组列',
-  //   },
-  //   columns: {
-  //       multi: true,
-  //       label: '分组列',
-  //       valueKey: 'column_name',
-  //       type: 'MetricControl',
-  //       default: [],
-  //       valueKey: 'column_name',
-  //       mapStateToProps: state => ({
-  //           metrics: (state.datasource) ? state.datasource.columns : [],
-  //       }),
-  //       description: '选择分组列',
-  //   },
-  groupby: groupByControl,
-
-  columns: Object.assign({}, groupByControl, {
-    label: 'Columns',
-    description: 'One or many controls to pivot as columns',
-  }),
-
+    columns: {
+        multi: true,
+        label: '分组列',
+        valueKey: 'column_name',
+        type: 'MetricControl',
+        default: [],
+        valueKey: 'column_name',
+        mapStateToProps: state => ({
+            metrics: (state.datasource) ? state.datasource.columns : [],
+        }),
+        description: '选择分组列',
+    },
   all_columns: {
     multi: true,
     label: '列',
@@ -456,20 +421,6 @@ export const controls = {
         metrics: (state.datasource) ? state.datasource.columns : [],
     }),
   },
-  // all_columns: {
-  //       type: 'SelectControl',
-  //       multi: true,
-  //       label: '列',
-  //       default: [],
-  //       description: '显示列',
-  //       valueKey: 'column_name',
-  //       optionRenderer: c => <ColumnOption column={c} />,
-  //       valueRenderer: c => <ColumnOption column={c} />,
-  //       mapStateToProps: state => ({
-  //           options: (state.datasource) ? state.datasource.columns : [],
-  //       }),
-  //   },
-
   all_columns_x: {
     type: 'SelectControl',
     label: 'X',

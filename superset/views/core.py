@@ -1986,7 +1986,6 @@ class Superset(BaseSupersetView):
     @log_this(name="sql查询")
     @has_access_api
     @expose("/sql_json/", methods=['POST', 'GET'])
-    @log_this
     def sql_json(self):
         """Runs arbitrary sql and returns and json"""
         async = request.form.get('runAsync') == 'true'
