@@ -1,6 +1,6 @@
 {
   "name": "superset",
-  "version": "0.18.5",
+  "version": "0.19.0",
   "description": "Superset is a data exploration platform designed to be visual, intuitive, and interactive.",
   "license": "Apache-2.0",
   "directories": {
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/airbnb/superset.git"
+    "url": "git+https://github.com/apache/incubator-superset.git"
   },
   "keywords": [
     "big",
@@ -32,12 +32,13 @@
     "database",
     "flask"
   ],
-  "author": "Airbnb",
+  "author": "Apache",
   "bugs": {
-    "url": "https://github.com/airbnb/superset/issues"
+    "url": "https://github.com/apache/incubator-superset/issues"
   },
-  "homepage": "https://github.com/airbnb/superset#readme",
+  "homepage": "http://superset.apache.org/",
   "dependencies": {
+    "@data-ui/event-flow": "0.0.4",
     "autobind-decorator": "^1.3.3",
     "babel-register": "^6.24.1",
     "bootstrap": "^3.3.6",
@@ -64,7 +65,6 @@
     "react-datetime":"2.8.10",
     "react-native-check-box":"1.0.4",
     "lodash.throttle": "^4.1.1",
-    "mapbox-gl": "^0.26.0",
     "moment": "^2.14.1",
     "mustache": "^2.2.1",
     "nvd3": "1.8.5",
@@ -80,7 +80,7 @@
     "react-draggable": "^2.1.2",
     "react-gravatar": "^2.6.1",
     "react-grid-layout": "^0.14.4",
-    "react-map-gl": "^1.7.0",
+    "react-map-gl": "^2.0.3",
     "react-redux": "^5.0.2",
     "react-resizable": "^1.3.3",
     "react-select": "1.0.0-rc.3",
@@ -138,8 +138,8 @@
     "transform-loader": "^0.2.3",
     "uglifyjs-webpack-plugin": "^0.4.6",
     "url-loader": "^0.5.7",
-    "webpack": "^2.3.3",
-    "webpack-manifest-plugin": "1.1.0",
-    "webworkify-webpack": "2.0.4"
+    "webpack": "^3.4.1",
+    "webpack-manifest-plugin": "1.2.1",
+    "webworkify-webpack": "2.0.5"
   }
 }

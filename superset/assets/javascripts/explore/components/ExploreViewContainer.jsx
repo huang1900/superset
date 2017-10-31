@@ -28,14 +28,12 @@ class ExploreViewContainer extends React.Component {
     super(props);
     this.state = {
       height: this.getHeight(),
+      width: this.getWidth(),
       showModal: false,
     };
   }
 
   componentDidMount() {
-    if (!this.props.standalone) {
-      this.props.actions.fetchDatasources();
-    }
     window.addEventListener('resize', this.handleResize.bind(this));
     this.triggerQueryIfNeeded();
   }
@@ -75,6 +73,10 @@ class ExploreViewContainer extends React.Component {
     this.props.actions.chartUpdateStopped(this.props.queryRequest);
   }
 
+  getWidth() {
+    return `${window.innerWidth}px`;
+  }
+
   getHeight() {
     if (this.props.forcedHeight) {
       return this.props.forcedHeight + 'px';
@@ -95,7 +97,7 @@ class ExploreViewContainer extends React.Component {
   handleResize() {
     clearTimeout(this.resizeTimer);
     this.resizeTimer = setTimeout(() => {
-      this.setState({ height: this.getHeight() });
+      this.setState({ height: this.getHeight(), width: this.getWidth() });
     }, 250);
   }
 
@@ -133,6 +135,7 @@ class ExploreViewContainer extends React.Component {
     return (
       <ChartContainer
         actions={this.props.actions}
+        width={this.state.width}
         height={this.state.height}
       />);
   }

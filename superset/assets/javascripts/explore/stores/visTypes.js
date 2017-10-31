@@ -1,5 +1,4 @@
 import { D3_TIME_FORMAT_OPTIONS } from './controls';
-
 import * as v from '../validators';
 
 export const sections = {
@@ -91,7 +90,7 @@ export const sections = {
     },
 };
 
-const visTypes = {
+export const visTypes = {
   // dist_bar: {
   //   label: '柱状图',
   //   controlPanelSections: [
@@ -308,9 +307,15 @@ const visTypes = {
         controlSetRows: [
           ['groupby', 'columns'],
           ['metrics', 'pandas_aggfunc'],
+          ['pivot_margins', 'combine_metric'],
+
         ],
       },
     ],
+    controlOverrides: {
+      groupby: { includeTime: true },
+      columns: { includeTime: true },
+    },
   },
   //
   // separator: {
@@ -775,6 +780,51 @@ const visTypes = {
       },
     },
   },
+
+  // event_flow: {
+  //   label: 'Event flow',
+  //   requiresTime: true,
+  //   controlPanelSections: [
+  //     {
+  //       label: 'Event definition',
+  //       controlSetRows: [
+  //         ['entity'],
+  //         ['all_columns_x'],
+  //         ['row_limit'],
+  //         ['order_by_entity'],
+  //         ['min_leaf_node_event_count'],
+  //       ],
+  //     },
+  //     {
+  //       label: 'Additional meta data',
+  //       controlSetRows: [
+  //         ['all_columns'],
+  //       ],
+  //     },
+  //   ],
+  //   controlOverrides: {
+  //     entity: {
+  //       label: 'Column containing entity ids',
+  //       description: 'e.g., a "user id" column',
+  //     },
+  //     all_columns_x: {
+  //       label: 'Column containing event names',
+  //       validators: [v.nonEmpty],
+  //       default: control => (
+  //         control.choices && control.choices.length > 0 ?
+  //           control.choices[0][0] : null
+  //       ),
+  //     },
+  //     row_limit: {
+  //       label: 'Event count limit',
+  //       description: 'The maximum number of events to return, equivalent to number of rows',
+  //     },
+  //     all_columns: {
+  //       label: 'Meta data',
+  //       description: 'Select any columns for meta data inspection',
+  //     },
+  //   },
+  // },
   //   chord: {
   //       label: 'Chord Diagram',
   //       controlPanelSections: [

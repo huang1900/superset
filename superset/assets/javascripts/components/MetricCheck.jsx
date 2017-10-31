@@ -8,7 +8,6 @@ const propTypes = {
   value_name:PropTypes.string,
   isck:PropTypes.bool,
 };
-
 export default class MetricCheck extends React.PureComponent{
     onChange(){
         this.props.onChange(!this.props.isck)
